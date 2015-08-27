@@ -1,9 +1,11 @@
 xterm*faceName: DejaVu Sans Mono:style=Book:antialias=false
 xterm*faceNameDoublesize: WenQuanYi Bitmap Song
 xterm*faceSize: 10
+xterm*termName: xterm-256color
+xterm*selectToClipboard: true
 
 XTerm*foreground: rgb:a0/a0/a0
-XTerm*background: rgb:1b/1d/1e
+XTerm*background: rgb:1b/1b/1e
 !black
 *color0:    #1b1d1e
 *color8:    #505354
@@ -28,3 +30,4 @@ XTerm*background: rgb:1b/1d/1e
 !white
 *color7:    #ccccc6
 *color15:   #f8f8f2
+

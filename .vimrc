@@ -43,6 +43,8 @@ set formatoptions=qrn1
 set colorcolumn=85
 "save on focus lost
 au FocusLost * :wa 
+" save when switching buffer
+set autowrite
 
 " white spaces
 set list listchars=tab:→\ ,trail:·,precedes:·,nbsp:_
@@ -51,51 +53,48 @@ set list!
 
 " mapleader stuff
 let mapleader = ","
-nnoremap <leader>a :Ack
+nnoremap <leader>a :Ag 
+let g:ag_working_path_mode="r"
+
 " reselect pasted text
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 nnoremap <leader>v V`]
+"open vimrc
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+" run macro in register q
+nnoremap <leader>q @q
+" open copen window
+nnoremap <leader>c :botright copen<cr>
 
 cmap w!! w !sudo tee >/dev/null %
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Plugin 'gmarik/vundle'
+Plugin 'Vundle.vim'
 
 " My Plugins here:
-"
-" Notes for YCM:
-" Sometimes it will crash when building with it own libclang so
-" then use:
-" pacman -S clang (for Arch linux)
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.sh --clang-completer --system-libclang
-" ..oh and make sure to add the .ycm_extra_conf.py as specified below
-"
-" Notes for syntastic
-" Install either flake8 or pyulint to make it work
-" pacman -S flake8	(for Arch linux)
 "
 " original repos on github
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree.git'
 "Plugin 'Lokaltog/vim-easymotion'
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'wincent/Command-T.git'
 Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'scrooloose/syntastic.git'
+"Plugin 'bling/vim-airline.git'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'szw/vim-ctrlspace'
-Plugin '29decibel/codeschool-vim-theme'
 Plugin 'jnurmine/Zenburn'
-Plugin 'jplaut/vim-arduino-ino.git'
-Plugin 'sudar/vim-arduino-syntax'
+Plugin 'rking/ag.vim.git'
+Plugin 'vhdirk/vim-cmake.git'
+
+" Plugin 'tpope/vim-rails.git'
 " vim-scripts repos
 " Plugin 'L9'
 " Plugin 'FuzzyFinder'
@@ -104,10 +103,15 @@ Plugin 'sudar/vim-arduino-syntax'
 " Plugin 'file:///Users/gmarik/path/to/plugin'
  " ...
 call vundle#end()
+filetype plugin indent on     " required
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+let g:EclimCompletionMethod = 'omnifunc'
 
-filetype plugin indent on     " required
+if executable("ag")
+	let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+endif
+
 
 map <C-n> :NERDTreeToggle<CR>
 
@@ -133,34 +137,25 @@ nmap ö :
 nmap Y y$
 nmap å ^
 
-"nmap <Space>h <C-w>h89<C-w>\|
 nmap <Space>h <C-w>h
 nmap <Space>j <C-w>j
 nmap <Space>k <C-w>k
 nmap <Space>l <C-w>l
-"nmap <Space>l <C-w>l89<C-w>\|
 nmap <Space>+ <C-w>_
 nmap <Space>0 <C-w>=
 nmap <Space>9 91<C-w>\|
-
-"noremap j h
-"noremap k j
-"noremap l k
-"noremap ö l
 
 " session options
 set ssop-=options
 
 "folding settings
 set foldmethod=syntax
-"set foldnestmax=10      "deepest fold is 10 levels
+set foldnestmax=1      "deepest fold levels
 set nofoldenable        "dont fold by default
-"set foldlevel=1         "this is just what i use
+set foldlevel=1         "this is just what i use
 
 syntax on
 
-"colorscheme github
-"colorscheme mayansmoke
 "colorscheme solarized
 "set background=light
 "colorscheme codeschool
@@ -169,35 +164,13 @@ colorscheme zenburn
 
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Monospace\ 9
+    set guifont=Monospace\ 10
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
     set guifont=Consolas:h11:cANSI
   endif
 endif
-
-" inomq
-"set makeprg=make\ -C\ ~/work/arduino/inomq/host/build
-"map <f5> :!~/work/arduino/inomq/host/build/inomq_test<cr>
-"
-" drns
-"set makeprg=make\ -C\ ~/work/arduino/drns/host_test/build
-"map <f5> :!~/work/arduino/drns/host_test/build/host_test<cr>
-"
-" tx controller
-"set makeprg=make\ -C\ ~/work/receiver/tx_controller/build
-"map <f5> :!~/work/receiver/tx_controller/build/tx_controller_test<cr>
-"
-" nulltick
-"set makeprg=make\ -C\ ~/work/receiver/nulltick/build
-"map <f5> :!~/work/receiver/nulltick/build/nulltick_test<cr>
-
-" DabPlusFree
-set makeprg=make\ -C\ ~/work/audio/dab_encoders/dabplus_free/build
-map <f5> :!~/work/audio/dab_encoders/dabplus_free/build/dabplus_free<cr>
-
-nmap <f6> :make<cr>
 
 function! Wipeout()
   " list of *all* buffer numbers
@@ -258,6 +231,17 @@ function! Hardcopy()
   execute 'colorscheme' colors_save
 endfun
 
+command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(values(buffer_numbers))
+endfunction
+
 nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
 nmap <silent> <leader>pw :call DoWindowSwap()<CR>
 cd /home/jsc/work
+

@@ -1,12 +1,3 @@
 # Exlude all except the following
-/*
-!.gitignore
-!.xprofile
-!.vimrc
-!.Xmodmap
-!.Xresources
-!.xinitrc
-!.bashrc
-!.bash_profile
-
+*~
 

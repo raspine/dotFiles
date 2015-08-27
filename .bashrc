@@ -8,21 +8,12 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 
-export QWT_ROOT=/usr/local/qwt-6.1.1
-QT_PLUGIN_PATH="${QWT_ROOT}/plugins:$QT_PLUGIN_PATH"
-export QT_PLUGIN_PATH
 
-# Compile and execute a C source on the fly
-csource() {
-        [[ $1 ]]    || { echo "Missing operand" >&2; return 1; }
-        [[ -r $1 ]] || { printf "File %s does not exist or is not readable\n" "$1" >&2; return 1; }
-	local output_path=${TMPDIR:-/tmp}/${1##*/};
-	gcc "$1" -o "$output_path" && "$output_path";
-	rm "$output_path";
-	return 0;
-}
+export JAVA_HOME=/usr/lib/jvm/default
 
 set -o vi
+
+eval $(keychain --eval -Q --agents ssh ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
 
 # cd and ls in one
 cl() {
