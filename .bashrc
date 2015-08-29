@@ -6,14 +6,25 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+#PS1='[\u@\h \W]\$ '
 
-
+export EDITOR="gvim"
 export JAVA_HOME=/usr/lib/jvm/default
 
 set -o vi
 
-eval $(keychain --eval -Q --agents ssh ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
+
+export TERM="xterm-256color"
+
+eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
+
+export GITAWAREPROMPT=~/.bash/git-aware-prompt
+source "${GITAWAREPROMPT}/main.sh"
+export PS1="\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtwht\]\$git_branch\[$txtred\]\$git_dirty\[$txtwht\]\$ "
 
 # cd and ls in one
 cl() {
