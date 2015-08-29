@@ -1,5 +1,6 @@
 xterm*faceName: Liberation Mono:size=10:antialias=false
-xterm*font: 7x13
+!xterm*font: 7x13
+xterm -fn 8x13 -xrm "*renderFont:false"
 xterm*termName: xterm-256color
 xterm*selectToClipboard: true
 

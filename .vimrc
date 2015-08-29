@@ -46,6 +46,8 @@ au FocusLost * :wa
 " save when switching buffer
 set autowrite
 
+nnoremap <F2> :cnext<cr>
+
 " white spaces
 set list listchars=tab:→\ ,trail:·,precedes:·,nbsp:_
 nnoremap <F11> : set list!<CR>
@@ -53,8 +55,7 @@ set list!
 
 " mapleader stuff
 let mapleader = ","
-nnoremap <leader>a :Ag 
-let g:ag_working_path_mode="r"
+nnoremap <leader>a :Ack 
 
 " reselect pasted text
 nnoremap <leader>v V`]
@@ -76,25 +77,37 @@ Plugin 'Vundle.vim'
 
 " My Plugins here:
 "
+" Notes for YCM:
+" Sometimes it will crash when building with it own libclang so
+" then use:
+" pacman -S clang (for Arch linux)
+" cd ~/.vim/bundle/YouCompleteMe
+" ./install.sh --clang-completer --system-libclang
+" ..oh and make sure to add the .ycm_extra_conf.py as specified below
+"
+" Notes for syntastic
+" Install either flake8 or pyulint to make it work
+" pacman -S flake8	(for Arch linux)
+"
 " original repos on github
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree.git'
-"Plugin 'Lokaltog/vim-easymotion'
 "Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'wincent/Command-T.git'
 Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'scrooloose/syntastic.git'
-"Plugin 'bling/vim-airline.git'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'szw/vim-ctrlspace'
+Plugin '29decibel/codeschool-vim-theme'
 Plugin 'jnurmine/Zenburn'
-Plugin 'rking/ag.vim.git'
 Plugin 'vhdirk/vim-cmake.git'
-
-" Plugin 'tpope/vim-rails.git'
+Plugin 'jplaut/vim-arduino-ino.git'
+Plugin 'sudar/vim-arduino-syntax'
+Plugin 'tpope/vim-dispatch.git'
+"Plugin 'tpope/vim-unimpaired.git'
 " vim-scripts repos
 " Plugin 'L9'
 " Plugin 'FuzzyFinder'
@@ -108,9 +121,6 @@ filetype plugin indent on     " required
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:EclimCompletionMethod = 'omnifunc'
 
-if executable("ag")
-	let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
-endif
 
 
 map <C-n> :NERDTreeToggle<CR>
@@ -164,7 +174,7 @@ colorscheme zenburn
 
 if has("gui_running")
   if has("gui_gtk2")
-    set guifont=Monospace\ 10
+    set guifont=Monospace\ 9
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
@@ -172,57 +182,7 @@ if has("gui_running")
   endif
 endif
 
-function! Wipeout()
-  " list of *all* buffer numbers
-  let l:buffers = range(1, bufnr('$'))
-
-  " what tab page are we in?
-  let l:currentTab = tabpagenr()
-  try
-    " go through all tab pages
-    let l:tab = 0
-    while l:tab < tabpagenr('$')
-      let l:tab += 1
-
-      " go through all windows
-      let l:win = 0
-      while l:win < winnr('$')
-        let l:win += 1
-        " whatever buffer is in this window in this tab, remove it from
-        " l:buffers list
-        let l:thisbuf = winbufnr(l:win)
-        call remove(l:buffers, index(l:buffers, l:thisbuf))
-      endwhile
-    endwhile
-
-    " if there are any buffers left, delete them
-    if len(l:buffers)
-      execute 'bwipeout' join(l:buffers)
-    endif
-  finally
-    " go back to our original tab page
-    execute 'tabnext' l:currentTab
-  endtry
-endfunction
-
-function! MarkWindowSwap()
-    let g:markedWinNum = winnr()
-endfunction
-
-function! DoWindowSwap()
-    "Mark destination
-    let curNum = winnr()
-    let curBuf = bufnr( "%" )
-    exe g:markedWinNum . "wincmd w"
-    "Switch to source and shuffle dest->source
-    let markedBuf = bufnr( "%" )
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' curBuf
-    "Switch to dest and shuffle source->dest
-    exe curNum . "wincmd w"
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' markedBuf 
-endfunction
+nmap <f6> :Make! -j8<cr>
 
 function! Hardcopy()
   let colors_save = g:colors_name
@@ -241,7 +201,5 @@ function! QuickfixFilenames()
   return join(values(buffer_numbers))
 endfunction
 
-nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
-nmap <silent> <leader>pw :call DoWindowSwap()<CR>
 cd /home/jsc/work
 
