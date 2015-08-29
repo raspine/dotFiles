@@ -73,7 +73,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Plugin 'Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " My Plugins here:
 "
