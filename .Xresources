@@ -1,6 +1,5 @@
-xterm*faceName: DejaVu Sans Mono:style=Book:antialias=false
-xterm*faceNameDoublesize: WenQuanYi Bitmap Song
-xterm*faceSize: 10
+xterm*faceName: Liberation Mono:size=10:antialias=false
+xterm*font: 7x13
 xterm*termName: xterm-256color
 xterm*selectToClipboard: true
 
