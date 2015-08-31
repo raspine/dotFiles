@@ -64,7 +64,7 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " run macro in register q
 nnoremap <leader>q @q
 " open copen window
-nnoremap <leader>c :botright copen<cr>
+nnoremap <leader>c :botright Copen<cr>
 
 cmap w!! w !sudo tee >/dev/null %
 
