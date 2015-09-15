@@ -1,0 +1,9 @@
+dropboxd &
+xrandr --output HDMI1 --right-of HDMI3
+xrandr --output DP1 --right-of HDMI1
+xrandr --output HDMI1 primary
+
+EDITOR=gvim
+VISUAL=$EDITOR
+export EDITOR VISUAL
+
