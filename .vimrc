@@ -59,8 +59,8 @@ nnoremap <leader>a :Ack
 
 " reselect pasted text
 nnoremap <leader>v V`]
-"open vimrc
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+"open 
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MY<cr>
 " run macro in register q
 nnoremap <leader>q @q
 " open copen window
@@ -102,7 +102,7 @@ Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'szw/vim-ctrlspace'
 Plugin '29decibel/codeschool-vim-theme'
-Plugin 'jnurmine/Zenburn'
+Plugin 'raspine/Zenburn'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
