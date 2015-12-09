@@ -64,7 +64,7 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " run macro in register q
 nnoremap <leader>q @q
 " open copen window
-nnoremap <leader>c :botright copen<cr>
+nnoremap <leader>c :botright Copen<cr>
 
 cmap w!! w !sudo tee >/dev/null %
 
@@ -99,10 +99,11 @@ Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'scrooloose/syntastic.git'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'altercation/vim-colors-solarized.git'
+Plugin 'sheerun/vim-wombat-scheme.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'szw/vim-ctrlspace'
 Plugin '29decibel/codeschool-vim-theme'
-Plugin 'jnurmine/Zenburn'
+Plugin 'raspine/Zenburn'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
@@ -170,6 +171,7 @@ syntax on
 "set background=light
 "colorscheme codeschool
 colorscheme zenburn
+"colorscheme wombat
 
 
 if has("gui_running")
@@ -182,7 +184,7 @@ if has("gui_running")
   endif
 endif
 
-nmap <f6> :Make! -j8<cr>
+"nmap <f6> :Make! -j8<cr>
 
 function! Hardcopy()
   let colors_save = g:colors_name
