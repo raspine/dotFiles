@@ -59,8 +59,8 @@ nnoremap <leader>a :Ack
 
 " reselect pasted text
 nnoremap <leader>v V`]
-"open vimrc
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+"open 
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MY<cr>
 " run macro in register q
 nnoremap <leader>q @q
 " open copen window
