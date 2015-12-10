@@ -163,7 +163,7 @@ command! reload :write | restart
 " program.
 
 " Pdf
-filextype *.pdf evince %c, zathura %c %i &, apvlv %c, xpdf %c
+filextype *.pdf zathura %c %i &, apvlv %c, xpdf %c, evince %c
 fileviewer *.pdf pdftotext -nopgbrk %c -
 
 " PostScript
@@ -181,19 +181,19 @@ filextype *.djvu
         \ apvlv %f,
 
 " Audio
-filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a,*.wma,*.ape,*.ac3,*.MTS
+filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a,*.wma,*.ape,*.ac3
        \ {Play using ffplay}
        \ ffplay -nodisp %c,
-       \ {Play using MPlayer}
+       \ {Play using gnome-mplayer}
        \ gnome-mplayer %f,
        \ ffplay %c,
 fileviewer *.mp3 mp3info
 fileviewer *.flac soxi
 
 " Video
-filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.m2v,*.mov,*.webm,*.ts,*.m4v
-        \ {View using mplayer}
-        \ gnome-mplayer %f,
+filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.m2v,*.mov,*.webm,*.ts,*.m4v,*.MTS
+        \ {View using gnome-mplayer}
+		\ gnome-mplayer %c,
         \ {View using ffplay}
         \ ffplay -fs %c,
         \ {View using Dragon}
@@ -230,6 +230,9 @@ filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
         \ {View in gpicview}
         \ gpicview %c,
 fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm convert -identify %f -verbose /dev/null
+filextype *.svg
+        \ {View in firefox}
+		\ firefox %c
 
 " MD5
 filetype *.md5
