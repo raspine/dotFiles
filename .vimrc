@@ -61,8 +61,8 @@ nnoremap <leader>a :Ack
 
 " reselect pasted text
 nnoremap <leader>v V`]
-"open vimrc
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
+"open 
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MY<cr>
 " run macro in register q
 nnoremap <leader>q @q
 " open copen window
@@ -105,6 +105,7 @@ Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'scrooloose/syntastic.git'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'altercation/vim-colors-solarized.git'
+Plugin 'sheerun/vim-wombat-scheme.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'szw/vim-ctrlspace'
 Plugin '29decibel/codeschool-vim-theme'
@@ -172,8 +173,8 @@ set foldlevel=1         "this is just what i use
 
 syntax on
 
-"colorscheme codeschool
-"colorscheme zenburn
+colorscheme zenburn
+"colorscheme wombat
 
 
 if has("gui_running")
@@ -191,7 +192,7 @@ else
   colorscheme zenburn
 endif
 
-nmap <f6> :Make! -j8<cr>
+"nmap <f6> :Make! -j8<cr>
 
 function! Hardcopy()
   let colors_save = g:colors_name
