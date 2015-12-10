@@ -17,7 +17,7 @@ set ttyfast
 set ruler
 set backspace=indent,eol,start
 set laststatus=2
-"set relativenumber
+set relativenumber
 set number
 set undofile
 set guioptions-=T
@@ -46,6 +46,8 @@ au FocusLost * :wa
 " save when switching buffer
 set autowrite
 
+"set iskeyword-=_
+
 nnoremap <F2> :cnext<cr>
 
 " white spaces
@@ -67,6 +69,10 @@ nnoremap <leader>q @q
 nnoremap <leader>c :botright Copen<cr>
 
 cmap w!! w !sudo tee >/dev/null %
+
+" ctags stuff
+map <leader>g g<C-]>
+set tags=./tags;/
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -102,7 +108,7 @@ Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'szw/vim-ctrlspace'
 Plugin '29decibel/codeschool-vim-theme'
-Plugin 'jnurmine/Zenburn'
+Plugin 'raspine/Zenburn'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
@@ -166,13 +172,14 @@ set foldlevel=1         "this is just what i use
 
 syntax on
 
-"colorscheme solarized
-"set background=light
 "colorscheme codeschool
-colorscheme zenburn
+"colorscheme zenburn
 
 
 if has("gui_running")
+  colorscheme solarized
+  set background=light
+  "colorscheme zenburn
   if has("gui_gtk2")
     set guifont=Monospace\ 9
   elseif has("gui_macvim")
@@ -180,6 +187,8 @@ if has("gui_running")
   elseif has("gui_win32")
     set guifont=Consolas:h11:cANSI
   endif
+else
+  colorscheme zenburn
 endif
 
 nmap <f6> :Make! -j8<cr>

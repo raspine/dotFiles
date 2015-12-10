@@ -25,6 +25,7 @@ eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rs
 export GITAWAREPROMPT=~/.bash/git-aware-prompt
 source "${GITAWAREPROMPT}/main.sh"
 export PS1="\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtwht\]\$git_branch\[$txtred\]\$git_dirty\[$txtwht\]\$ "
+export BASH_ENV=~/.bashrc
 
 # cd and ls in one
 cl() {
