@@ -61,8 +61,8 @@ nnoremap <leader>a :Ack
 
 " reselect pasted text
 nnoremap <leader>v V`]
-"open 
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MY<cr>
+"open vimrc
+nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " run macro in register q
 nnoremap <leader>q @q
 " open copen window
@@ -192,7 +192,6 @@ else
   colorscheme zenburn
 endif
 
-"nmap <f6> :Make! -j8<cr>
 
 function! Hardcopy()
   let colors_save = g:colors_name
