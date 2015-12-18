@@ -46,8 +46,6 @@ au FocusLost * :wa
 " save when switching buffer
 set autowrite
 
-"set iskeyword-=_
-
 nnoremap <F2> :cnext<cr>
 
 " white spaces
@@ -128,18 +126,14 @@ filetype plugin indent on     " required
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:EclimCompletionMethod = 'omnifunc'
 
-
-
 map <C-n> :NERDTreeToggle<CR>
-
 
 set splitright
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <leader>n :vnew<cr>
 
-"set tabstop=4
-"set shiftwidth=4
-"set softtabstop=4
+"nice reading
+"http://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
 
 nnoremap <tab> %
 vnoremap <tab> %
@@ -151,6 +145,7 @@ nmap mm :update<cr>
 nmap ö :
 nmap Y y$
 nmap å ^
+noremap ä $
 
 nmap <Space>h <C-w>h
 nmap <Space>j <C-w>j
