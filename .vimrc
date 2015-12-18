@@ -137,9 +137,9 @@ set splitright
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <leader>n :vnew<cr>
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+"set tabstop=4
+"set shiftwidth=4
+"set softtabstop=4
 
 nnoremap <tab> %
 vnoremap <tab> %
@@ -148,8 +148,6 @@ noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
 nmap mm :update<cr>
-"nmap K 5k
-"nmap L 5l
 nmap ö :
 nmap Y y$
 nmap å ^
