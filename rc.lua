@@ -1,4 +1,5 @@
 --[[
+-- vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu
 
 Raspine awesome config
 github.com/raspine/raspine-awesome
@@ -366,9 +367,11 @@ awful.button({ }, 5, awful.tag.viewprev)
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-  -- Take a screenshot
+
+ --{{{ Take a screenshot
   -- https://github.com/copycat-killer/dots/blob/master/bin/screenshot
   awful.key({ altkey }, "p", function() os.execute("screenshot") end),
+  --}}}
 
   -- {{{ Tag browsing
   awful.key({ modkey }, "Left",   awful.tag.viewprev       ),
