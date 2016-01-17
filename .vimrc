@@ -52,6 +52,7 @@ map q: <nop>
 nnoremap Q <nop>
 
 nnoremap <F2> :cnext<cr>
+imap <C-v> <ESC>"+pa
 
 " white spaces
 set list listchars=tab:→\ ,trail:·,precedes:·,nbsp:_
@@ -70,6 +71,7 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 nnoremap <leader>q @q
 " open copen window
 nnoremap <leader>c :botright Copen<cr>
+nnoremap <leader>x :botright copen<cr>
 
 cmap w!! w !sudo tee >/dev/null %
 
@@ -159,6 +161,11 @@ nmap <Space>h <C-w>h
 nmap <Space>j <C-w>j
 nmap <Space>k <C-w>k
 nmap <Space>l <C-w>l
+nmap <Space>H <C-w>H
+nmap <Space>J <C-w>J
+nmap <Space>K <C-w>K
+nmap <Space>L <C-w>L
+nmap <Space>x <C-w>x
 nmap <Space>+ <C-w>_
 nmap <Space>0 <C-w>=
 nmap <Space>9 91<C-w>\|

@@ -7,3 +7,6 @@ export VISUAL="$EDITOR"
 export FCEDIT="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
 
+xmodmap ~/.Xmodmap
+
+echo "xprofile sourced!"

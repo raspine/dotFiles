@@ -1,4 +1,3 @@
-xmodmap ~/.Xmodmap
 
 userresources=$HOME/.Xresources
 
