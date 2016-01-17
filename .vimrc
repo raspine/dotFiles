@@ -2,7 +2,8 @@ filetype off
 " source $VIMRUNTIME/mswin.vim
 set noswapfile
 set nocompatible
-set modelines=0
+set modeline
+set modelines=5
 set encoding=utf-8
 set scrolloff=3
 set autoindent
@@ -45,6 +46,10 @@ set colorcolumn=85
 au FocusLost * :wa 
 " save when switching buffer
 set autowrite
+
+" disable Ex mode
+map q: <nop>
+nnoremap Q <nop>
 
 nnoremap <F2> :cnext<cr>
 
@@ -112,6 +117,7 @@ Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
 Plugin 'tpope/vim-dispatch.git'
+"Plugin 'jaxbot/github-issues.vim.git'
 "Plugin 'tpope/vim-unimpaired.git'
 " vim-scripts repos
 " Plugin 'L9'
@@ -124,7 +130,9 @@ call vundle#end()
 filetype plugin indent on     " required
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:EclimCompletionMethod = 'omnifunc'
+"let g:EclimCompletionMethod = 'omnifunc'
+"let g:github_access_token = "5cdd43dda506ad92762f94c456c4c0ff37545e97"
+let g_gihub_issues_no_omni = 1
 
 map <C-n> :NERDTreeToggle<CR>
 
@@ -166,13 +174,16 @@ set foldlevel=1         "this is just what i use
 
 syntax on
 
-colorscheme zenburn
+"colorscheme material-theme
+colorscheme solarized
+set background=light
+"colorscheme zenburn
 "colorscheme wombat
 
 
 if has("gui_running")
-  colorscheme solarized
-  set background=light
+  "colorscheme solarized
+  "set background=light
   "colorscheme zenburn
   if has("gui_gtk2")
     set guifont=Monospace\ 9
