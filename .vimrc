@@ -47,6 +47,10 @@ au FocusLost * :wa
 " save when switching buffer
 set autowrite
 
+" disable Ex mode
+map q: <nop>
+nnoremap Q <nop>
+
 nnoremap <F2> :cnext<cr>
 imap <C-v> <ESC>"+pa
 
@@ -181,13 +185,16 @@ set foldlevel=1         "this is just what i use
 
 syntax on
 
-colorscheme zenburn
+"colorscheme material-theme
+colorscheme solarized
+set background=light
+"colorscheme zenburn
 "colorscheme wombat
 
 
 if has("gui_running")
-  colorscheme solarized
-  set background=light
+  "colorscheme solarized
+  "set background=light
   "colorscheme zenburn
   if has("gui_gtk2")
     set guifont=Monospace\ 9
