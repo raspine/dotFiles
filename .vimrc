@@ -103,8 +103,10 @@ Plugin 'scrooloose/nerdtree.git'
 "Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'wincent/Command-T.git'
 Plugin 'Valloric/YouCompleteMe.git'
+Plugin 'rdnetto/YCM-Generator'
 Plugin 'scrooloose/syntastic.git'
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+"Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'vim-airline/vim-airline'
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'sheerun/vim-wombat-scheme.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -115,6 +117,7 @@ Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
 Plugin 'tpope/vim-dispatch.git'
+Plugin 'blindFS/vim-taskwarrior.git'
 "Plugin 'tpope/vim-unimpaired.git'
 " vim-scripts repos
 " Plugin 'L9'
@@ -127,7 +130,11 @@ call vundle#end()
 filetype plugin indent on     " required
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+let g:ycm_confirm_extra_conf = 0
 let g:EclimCompletionMethod = 'omnifunc'
+
+" directory to store log files defaults to taskwarrior data.location
+let g:task_log_directory   = '~/Dropbox/.task'
 
 map <C-n> :NERDTreeToggle<CR>
 
