@@ -51,31 +51,67 @@ URxvt.urlLauncher:          firefox
 
 ! Cursor
 URxvt.cursorBlink:          true
-URxvt.cursorColor:          #657b83
+! steelgray 400
+URxvt.cursorColor:          #78909c
 URxvt.cursorUnderline:      false
 
 ! Pointer
 URxvt.pointerBlank:         true
 
 ! Material theme
+! steelgray900
 URxvt*background: #263238
+
+! steelgray50
 URxvt*foreground: #eceff1
+
+! TODO
 URxvt*color0: #101010
-URxvt*color1: #960050
-URxvt*color2: #66aa11
-URxvt*color3: #c47f2c
-URxvt*color4: #30309b
-URxvt*color5: #7e40a5
+
+! red 500
+URxvt*color1: #f44336
+
+! green400
+URxvt*color2: #66bb6a
+
+! orange500
+URxvt*color3: #ff9800
+
+! blue500
+URxvt*color4: #2196f3
+
+! purple500
+URxvt*color5: #9c27b0
+
+! TODO
 URxvt*color6: #3579a8
-URxvt*color7: #9999aa
+
+! steelgray 200
+URxvt*color7: #b0bec5
+
+! TODO
 URxvt*color8: #303030
-URxvt*color9: #ff0090
-URxvt*color10: #80ff00
-URxvt*color11: #ffba68
-URxvt*color12: #5f5fee
-URxvt*color13: #bb88dd
-URxvt*color14: #4eb4fa
-URxvt*color15: #d0d0d0
+
+! pink400
+URxvt*color9: #ec407a
+
+! lightgreen a400
+URxvt*color10: #76ff03
+
+! Orange a200
+URxvt*color11: #ffab40
+
+! blue a200
+URxvt*color12: #448aff
+
+!URxvt*color13: #bb88dd
+URxvt*color13: #ffffff
+!URxvt*color14: #4eb4fa
+URxvt*color14: #ffffff
+
+! steelgray 100
+!URxvt*color15: #cfd8dc
+URxvt*color15: #ffffff
 
 *xterm*background: #101010
 *xterm*foreground: #d0d0d0
