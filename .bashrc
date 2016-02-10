@@ -106,4 +106,3 @@ extract() {
     return "$e"
 }
 
-echo "bashrc sourced"
