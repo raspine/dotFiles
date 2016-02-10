@@ -574,7 +574,6 @@ globalkeys = awful.util.table.join(
   awful.key({ modkey,           }, "c", function () awful.util.spawn("chromium") end),
   awful.key({ modkey,           }, "f", function () awful.util.spawn("firefox") end),
   awful.key({ modkey,           }, "v", function () awful.util.spawn("xterm -e vifm") end),
-  awful.key({ modkey,           }, "e", function () awful.util.spawn("evince") end),
   awful.key({ modkey,           }, "g", function () awful.util.spawn("gvim") end),
   awful.key({ modkey,           }, "o", function () awful.util.spawn("libreoffice") end),
   awful.key({ modkey,           }, "p", function () awful.util.spawn("pinta") end),

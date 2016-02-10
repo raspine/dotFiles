@@ -43,7 +43,7 @@ set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=85
 "save on focus lost
-au FocusLost * :wa 
+"au FocusLost * :wa 
 " save when switching buffer
 set autowrite
 
@@ -52,7 +52,11 @@ map q: <nop>
 nnoremap Q <nop>
 
 nnoremap <F2> :cnext<cr>
-imap <C-v> <ESC>"+pa
+" {{{ Copy/Paste
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
 
 " white spaces
 set list listchars=tab:→\ ,trail:·,precedes:·,nbsp:_
@@ -185,9 +189,8 @@ set foldlevel=1         "this is just what i use
 
 syntax on
 
-"colorscheme material-theme
-colorscheme solarized
-set background=light
+"colorscheme solarized
+"set background=light
 "colorscheme zenburn
 "colorscheme wombat
 
@@ -195,13 +198,15 @@ set background=light
 if has("gui_running")
   "colorscheme solarized
   "set background=light
-  "colorscheme zenburn
+  colorscheme zenburn
   if has("gui_gtk2")
     set guifont=Monospace\ 9
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
     set guifont=Consolas:h11:cANSI
+  else
+    set guifont=Monospace\ 9
   endif
 else
   colorscheme zenburn
