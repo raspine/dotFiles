@@ -23,7 +23,8 @@ set number
 set undofile
 set guioptions-=T
 
-" searching
+"{{{ searching
+" q/ for search hsitory
 nnoremap / /\v
 vnoremap / /\v
 set ignorecase
@@ -32,19 +33,21 @@ set gdefault
 set incsearch
 set showmatch
 set hlsearch
+"}}}
 
-" line wrapping
+"{{{ line wrapping
 set nowrap
 set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=85
 set splitright
+"}}}
 
 " disable Ex mode
 map q: <nop>
 nnoremap Q <nop>
 
-" {{{ Copy/Paste good old style
+" {{{ copy/paste good old style
 vmap <C-c> "+yi
 vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p
@@ -86,7 +89,7 @@ nnoremap <leader>n :vnew<cr>
 " ctags stuff
 set tags=./tags;/
 
-"{{{ Plugins
+"{{{ plugins
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -125,6 +128,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-dispatch.git'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'nelstrom/vim-visual-star-search.git'
 " color themes
 Plugin 'raspine/Zenburn'
 Plugin 'altercation/vim-colors-solarized.git'
