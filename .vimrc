@@ -66,7 +66,7 @@ noremap <leader>t :NERDTreeToggle<CR>
 " quickly open ack
 nnoremap <leader>a :Ack 
 " open multiple ctags selection
-nnoremap <leader>g g<C-]>
+nnoremap <leader>f g<C-]>
 " reselect pasted text
 nnoremap <leader>v V`]
 "open vimrc
@@ -82,7 +82,10 @@ vnoremap <leader><space> :noh<cr>
 " quickly open new windows
 nnoremap <leader>w <C-w>v<C-w>l
 nnoremap <leader>n :vnew<cr>
-
+" aid the search and replace command
+nnoremap <leader>s :%s/
+" quick open Gstatus
+nnoremap <leader>g :Gstatus<cr>
 "}}}
 
 
