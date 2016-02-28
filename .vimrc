@@ -97,7 +97,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Plugin 'VundleVim/Vundle.vim'
 
 " My Plugins here:
@@ -132,6 +132,9 @@ Plugin 'tpope/vim-dispatch.git'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nelstrom/vim-visual-star-search.git'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'xuhdev/SingleCompile.git'
 " color themes
 Plugin 'raspine/Zenburn'
 Plugin 'altercation/vim-colors-solarized.git'
@@ -150,9 +153,19 @@ let g:task_log_directory   = '~/Dropbox/.task'
 
 let g:airline_theme = "hybrid"
 
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="`"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+
 
 "nice reading
 "http://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
+
+" https://www.topbug.net/blog/2012/03/07/use-singlecompile-to-compile-and-run-a-single-source-file-easily-in-vim/
+noremap <F9> :SCCompile<cr>
+noremap <F10> :SCCompileRun<cr>
 
 cmap w!! w !sudo tee >/dev/null %
 nmap ` %
@@ -193,6 +206,7 @@ syntax on
 
 "{{{ Colors & font
 if has("gui_running")
+  "colorscheme hybrid_material
   colorscheme solarized
   set background=light
   if has("gui_gtk2")
