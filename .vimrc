@@ -200,7 +200,7 @@ nmap <Space>9 91<C-w>\|
 set foldmethod=syntax
 set foldnestmax=2      "deepest fold levels
 set nofoldenable        "dont fold by default
-set foldlevel=2         "this is just what i use
+set foldlevel=1         "this is just what i use
 
 syntax on
 
