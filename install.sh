@@ -27,5 +27,7 @@ clever_ln_s ~/homescripts/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim
 clever_ln_s ~/homescripts/ftplugin/sh.vim ~/.vim/ftplugin/sh.vim
 
 # vifm
-clever_ln_s ~/homescripts/vifmrc ~/.vifm/vifmrc
+clever_ln_s ~/homescripts/vifm/vifmrc ~/.vifm/vifmrc
+clever_ln_s ~/homescripts/vifm/colors/astrall.vifm ~/.vifm/colors/astrall.vifm
+
 
