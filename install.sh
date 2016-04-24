@@ -14,3 +14,16 @@ clever_ln_s() {
 
 # home dir
 clever_ln_s ~/homescripts/.bashrc ~/.bashrc
+clever_ln_s ~/homescripts/.xinitrc ~/.xinitrc
+clever_ln_s ~/homescripts/.Xmodmap ~/.Xmodmap
+clever_ln_s ~/homescripts/.Xresources ~/.Xresources
+clever_ln_s ~/homescripts/.xprofile ~/.xprofile
+
+# vim
+clever_ln_s ~/homescripts/.vimrc ~/.vim/.vimrc
+clever_ln_s ~/homescripts/ftplugin/java.vim ~/.vim/ftplugin/java.vim
+clever_ln_s ~/homescripts/ftplugin/lua.vim ~/.vim/ftplugin/lua.vim
+clever_ln_s ~/homescripts/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim
+clever_ln_s ~/homescripts/ftplugin/sh.vim ~/.vim/ftplugin/sh.vim
+
+
