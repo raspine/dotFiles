@@ -26,4 +26,6 @@ clever_ln_s ~/homescripts/ftplugin/lua.vim ~/.vim/ftplugin/lua.vim
 clever_ln_s ~/homescripts/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim
 clever_ln_s ~/homescripts/ftplugin/sh.vim ~/.vim/ftplugin/sh.vim
 
+# vifm
+clever_ln_s ~/homescripts/vifmrc ~/.vifm/vifmrc
 
