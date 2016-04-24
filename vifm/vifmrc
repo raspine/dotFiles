@@ -61,7 +61,7 @@ set noiec
 
 " Selected color scheme
 
-colorscheme zenburn
+colorscheme astrall.vifm
 
 " The FUSE_HOME directory will be used as a root dir for all FUSE mounts.
 " Unless it exists with write/exec permissions set, vifm will attempt to
@@ -168,8 +168,6 @@ fileviewer *.pdf pdftotext -nopgbrk %c -
 
 " PostScript
 filextype *.ps,*.eps,*.ps.gz
-        \ {View in evince}
-		\ evince %c,
         \ {View in zathura}
         \ zathura %f,
         \ {View in gv}
@@ -186,22 +184,20 @@ filextype *.djvu
 filetype *.wav,*.mp3,*.flac,*.ogg,*.m4a,*.wma,*.ape,*.ac3
        \ {Play using ffplay}
        \ ffplay -nodisp %c,
-       \ {Play using MPlayer}
-       \ mplayer %f,
+       \ {Play using gnome-mplayer}
+       \ gnome-mplayer %c,
        \ ffplay %c,
 fileviewer *.mp3 mp3info
 fileviewer *.flac soxi
 
 " Video
-filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.m2v,*.mov,*.webm,*.ts,*.m4v
+filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.m2v,*.mov,*.webm,*.ts,*.m4v,*.MTS
         \ {View using gnome-mplayer}
 		\ gnome-mplayer %c,
         \ {View using ffplay}
         \ ffplay -fs %c,
         \ {View using Dragon}
         \ dragon %f,
-        \ {View using mplayer}
-        \ mplayer %f,
 fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.vob,*.flv,*.m2v,*.mov,*.webm,*.ts,*.m4v
          \ ffprobe -pretty %c 2>&1
 
@@ -223,10 +219,13 @@ filetype *.[1-8] gtbl %c | groff -Tascii -man | less
 fileviewer *.[1-8] gtbl %c | groff -Tascii -man | col -b
 
 " Image
+filextype *.svg
+        \ {View in firefox}
+		\ firefox %c
+
 filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
-		\ {View in feh}
-		\ feh %c,
-        \ {View in sxiv}
+        \ {View in feh}
+		\ feh -Z --scale-down %d --start-at %d/%c 2>/dev/null
         \ sxiv,
         \ {View in gpicview}
         \ gpicview %c,
@@ -397,12 +396,12 @@ nnoremap cc cw<c-u>
 nnoremap A cw<c-w>
 
 " Open console in current directory
-nnoremap ,t :!xterm &<cr>
+nnoremap ,t :!urxvt &<cr>
 
 " Open vim to edit vifmrc and apply settings after returning to vifm
-nnoremap ,c :write | execute ':!vim $MYVIFMRC' | restart<cr>
+nnoremap ,e :write | execute ':!gvim $MYVIFMRC' | restart<cr>
 " Open gvim to edit vifmrc
-nnoremap ,C :!gvim --remote-tab-silent $MYVIFMRC &<cr>
+nnoremap ,E :!gvim --remote-tab-silent $MYVIFMRC &<cr>
 
 " Toggle wrap setting on ,w key
 nnoremap ,w :set wrap!<cr>
@@ -416,7 +415,7 @@ nnoremap <f7> :mkdir<space>
 nnoremap <f8> :delete<cr>
 
 " ------------------------------------------------------------------------------
-
+nmap ö :
 " Various customization examples
 
 " Use ag (the silver searcher) instead of grep
