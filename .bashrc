@@ -29,7 +29,7 @@ export TERM="xterm-256color"
 
 eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail ~/.ssh/id_rsa_paneda_mirror)
 
-ssh -L localhost:7000:localhost:7000 -Nf paneda@pacman.paneda.tech
+ssh -L localhost:6999:localhost:7000 -Nf paneda@pacman.paneda.tech
 
 #export GITAWAREPROMPT=~/.bash/git-aware-prompt
 #source "${GITAWAREPROMPT}/main.sh"
