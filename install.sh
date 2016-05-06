@@ -20,7 +20,7 @@ clever_ln_s ~/homescripts/.Xresources ~/.Xresources
 clever_ln_s ~/homescripts/.xprofile ~/.xprofile
 
 # vim
-clever_ln_s ~/homescripts/.vimrc ~/.vim/.vimrc
+clever_ln_s ~/homescripts/.vimrc ~/.vim/vimrc
 clever_ln_s ~/homescripts/ftplugin/java.vim ~/.vim/ftplugin/java.vim
 clever_ln_s ~/homescripts/ftplugin/lua.vim ~/.vim/ftplugin/lua.vim
 clever_ln_s ~/homescripts/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim

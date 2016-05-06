@@ -7,15 +7,13 @@
 [[ $- != *i* ]] && return
 
 #{{{ Alias
-# ls
+## ls
 alias ls='ls --color=auto'
 alias ll="ls -lhF"
 alias la="ls -Ad .*"
 
-# get rid of command not found ##
+## cd
 alias cd..='cd ..'
- 
-## a quick way to get out of current directory ##
 alias ..='cd ..'
 alias ...='cd ../../../'
 alias ....='cd ../../../../'
@@ -49,7 +47,7 @@ alias gla='git log --graph --abbrev-commit --decorate --format=format:"%C(bold b
 #}}}
 
 #{{{ Functions
-# cd and ls in one
+## cd and ls in one
 cl() {
     dir=$1
     if [[ -z "$dir" ]]; then
