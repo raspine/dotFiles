@@ -1,3 +1,4 @@
+# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu
 #
 # ~/.bashrc
 #
@@ -5,59 +6,49 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+#{{{ Alias
+# ls
 alias ls='ls --color=auto'
-#PS1='[\u@\h \W]\$ '
+alias ll="ls -lhF"
+alias la="ls -Ad .*"
 
-export JAVA_HOME=/usr/lib/jvm/default
+# get rid of command not found ##
+alias cd..='cd ..'
+ 
+## a quick way to get out of current directory ##
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
 
-TEMPLATE_BOOST_ROOT="/home/jsc/work/thirdpart/boost/boost_1_59_0"
-BOOST_ROOT=$TEMPLATE_BOOST_ROOT
-export TEMPLATE_BOOST_ROOT
-export BOOST_ROOT
-ZMQ_ROOT="/home/jsc/work/thirdpart/zeromq4-x"
-export ZMQ_ROOT
-export PATH=$PATH:~/.gem/ruby/2.2.0/bin
+## Colorize the grep command output for ease of use (good for log files)##
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
 
-set -o vi
+## special commands
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T"'
 
-export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
-export HISTSIZE=100000                   # big big history
-export HISTFILESIZE=100000               # big big history
-shopt -s histappend                      # append to history, don't overwrite it
+## vim
+alias svim='sudo vim'
 
-export TERM="xterm-256color"
+## pacman
+alias pacs='sudo pacman -S'
+alias pacsyu='sudo pacman -Syu'
 
-eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail ~/.ssh/id_rsa_paneda_mirror)
+## git
+alias gst='git status'
+alias gco='git checkout'
+alias gcob='git checkout branch'
+alias gci='git commit'
+alias glr='git log --graph --abbrev-commit --decorate --date=relative --format=format:"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)" --all'
+alias gla='git log --graph --abbrev-commit --decorate --format=format:"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)" --all'
+#}}}
 
-ssh -L localhost:7000:localhost:7000 -Nf paneda@pacman.paneda.tech
-
-#export GITAWAREPROMPT=~/.bash/git-aware-prompt
-#source "${GITAWAREPROMPT}/main.sh"
-#export PS1="\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtwht\]\$git_branch\[$txtred\]\$git_dirty\[$txtwht\]\$ "
-source /usr/share/git/completion/git-prompt.sh
-#PS1='\u \W$(__git_ps1 " [%s $(get_sha)] ")\$ '
-#PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
-get_dir() {
-    printf "%s" $(pwd | sed "s:$HOME:~:")
-}
-
-get_sha() {
-    git rev-parse --short HEAD 2>/dev/null
-}
-
-txtblk="$(tput setaf 0 2>/dev/null || echo '\e[0;30m')"  # Black
-txtred="$(tput setaf 1 2>/dev/null || echo '\e[0;31m')"  # Red
-txtgrn="$(tput setaf 2 2>/dev/null || echo '\e[0;32m')"  # Green
-txtylw="$(tput setaf 3 2>/dev/null || echo '\e[0;33m')"  # Yellow
-txtblu="$(tput setaf 4 2>/dev/null || echo '\e[0;34m')"  # Blue
-txtpur="$(tput setaf 5 2>/dev/null || echo '\e[0;35m')"  # Purple
-txtcyn="$(tput setaf 6 2>/dev/null || echo '\e[0;36m')"  # Cyan
-txtwht="$(tput setaf 7 2>/dev/null || echo '\e[0;37m')"  # White
-
-PROMPT_COMMAND='__git_ps1 "\u \W" "\\\$ " " (%s)"'
-
-export BASH_ENV=~/.bashrc
-
+#{{{ Functions
 # cd and ls in one
 cl() {
     dir=$1
@@ -107,4 +98,35 @@ extract() {
     done
     return "$e"
 }
+#}}}
+
+#{{{ Paths
+export PATH=$PATH:~/.gem/ruby/2.2.0/bin
+#}}}
+
+#{{{ Variables
+export JAVA_HOME=/usr/lib/jvm/default
+TEMPLATE_BOOST_ROOT="/home/jsc/work/thirdpart/boost/boost_1_59_0"
+BOOST_ROOT=$TEMPLATE_BOOST_ROOT
+export TEMPLATE_BOOST_ROOT
+export BOOST_ROOT
+ZMQ_ROOT="/home/jsc/work/thirdpart/zeromq4-x"
+export ZMQ_ROOT
+#}}}
+
+#{{{ Bash settings
+set -o vi
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
+export TERM="xterm-256color"
+#}}}
+
+#eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
+
+source /usr/share/git/completion/git-prompt.sh
+PROMPT_COMMAND='__git_ps1 "\u \W" "\\\$ " " (%s)"'
+
+export BASH_ENV=~/.bashrc
 
