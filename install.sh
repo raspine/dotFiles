@@ -23,8 +23,10 @@ clever_ln_s ~/homescripts/.xprofile ~/.xprofile
 clever_ln_s ~/homescripts/.vimrc ~/.vim/vimrc
 clever_ln_s ~/homescripts/ftplugin/java.vim ~/.vim/ftplugin/java.vim
 clever_ln_s ~/homescripts/ftplugin/lua.vim ~/.vim/ftplugin/lua.vim
+clever_ln_s ~/homescripts/ftplugin/c.vim ~/.vim/ftplugin/c.vim
 clever_ln_s ~/homescripts/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim
 clever_ln_s ~/homescripts/ftplugin/sh.vim ~/.vim/ftplugin/sh.vim
+clever_ln_s ~/homescripts/ftplugin/json.vim ~/.vim/ftplugin/json.vim
 
 # vifm
 clever_ln_s ~/homescripts/vifm/vifmrc ~/.vifm/vifmrc

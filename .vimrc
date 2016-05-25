@@ -163,10 +163,6 @@ let g:UltiSnipsEditSplit="vertical"
 "nice reading
 "http://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
 
-" https://www.topbug.net/blog/2012/03/07/use-singlecompile-to-compile-and-run-a-single-source-file-easily-in-vim/
-noremap <F9> :SCCompile<cr>
-noremap <F10> :SCCompileRun<cr>
-
 cmap w!! w !sudo tee >/dev/null %
 nmap ` %
 vmap ` %
@@ -196,12 +192,6 @@ nmap <Space>0 <C-w>=
 nmap <Space>9 91<C-w>\|
 "}}}
 
-"folding settings
-set foldmethod=syntax
-set foldnestmax=2      "deepest fold levels
-set nofoldenable        "dont fold by default
-set foldlevel=1         "this is just what i use
-
 syntax on
 
 "{{{ Colors & font
@@ -219,6 +209,8 @@ if has("gui_running")
     set guifont=Monospace\ 9
   endif
 else
+  colorscheme solarized
+  set background=light
   colorscheme zenburn
 endif
 "}}}

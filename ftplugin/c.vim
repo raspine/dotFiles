@@ -11,6 +11,6 @@ nmap <F10> :SCCompileAF --std=c++11 <CR>
 
 "folding settings
 set foldmethod=syntax
-set foldnestmax=1      "deepest fold levels
-set foldenable        "dont fold by default
-set foldlevel=1         "this is just what i use
+set foldnestmax=1
+set foldenable
+set foldlevel=1

@@ -6,6 +6,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+xrandr --output HDMI3 --left-of HDMI1
+#xrandr --output DP1 primary
+xrandr --output DP1 --right-of HDMI1
+
 #{{{ Alias
 ## ls
 alias ls='ls --color=auto'
@@ -121,7 +125,7 @@ shopt -s histappend                      # append to history, don't overwrite it
 export TERM="xterm-256color"
 #}}}
 
-#eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
+eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
 
 source /usr/share/git/completion/git-prompt.sh
 PROMPT_COMMAND='__git_ps1 "\u \W" "\\\$ " " (%s)"'
