@@ -1,6 +1,7 @@
 " vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
-filetype off
 
+"{{{ general
+syntax on
 set noswapfile
 set nocompatible
 set modeline
@@ -22,7 +23,13 @@ set relativenumber
 set number
 set undofile
 set guioptions-=T
-
+" disable Ex mode
+map q: <nop>
+nnoremap Q <nop>
+" disable quick quit
+map <c-z> <nop>
+"}}}
+"
 "{{{ searching
 " q/ for search hsitory
 nnoremap / /\v
@@ -34,7 +41,7 @@ set incsearch
 set showmatch
 set hlsearch
 "}}}
-
+"
 "{{{ line wrapping
 set nowrap
 set textwidth=79
@@ -43,28 +50,20 @@ set colorcolumn=85
 set splitright
 "}}}
 
-" disable Ex mode
-map q: <nop>
-nnoremap Q <nop>
-
-" {{{ copy/paste good old style
-vmap <C-c> "+yi
-vmap <C-x> "+c
-vmap <C-v> c<ESC>"+p
-imap <C-v> <C-r><C-o>+
-"}}}
-
-" white spaces
+"{{{ white spaces
 set list listchars=tab:→\ ,trail:·,precedes:·,nbsp:_
 nnoremap <F11> : set list!<CR>
 set list!
+"}}}
 
-"{{{ mapleader stuff
+"{{{ mapleader
 let mapleader = ","
 
+" quick save
+nnoremap <leader>w :update<cr>
 noremap <leader>t :NERDTreeToggle<CR>
 " quickly open ack
-nnoremap <leader>a :Ack 
+nnoremap <leader>a :Ack
 " open multiple ctags selection
 nnoremap <leader>f g<C-]>
 " reselect pasted text
@@ -79,20 +78,18 @@ nnoremap <leader>x :botright copen<cr>
 " quickly turn highlight off
 nnoremap <leader><space> :noh<cr>
 vnoremap <leader><space> :noh<cr>
-" quickly open new windows
-nnoremap <leader>w <C-w>v<C-w>l
-nnoremap <leader>n :vnew<cr>
 " aid the search and replace command
 nnoremap <leader>s :%s/
 " quick open Gstatus
 nnoremap <leader>g :Gstatus<cr>
 "}}}
 
-
-" ctags stuff
+"{{{ ctags
 set tags=./tags;/
+"}}}
 
-"{{{ plugins
+"{{{ Vundle plugins
+filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
@@ -101,14 +98,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " My Plugins here:
-"
-" Notes for YCM:
-" Sometimes it will crash when building with it own libclang so
-" then use:
-" pacman -S clang (for Arch linux)
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.sh --clang-completer --system-libclang
-" ..oh and make sure to add the .ycm_extra_conf.py as specified below
 "
 " Notes for syntastic
 " Install either flake8 or pyulint to make it work
@@ -121,6 +110,7 @@ Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'scrooloose/syntastic.git'
 Plugin 'scrooloose/nerdcommenter.git'
 Plugin 'szw/vim-ctrlspace'
+Plugin 'szw/vim-g'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
@@ -135,6 +125,9 @@ Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/SingleCompile.git'
+Plugin 'svermeulen/vim-easyclip'
+Plugin 'tpope/vim-repeat'
+
 " color themes
 Plugin 'raspine/Zenburn'
 Plugin 'altercation/vim-colors-solarized.git'
@@ -144,42 +137,65 @@ call vundle#end()
 filetype plugin indent on     " required
 "}}}
 
+"{{{ Plugin config
+"{{{ YCM
+" Notes for YCM:
+" Sometimes it will crash when building with it own libclang so
+" then use:
+" pacman -S clang (for Arch linux)
+" cd ~/.vim/bundle/YouCompleteMe
+" ./install.sh --clang-completer --system-libclang
+" ..oh and make sure to add the .ycm_extra_conf.py as specified below
+"
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
-
+"let g:ycm_key_invoke_completion = '<C-z>'
+let g:EclimCompletionMethod = 'omnifunc'
+"}}}
+"{{{ task warrior
 " directory to store log files defaults to taskwarrior data.location
- %
 let g:task_log_directory   = '~/Dropbox/.task'
-
-let g:airline_theme = "hybrid"
-
+"}}}
+"{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="`"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="vertical"
-
-
-"nice reading
-"http://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
-
+let g:UltiSnipsListSnippets='<c-z>'
+let g:UltiSnipsExpandTrigger='<c-x>'
+let g:UltiSnipsJumpForwardTrigger='<c-j>'
+let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+let g:UltiSnipsEditSplit='vertical'
+"}}}
+"{{{ SingleCompile
 " https://www.topbug.net/blog/2012/03/07/use-singlecompile-to-compile-and-run-a-single-source-file-easily-in-vim/
 noremap <F9> :SCCompile<cr>
 noremap <F10> :SCCompileRun<cr>
+"}}}
+"{{{ vim-g
+vmap s :Google<cr>
+"}}}
+"}}}
 
+"{{{ key mappings
 cmap w!! w !sudo tee >/dev/null %
 nmap ` %
 vmap ` %
 cmap ` %
 nmap <tab> $
 nmap <s-tab> ^
+nmap Y y$
+"}}}
 
+" {{{ copy/paste good old style
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+"}}}
+
+" {{{ save good old style
 noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
-nmap mm :update<cr>
-
-nmap Y y$
+"}}}
 
 "{{{ windows handling
 nmap <Space>h <C-w>h
@@ -194,21 +210,24 @@ nmap <Space>x <C-w>x
 nmap <Space>+ <C-w>_
 nmap <Space>0 <C-w>=
 nmap <Space>9 91<C-w>\|
+nmap <Space>n :vnew<cr>
 "}}}
 
-"folding settings
-set foldmethod=syntax
-set foldnestmax=2      "deepest fold levels
-set nofoldenable        "dont fold by default
-set foldlevel=1         "this is just what i use
+"nice reading
+"http://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
 
-syntax on
+""folding settings"{{{
+"set foldmethod=syntax
+"set foldnestmax=2      "deepest fold levels
+"set nofoldenable        "dont fold by default
+"set foldlevel=1         "this is just what i use
+""}}}
 
 "{{{ Colors & font
 if has("gui_running")
-  "colorscheme hybrid_material
-  colorscheme solarized
-  set background=light
+  colorscheme hybrid_material
+  "colorscheme solarized
+  set background=dark
   if has("gui_gtk2")
     set guifont=Monospace\ 9
   elseif has("gui_macvim")
@@ -244,5 +263,5 @@ function! QuickfixFilenames()
   return join(values(buffer_numbers))
 endfunction
 
-cd /home/jsc/work
+cd ~/work
 
