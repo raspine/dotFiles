@@ -4,4 +4,6 @@ nmap <f5> :make! -j8<cr>
 set ts=4 sw=4 noet
 setlocal commentstring=//\ %s
 
+nnoremap p ]p
+
 nmap <F10> :SCCompileAF --std=c++11 <CR>

@@ -161,102 +161,16 @@ map H ^
 vnoremap H ^
 map L $
 vnoremap L $
-
-"}}}
-
-" {{{ copy/paste
-let pasteIndex = 0
-
-function! ShiftYank2NrReg()
-    for i in range(0,7)
-        exec 'let @'.nr2char(57-i).'=@'.nr2char(57-i-1).''
-    endfor
-    let @1 = @0
-    let g:pasteIndex = 0
-endfunction
-
-function! PasteFromNrReg(forward)
-    if a:forward
-        let g:pasteIndex = g:pasteIndex + 1
-        if g:pasteIndex > 9
-            let g:pasteIndex = 1
-        endif
-    else
-        let g:pasteIndex = g:pasteIndex - 1
-        if g:pasteIndex < 1
-            let g:pasteIndex = 9
-        endif
-    endif
-    exec 'silent! normal! u"'.g:pasteIndex.']p'
-endfunction
-
-nnoremap <silent> Y :call ShiftYank2NrReg()<cr>y$
-nnoremap <silent> y :call ShiftYank2NrReg()<cr>y
-nnoremap <silent> yy :call ShiftYank2NrReg()<cr>yy
-vnoremap <silent> y :call ShiftYank2NrReg()<cr>gvy
-
-nnoremap p ]p
-" nnoremap <c-p> "1]p
-nnoremap <c-p> :call PasteFromNrReg(1)<cr>
-nnoremap <c-n> :call PasteFromNrReg(0)<cr>
-
-nnoremap <silent> <Plug>PasteBelowKeepCursor mZ]p`Z
-\:call repeat#set("\<Plug>PasteBelowKeepCursor", v:count)<CR>
-nmap Gp <Plug>PasteBelowKeepCursor
-
-nnoremap <silent> <Plug>PasteAboveKeepCursor mZ]P`Z
-\:call repeat#set("\<Plug>PasteAboveKeepCursor", v:count)<CR>
-nmap GP <Plug>PasteAboveKeepCursor
-
-nnoremap <silent> <Plug>PasteYankBelowKeepCursor mZ"0]p`Z
-\:call repeat#set("\<Plug>PasteYankBelowKeepCursor", v:count)<CR>
-nmap <space>Gp <Plug>PasteYankBelowKeepCursor
-
-nnoremap <silent> <Plug>PasteYankAboveKeepCursor mZ"0]P`Z
-\:call repeat#set("\<Plug>PasteYankAboveKeepCursor", v:count)<CR>
-nmap <space>GP <Plug>PasteYankAboveKeepCursor
-
-nnoremap x "_x
-nnoremap X "_X
-nnoremap s "_s
-nnoremap S "_S
-nnoremap d "_d
-nnoremap D "_D
-vnoremap d "_d
-nnoremap c "_c
-nnoremap C "_C
-vnoremap c "_c
-
-nnoremap m d
-nnoremap mm dd
-nnoremap M D
-vnoremap m d
-
-"system clipboard classic style
-vmap <C-c> "+yi
-vmap <C-x> "+c
-vmap <C-v> c<ESC>"+p
-imap <C-v> <C-r><C-o>+
-noremap <C-S> :update<CR>
-vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <C-O>:update<CR>
-"}}}
-
-"{{{ windows handling
-map <space> <c-w>
-nmap <space>9 91<C-w>\|
-nmap <space>n :vnew<cr>
-nmap <space>w <c-w>v
 "}}}
 
 "{{{ mapleader
+" quick save
 let mapleader = ","
 
-" quick save
 nnoremap <leader>w :update<cr>
 noremap <leader>t :NERDTreeToggle<CR>
 " quickly open ack
-nnoremap <leader>a :Ack
+nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
 " open multiple ctags selection
 nnoremap <leader>f g<C-]>
 " reselect pasted text
@@ -276,9 +190,99 @@ vnoremap <leader><space> :noh<cr>
 " aid the search and replace command
 " TODO: what do \( do?
 " :nmap <leader>s :%s/\(<c-r>=expand("<cword>")<cr>\)/
-noremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
+nnoremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
 " quick open Gstatus
 nnoremap <leader>g :Gstatus<cr>
+nnoremap <leader>S :so %<cr>
+"}}}
+
+" {{{ copy/paste
+let benDPasteIndex = 0
+
+function! s:ShiftYank2NrReg()
+    for i in range(0,7)
+        exec 'let @'.nr2char(57-i).'=@'.nr2char(57-i-1).''
+    endfor
+    let @1 = @0
+    let g:benDPasteIndex = 0
+endfunction
+
+function! s:PasteFromNrReg(forward)
+    if a:forward
+        let g:benDPasteIndex = g:benDPasteIndex + 1
+        if g:benDPasteIndex > 9
+            let g:benDPasteIndex = 1
+        endif
+    else
+        let g:benDPasteIndex = g:benDPasteIndex - 1
+        if g:benDPasteIndex < 1
+            let g:benDPasteIndex = 9
+        endif
+    endif
+    exec 'silent! normal! u"'.g:benDPasteIndex.']p'
+endfunction
+
+function! s:BendYankLine(count)
+    silent! call ShiftYank2NrReg()
+    exec 'normal! '.a:count.'yy'
+endfunction
+
+nnoremap <silent> Y :<C-U> call <SID>ShiftYank2NrReg()<cr>y$
+nnoremap <silent> y :<C-U> call <SID>ShiftYank2NrReg()<cr>y
+
+nnoremap <silent> <Plug>benDYankLine  :<C-U>call <SID>BendYankLine(v:count1)<cr>
+\:call repeat#set("\<Plug>benDYankLine", v:count)<CR>
+nmap yy <Plug>benDYankLine
+" nnoremap <silent> yy :call ShiftYank2NrReg()<cr>yy
+
+vnoremap <silent> y :<C-U> call <SID>ShiftYank2NrReg()<cr>gvy
+
+nnoremap <c-p> :<C-U>call <SID>PasteFromNrReg(1)<cr>
+nnoremap <c-P> :<C-U>call <SID>PasteFromNrReg(0)<cr>
+
+nnoremap <silent> <Plug>PasteBelowKeepCursor mZ]p`Z
+\:call repeat#set("\<Plug>PasteBelowKeepCursor", v:count)<CR>
+nmap <leader>p <Plug>PasteBelowKeepCursor
+
+nnoremap <silent> <Plug>PasteAboveKeepCursor mZ]P`Z
+\:call repeat#set("\<Plug>PasteAboveKeepCursor", v:count)<CR>
+nmap <leader>P <Plug>PasteAboveKeepCursor
+
+
+" I don't want these operator to affect the default register nor clutter my
+" clipboard history
+nnoremap s "_s
+nnoremap S "_S
+nnoremap c "_c
+vnoremap c "_c
+nnoremap d "_d
+nnoremap D "_D
+vnoremap d "_d
+
+" Instead I use x as my "cut" operator (i.e equvalent what d does)
+" This way I only affect the clipboard history and the default register when I want to.
+" Vi/Vim keeps the equivalents dh (X) and dl (x) for delete char under cursor.
+" By learning to use these instead I can happily keep on using both editors.
+nnoremap x d
+nnoremap X D
+nnoremap xx dd
+vnoremap x d
+
+"system clipboard classic style
+vmap <C-c> "+yi
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p
+imap <C-v> <C-r><C-o>+
+noremap <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <C-O>:update<CR>
+"}}}
+
+"{{{ windows handling
+map <space> <c-w>
+nmap <space>9 91<C-w>\|
+nmap <space>n :vnew<cr>
+nmap <space>w <c-w>v
 "}}}
 
 "}}}
