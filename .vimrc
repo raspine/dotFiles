@@ -22,6 +22,7 @@ set relativenumber
 set number
 set undofile
 set guioptions-=T
+set autoread
 
 "{{{ searching
 " q/ for search hsitory
@@ -117,6 +118,8 @@ Plugin 'VundleVim/Vundle.vim'
 " original repos on github
 Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/nerdtree.git'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'scrooloose/syntastic.git'
 Plugin 'scrooloose/nerdcommenter.git'
@@ -132,8 +135,6 @@ Plugin 'tpope/vim-dispatch.git'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nelstrom/vim-visual-star-search.git'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/SingleCompile.git'
 " color themes
 Plugin 'raspine/Zenburn'
@@ -146,6 +147,8 @@ filetype plugin indent on     " required
 
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
+" uncomment to disable ycm on start
+"let g:loaded_youcompleteme = 1
 
 " directory to store log files defaults to taskwarrior data.location
  %
@@ -155,10 +158,9 @@ let g:airline_theme = "hybrid"
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="`"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
-
 
 "nice reading
 "http://stackoverflow.com/questions/235839/indent-multiple-lines-quickly-in-vi
@@ -193,6 +195,12 @@ nmap <Space>9 91<C-w>\|
 "}}}
 
 syntax on
+
+"{{{ Auto commands
+autocmd BufNewFile,BufRead *.tid   set ft=markdown
+autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
+autocmd BufNewFile,BufRead *.ino   set ft=c
+"}}}
 
 "{{{ Colors & font
 if has("gui_running")
