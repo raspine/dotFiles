@@ -1,0 +1,121 @@
+# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu
+#
+# ~/.sshrc provides settings when connected over ssh
+#
+
+#{{{ Alias
+## ls
+alias ls='ls --color=auto'
+alias ll="ls -lhF"
+alias la="ls -Ad .*"
+
+## cd
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+## Colorize the grep command output for ease of use (good for log files)##
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+## special commands
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T"'
+
+## vim
+alias svim='sudo vim'
+
+## pacman
+alias pacs='sudo pacman -S'
+alias pacsyu='sudo pacman -Syu'
+
+## git
+alias gst='git status'
+alias gco='git checkout'
+alias gcob='git checkout branch'
+alias gci='git commit'
+alias glr='git log --graph --abbrev-commit --decorate --date=relative --format=format:"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)" --all'
+alias gla='git log --graph --abbrev-commit --decorate --format=format:"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)" --all'
+#}}}
+
+#{{{ Functions
+## cd and ls in one
+cl() {
+    dir=$1
+    if [[ -z "$dir" ]]; then
+        dir=$HOME
+    fi
+    if [[ -d "$dir" ]]; then
+        cd "$dir"
+        ls -hall --color=auto
+    else
+        echo "bash: cl: '$dir': Directory not found"
+    fi
+}
+
+shopt -s extglob
+extract() {
+    local c e i
+
+    (($#)) || return
+
+    for i; do
+        c=''
+        e=1
+
+        if [[ ! -r $i ]]; then
+            echo "$0: file is unreadable: \`$i'" >&2
+            continue
+        fi
+
+        case $i in
+            *.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
+                   c=(bsdtar xvf);;
+            *.7z)  c=(7z x);;
+            *.Z)   c=(uncompress);;
+            *.bz2) c=(bunzip2);;
+            *.exe) c=(cabextract);;
+            *.gz)  c=(gunzip);;
+            *.rar) c=(unrar x);;
+            *.xz)  c=(unxz);;
+            *.zip) c=(unzip);;
+            *)     echo "$0: unrecognized file extension: \`$i'" >&2
+                   continue;;
+        esac
+
+        command "${c[@]}" "$i"
+        ((e = e || $?))
+    done
+    return "$e"
+}
+#}}}
+
+#{{{ Bash settings
+set -o vi
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
+export TERM="xterm-256color"
+#}}}
+
+# {{{ PS1
+#source /usr/share/git/completion/git-prompt.sh
+#PROMPT_COMMAND='__git_ps1 "\u \W" "\\\$ " " (%s)"'
+function color_my_prompt {
+    local __user_and_host="\[\033[01;32m\]\u@\h"
+    local __cur_location="\[\033[01;37m\]\w"
+    local __git_branch_color="\[\033[33m\]"
+    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+    local __prompt_tail="\[\033[35m\]$"
+    local __last_color="\[\033[00m\]"
+    export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
+}
+color_my_prompt
+# }}}
+
