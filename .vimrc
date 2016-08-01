@@ -99,6 +99,7 @@ Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/SingleCompile.git'
+Plugin 'sickill/vim-pasta'
 
 " color themes
 Plugin 'raspine/Zenburn'
@@ -193,8 +194,6 @@ nnoremap <leader>S :so %<cr>
 "}}}
 
 " {{{ copy/paste
-nnoremap p ]p
-
 let benDPasteIndex = 0
 
 function! s:ShiftYank2NrReg()
@@ -203,6 +202,21 @@ function! s:ShiftYank2NrReg()
     endfor
     let @1 = @0
     let g:benDPasteIndex = 0
+endfunction
+
+function! s:YankNo1(reg)
+    if a:reg == '"'
+        echo "pre " a:reg
+        for i in range(0,7)
+            exec 'let @'.nr2char(57-i).'=@'.nr2char(57-i-1).''
+        endfor
+        let @1 = @0
+        let g:benDPasteIndex = 0
+    endif
+endfunction
+
+function! YankNo1PostFunction(reg)
+    echo "post " a:reg
 endfunction
 
 function! s:PasteFromNrReg(forward)
@@ -223,20 +237,26 @@ endfunction
 function! s:BendYankLine(count)
     silent! call ShiftYank2NrReg()
     exec 'normal! '.a:count.'yy'
+    doautocmd User MyCustomEvent
 endfunction
 
-nnoremap <silent> Y :<C-U> call <SID>ShiftYank2NrReg()<cr>y$
-nnoremap <silent> y :<C-U> call <SID>ShiftYank2NrReg()<cr>y
+function! s:YankNo2(reg)
+    echo '"'.a:reg.'y'
+    return '"'.a:reg.'y'
+endfunction
 
-nnoremap <silent> <Plug>benDYankLine  :<C-U>call <SID>BendYankLine(v:count1)<cr>
-\:call repeat#set("\<Plug>benDYankLine", v:count)<CR>
-nmap yy <Plug>benDYankLine
+" nnoremap <silent> Y :<C-U> call <SID>ShiftYank2NrReg()<cr>y$
+nnoremap <silent> <expr> y <SID>YankNo2(v:register)
+
+" nnoremap <silent> <Plug>benDYankLine  :<C-U>call <SID>BendYankLine(v:count1)<cr>
+" \:call repeat#set("\<Plug>benDYankLine", v:count)<CR>
+" nmap yy <Plug>benDYankLine
 " nnoremap <silent> yy :call ShiftYank2NrReg()<cr>yy
 
-vnoremap <silent> y :<C-U> call <SID>ShiftYank2NrReg()<cr>gvy
+" vnoremap <silent> y :<C-U> call <SID>ShiftYank2NrReg()<cr>gvy
 
 nnoremap <c-p> :<C-U>call <SID>PasteFromNrReg(1)<cr>
-nnoremap <c-P> :<C-U>call <SID>PasteFromNrReg(0)<cr>
+nnoremap <c-n> :<C-U>call <SID>PasteFromNrReg(0)<cr>
 
 nnoremap <silent> <Plug>PasteBelowKeepCursor mZ]p`Z
 \:call repeat#set("\<Plug>PasteBelowKeepCursor", v:count)<CR>
@@ -330,12 +350,12 @@ endfun
 
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
 function! QuickfixFilenames()
-  " Building a hash ensures we get each buffer only once
-  let buffer_numbers = {}
-  for quickfix_item in getqflist()
-    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
-  endfor
-  return join(values(buffer_numbers))
+    " Building a hash ensures we get each buffer only once
+    let buffer_numbers = {}
+    for quickfix_item in getqflist()
+        let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+    endfor
+    return join(values(buffer_numbers))
 endfunction
 
 cd ~/work
