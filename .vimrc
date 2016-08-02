@@ -194,66 +194,62 @@ nnoremap <leader>S :so %<cr>
 "}}}
 
 " {{{ copy/paste
-let benDPasteIndex = 0
-
-function! s:ShiftYank2NrReg()
-    for i in range(0,7)
-        exec 'let @'.nr2char(57-i).'=@'.nr2char(57-i-1).''
-    endfor
-    let @1 = @0
-    let g:benDPasteIndex = 0
-endfunction
-
-function! s:YankNo1(reg)
-    if a:reg == '"'
-        echo "pre " a:reg
-        for i in range(0,7)
-            exec 'let @'.nr2char(57-i).'=@'.nr2char(57-i-1).''
-        endfor
-        let @1 = @0
-        let g:benDPasteIndex = 0
-    endif
-endfunction
-
-function! YankNo1PostFunction(reg)
-    echo "post " a:reg
-endfunction
+let yankNo1PasteIndex = 0
+let yankNo1LastRegister = '"'
 
 function! s:PasteFromNrReg(forward)
     if a:forward
-        let g:benDPasteIndex = g:benDPasteIndex + 1
-        if g:benDPasteIndex > 9
-            let g:benDPasteIndex = 1
+        let g:yankNo1PasteIndex = g:yankNo1PasteIndex + 1
+        if g:yankNo1PasteIndex > 9
+            let g:yankNo1PasteIndex = 1
         endif
     else
-        let g:benDPasteIndex = g:benDPasteIndex - 1
-        if g:benDPasteIndex < 1
-            let g:benDPasteIndex = 9
+        let g:yankNo1PasteIndex = g:yankNo1PasteIndex - 1
+        if g:yankNo1PasteIndex < 1
+            let g:yankNo1PasteIndex = 9
         endif
     endif
-    exec 'silent! normal! u"'.g:benDPasteIndex.']p'
+    exec 'silent! normal! u"'.g:yankNo1PasteIndex.']p'
 endfunction
 
-function! s:BendYankLine(count)
-    silent! call ShiftYank2NrReg()
-    exec 'normal! '.a:count.'yy'
-    doautocmd User MyCustomEvent
+function! ShiftYank2NrReg(reg)
+    let regstring = getreg('@'.g:yankNo1LastRegister)
+    if g:yankNo1LastRegister != "\"" || regstring =~ "\n"
+        for i in range(0,7)
+            exec 'let @'.nr2char(57-i).'=@'.nr2char(57-i-1).''
+        endfor
+        let @1 = regstring
+    endif
+    let g:yankNo1PasteIndex = 0
+    let g:yankNo1LastRegister = a:reg
 endfunction
 
-function! s:YankNo2(reg)
-    echo '"'.a:reg.'y'
+function! s:YankNo1Motion(reg)
+    call ShiftYank2NrReg(a:reg)
     return '"'.a:reg.'y'
 endfunction
 
-" nnoremap <silent> Y :<C-U> call <SID>ShiftYank2NrReg()<cr>y$
-nnoremap <silent> <expr> y <SID>YankNo2(v:register)
+function! s:YankNo1Line(reg, count)
+    call ShiftYank2NrReg(a:reg)
+    return '"'.a:reg.a:count.'yy'
+endfunction
 
-" nnoremap <silent> <Plug>benDYankLine  :<C-U>call <SID>BendYankLine(v:count1)<cr>
+function! s:YankNo1Visual(reg)
+    call ShiftYank2NrReg(a:reg)
+    return '"'.a:reg.'y'
+endfunction
+
+nnoremap <expr> <Plug>YankNo1Motion <SID>YankNo1Motion(v:register)
+" \:call repeat#set("\<Plug>YankNo1Motion")<CR>
+nmap y <Plug>YankNo1Motion
+nmap Y <Plug>YankNo1Motion$
+
+nnoremap <expr> <Plug>YankNo1Line  <SID>YankNo1Line(v:register, v:count1)
 " \:call repeat#set("\<Plug>benDYankLine", v:count)<CR>
-" nmap yy <Plug>benDYankLine
-" nnoremap <silent> yy :call ShiftYank2NrReg()<cr>yy
+nmap yy <Plug>YankNo1Line
 
-" vnoremap <silent> y :<C-U> call <SID>ShiftYank2NrReg()<cr>gvy
+vnoremap <expr> <Plug>YankNo1Visual  <SID>YankNo1Visual(v:register)
+vmap y <Plug>YankNo1Visual
 
 nnoremap <c-p> :<C-U>call <SID>PasteFromNrReg(1)<cr>
 nnoremap <c-n> :<C-U>call <SID>PasteFromNrReg(0)<cr>
