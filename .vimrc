@@ -162,7 +162,9 @@ vnoremap L $
 
 "{{{ mapleader
 " quick save
-let mapleader = ","
+let mapleader = "\\"
+
+map <leader>j %
 
 nnoremap <leader>w :update<cr>
 noremap <leader>t :NERDTreeToggle<CR>
@@ -188,8 +190,8 @@ vnoremap <leader><space> :noh<cr>
 " TODO: what do \( do?
 " :nmap <leader>s :%s/\(<c-r>=expand("<cword>")<cr>\)/
 nnoremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
-" quick open Gstatus
 nnoremap <leader>g :Gstatus<cr>
+nnoremap <leader>d :Gvdiff<cr>
 nnoremap <leader>S :so %<cr>
 "}}}
 
@@ -212,7 +214,7 @@ function! s:PasteFromNrReg(forward)
     exec 'silent! normal! u"'.g:yankNo1PasteIndex.']p'
 endfunction
 
-function! ShiftYank2NrReg(reg)
+function! s:ShiftYank2NrReg(reg)
     let regstring = getreg('@'.g:yankNo1LastRegister)
     if g:yankNo1LastRegister != "\"" || regstring =~ "\n"
         for i in range(0,7)
@@ -225,17 +227,17 @@ function! ShiftYank2NrReg(reg)
 endfunction
 
 function! s:YankNo1Motion(reg)
-    call ShiftYank2NrReg(a:reg)
+    call <sid>ShiftYank2NrReg(a:reg)
     return '"'.a:reg.'y'
 endfunction
 
 function! s:YankNo1Line(reg, count)
-    call ShiftYank2NrReg(a:reg)
+    call <sid>ShiftYank2NrReg(a:reg)
     return '"'.a:reg.a:count.'yy'
 endfunction
 
 function! s:YankNo1Visual(reg)
-    call ShiftYank2NrReg(a:reg)
+    call <sid>ShiftYank2NrReg(a:reg)
     return '"'.a:reg.'y'
 endfunction
 
