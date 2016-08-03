@@ -152,12 +152,14 @@ nnoremap <silent> <Plug>JoinWithoutSpace $J"_x
 \:call repeat#set("\<Plug>JoinWithoutSpace")<CR>
 nmap gJ <Plug>JoinWithoutSpace
 
-nnoremap gr :reg<cr>
+nnoremap gr :reg<CR>
 vnoremap <tab> %
 map H ^
 vnoremap H ^
 map L $
 vnoremap L $
+" type in small letter, convert to capital
+map! <C-F> <Esc>gUiw`]a
 "}}}
 
 "{{{ mapleader
@@ -267,16 +269,41 @@ nnoremap <silent> <Plug>PasteAboveKeepCursor mZ]P`Z
 \:call repeat#set("\<Plug>PasteAboveKeepCursor", v:count)<CR>
 nmap <leader>P <Plug>PasteAboveKeepCursor
 
+let g:monReg = ''
+let g:lastOp = ''
+let g:no9Reg = ''
 
+function! s:CutlassPreMotionOp(reg, op)
+    echom 'CutlassPreOp '.a:reg.' '.a:op
+    let g:lastOp = a:op
+    let g:monReg = '-'
+    let g:no9Reg = @9
+    if a:reg != '"'
+        let g:monReg = a:reg
+    endif
+    return '"'.g:monReg.a:op
+endfunction
+
+function! s:CutlassPostOp()
+    echom 'CutlassPostOp '.g:monReg.' '.g:lastOp
+endfunction
 " I don't want these operator to affect the default register nor clutter my
 " clipboard history
 nnoremap s "_s
 nnoremap S "_S
-nnoremap c "_c
+" nnoremap c "_c
+nnoremap <expr> c <SID>CutlassPreMotionOp(v:register, 'c')
 vnoremap c "_c
-nnoremap d "_d
+" nnoremap d "_d
+nnoremap <expr> d <SID>CutlassPreMotionOp(v:register, 'd')
 nnoremap D "_D
 vnoremap d "_d
+
+augroup CutlassAutoCommands
+    autocmd!
+    autocmd CursorMoved * :call <SID>CutlassPostOp()
+    " autocmd CursorMovedI * :call <SID>CutlassPostOp()
+augroup END
 
 " Instead I use x as my "cut" operator (i.e equvalent what d does)
 " This way I only affect the clipboard history and the default register when I want to.
@@ -314,6 +341,7 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
+    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 "}}}
 
