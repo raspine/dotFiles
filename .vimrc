@@ -183,6 +183,7 @@ nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 " open copen window
 nnoremap <leader>c :botright Copen<cr>
 nnoremap <leader>x :botright copen<cr>
+nnoremap <leader>z :cclose<cr>
 " quickly turn highlight off
 nnoremap <leader><space> :noh<cr>
 vnoremap <leader><space> :noh<cr>
@@ -196,6 +197,8 @@ nnoremap <leader>S :so %<cr>
 "}}}
 
 " {{{ copy/paste
+nnoremap p p=`]
+
 let yankNo1PasteIndex = 0
 let yankNo1LastRegister = '"'
 
@@ -285,7 +288,7 @@ nnoremap xx dd
 vnoremap x d
 
 "system clipboard classic style
-vmap <C-c> "+yi
+vmap <C-c> "+y
 vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p
 imap <C-v> <C-r><C-o>+
