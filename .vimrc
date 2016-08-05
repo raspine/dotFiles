@@ -100,6 +100,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/SingleCompile.git'
 Plugin 'sickill/vim-pasta'
+Plugin 'raspine/vim-bend'
 
 " color themes
 Plugin 'raspine/Zenburn'
@@ -199,120 +200,6 @@ nnoremap <leader>S :so %<cr>
 "}}}
 
 " {{{ copy/paste
-nnoremap p p=`]
-
-let yankNo1PasteIndex = 0
-let yankNo1LastRegister = '"'
-
-function! s:PasteFromNrReg(forward)
-    if a:forward
-        let g:yankNo1PasteIndex = g:yankNo1PasteIndex + 1
-        if g:yankNo1PasteIndex > 9
-            let g:yankNo1PasteIndex = 1
-        endif
-    else
-        let g:yankNo1PasteIndex = g:yankNo1PasteIndex - 1
-        if g:yankNo1PasteIndex < 1
-            let g:yankNo1PasteIndex = 9
-        endif
-    endif
-    exec 'silent! normal! u"'.g:yankNo1PasteIndex.']p'
-endfunction
-
-function! s:ShiftYank2NrReg(reg)
-    let regstring = getreg('@'.g:yankNo1LastRegister)
-    if g:yankNo1LastRegister != "\"" || regstring =~ "\n"
-        for i in range(0,7)
-            exec 'let @'.nr2char(57-i).'=@'.nr2char(57-i-1).''
-        endfor
-        let @1 = regstring
-    endif
-    let g:yankNo1PasteIndex = 0
-    let g:yankNo1LastRegister = a:reg
-endfunction
-
-function! s:YankNo1Motion(reg)
-    call <sid>ShiftYank2NrReg(a:reg)
-    return '"'.a:reg.'y'
-endfunction
-
-function! s:YankNo1Line(reg, count)
-    call <sid>ShiftYank2NrReg(a:reg)
-    return '"'.a:reg.a:count.'yy'
-endfunction
-
-function! s:YankNo1Visual(reg)
-    call <sid>ShiftYank2NrReg(a:reg)
-    return '"'.a:reg.'y'
-endfunction
-
-nnoremap <expr> <Plug>YankNo1Motion <SID>YankNo1Motion(v:register)
-" \:call repeat#set("\<Plug>YankNo1Motion")<CR>
-nmap y <Plug>YankNo1Motion
-nmap Y <Plug>YankNo1Motion$
-
-nnoremap <expr> <Plug>YankNo1Line  <SID>YankNo1Line(v:register, v:count1)
-" \:call repeat#set("\<Plug>benDYankLine", v:count)<CR>
-nmap yy <Plug>YankNo1Line
-
-vnoremap <expr> <Plug>YankNo1Visual  <SID>YankNo1Visual(v:register)
-vmap y <Plug>YankNo1Visual
-
-nnoremap <c-p> :<C-U>call <SID>PasteFromNrReg(1)<cr>
-nnoremap <c-n> :<C-U>call <SID>PasteFromNrReg(0)<cr>
-
-nnoremap <silent> <Plug>PasteBelowKeepCursor mZ]p`Z
-\:call repeat#set("\<Plug>PasteBelowKeepCursor", v:count)<CR>
-nmap <leader>p <Plug>PasteBelowKeepCursor
-
-nnoremap <silent> <Plug>PasteAboveKeepCursor mZ]P`Z
-\:call repeat#set("\<Plug>PasteAboveKeepCursor", v:count)<CR>
-nmap <leader>P <Plug>PasteAboveKeepCursor
-
-let g:monReg = ''
-let g:lastOp = ''
-let g:no9Reg = ''
-
-function! s:CutlassPreMotionOp(reg, op)
-    echom 'CutlassPreOp '.a:reg.' '.a:op
-    let g:lastOp = a:op
-    let g:monReg = '-'
-    let g:no9Reg = @9
-    if a:reg != '"'
-        let g:monReg = a:reg
-    endif
-    return '"'.g:monReg.a:op
-endfunction
-
-function! s:CutlassPostOp()
-    echom 'CutlassPostOp '.g:monReg.' '.g:lastOp
-endfunction
-" I don't want these operator to affect the default register nor clutter my
-" clipboard history
-nnoremap s "_s
-nnoremap S "_S
-" nnoremap c "_c
-nnoremap <expr> c <SID>CutlassPreMotionOp(v:register, 'c')
-vnoremap c "_c
-" nnoremap d "_d
-nnoremap <expr> d <SID>CutlassPreMotionOp(v:register, 'd')
-nnoremap D "_D
-vnoremap d "_d
-
-augroup CutlassAutoCommands
-    autocmd!
-    autocmd CursorMoved * :call <SID>CutlassPostOp()
-    " autocmd CursorMovedI * :call <SID>CutlassPostOp()
-augroup END
-
-" Instead I use x as my "cut" operator (i.e equvalent what d does)
-" This way I only affect the clipboard history and the default register when I want to.
-" Vi/Vim keeps the equivalents dh (X) and dl (x) for delete char under cursor.
-" By learning to use these instead I can happily keep on using both editors.
-nnoremap x d
-nnoremap X D
-nnoremap xx dd
-vnoremap x d
 
 "system clipboard classic style
 vmap <C-c> "+y
