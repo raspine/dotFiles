@@ -1,2 +1,5 @@
 :setlocal keywordprg=:help
-:setlocal sw=2 et
+:setlocal sw=4 et
+:set fdm=marker
+:set foldenable
+:set foldlevel=0

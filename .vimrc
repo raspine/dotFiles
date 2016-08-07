@@ -100,7 +100,8 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/SingleCompile.git'
 Plugin 'sickill/vim-pasta'
-Plugin 'raspine/vim-bend'
+Plugin 'AndrewRadev/sideways.vim'
+Plugin 'raspine/vim-benD'
 
 " color themes
 Plugin 'raspine/Zenburn'
@@ -142,10 +143,13 @@ let g:UltiSnipsEditSplit='vertical'
 "{{{ vim-g
 vmap s :Google<cr>
 "}}}
+"sideways"{{{
+nnoremap <c-h> :SidewaysLeft<cr>
+nnoremap <c-l> :SidewaysRight<cr>
+"}}}
 "}}}
 
 "{{{ key mappings
-
 "{{{ general
 cmap w!! w !sudo tee >/dev/null %
 " join lines and remove the space
@@ -162,7 +166,6 @@ vnoremap L $
 " type in small letter, convert to capital
 map! <C-F> <Esc>gUiw`]a
 "}}}
-
 "{{{ mapleader
 " quick save
 let mapleader = "\\"
@@ -198,8 +201,8 @@ nnoremap <leader>g :Gstatus<cr>
 nnoremap <leader>d :Gvdiff<cr>
 nnoremap <leader>S :so %<cr>
 "}}}
-
 " {{{ copy/paste
+map Y y$
 
 "system clipboard classic style
 vmap <C-c> "+y
@@ -210,14 +213,12 @@ noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
 "}}}
-
 "{{{ windows handling
 map <space> <c-w>
 nmap <space>9 91<C-w>\|
 nmap <space>n :vnew<cr>
 nmap <space>w <c-w>v
 "}}}
-
 "}}}
 
 "{{{ auto commands
