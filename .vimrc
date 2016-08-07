@@ -173,7 +173,6 @@ let mapleader = "\\"
 map <leader>j %
 
 nnoremap <leader>w :update<cr>
-noremap <leader>t :NERDTreeToggle<CR>
 " quickly open ack
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
 " open multiple ctags selection
