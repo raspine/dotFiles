@@ -225,7 +225,11 @@ nnoremap <space><space>k <c-b>
 augroup MyAutoCommands
     autocmd!
     " source .vimrc when saved
-    autocmd bufwritepost .vimrc source $MYVIMRC
+    if has("gui_win32")
+        autocmd bufwritepost _vimrc source $MYVIMRC
+    else
+        autocmd bufwritepost .vimrc source $MYVIMRC
+    endif
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
@@ -275,5 +279,10 @@ function! QuickfixFilenames()
     return join(values(buffer_numbers))
 endfunction
 
-cd ~/work
+if has("gui_win32")
+    cd d:\work
+else
+    cd ~/work
+endif
+
 
