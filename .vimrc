@@ -201,22 +201,23 @@ nnoremap <leader>d :Gvdiff<cr>
 nnoremap <leader>S :so %<cr>
 "}}}
 " {{{ copy/paste
-map Y y$
-
 "system clipboard classic style
 vmap <C-c> "+y
 vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p
 imap <C-v> <C-r><C-o>+
-noremap <C-S> :update<CR>
-vnoremap <C-S> <C-C>:update<CR>
-inoremap <C-S> <C-O>:update<CR>
+noremap <C-s> :update<CR>
+vnoremap <C-s> <C-C>:update<CR>
+inoremap <C-s> <C-O>:update<CR>
 "}}}
 "{{{ windows handling
 map <space> <c-w>
 nmap <space>9 91<C-w>\|
 nmap <space>n :vnew<cr>
 nmap <space>w <c-w>v
+" lazy scrolling with right hand..
+nnoremap <space><space>j <c-f>
+nnoremap <space><space>k <c-b>
 "}}}
 "}}}
 
