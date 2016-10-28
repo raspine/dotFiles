@@ -81,11 +81,9 @@ Plugin 'mileszs/ack.vim'
 " Plugin 'Valloric/YouCompleteMe.git'
 " Plugin 'scrooloose/syntastic.git'
 " Plugin 'szw/vim-ctrlspace'
-" Plugin 'szw/vim-g'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
-" Plugin 'blindFS/vim-taskwarrior.git'
 Plugin 'tpope/vim-characterize.git'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-fugitive'
@@ -104,6 +102,7 @@ Plugin 'xuhdev/SingleCompile.git'
 Plugin 'AndrewRadev/sideways.vim'
 " Plugin 'raspine/vim-benD'
 Plugin 'ryanss/vim-hackernews'
+Plugin 'majutsushi/tagbar'
 
 " color themes
 Plugin 'raspine/Zenburn'
@@ -130,6 +129,27 @@ filetype plugin indent on     " required
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
 "}}}
+"{{{ syntastic
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+
+" let g:syntastic_always_populate_loc_list=1
+" let g:syntastic_auto_loc_list=1
+" let g:syntastic_check_on_open=1
+" let g:syntastic_check_on_wq=0
+" let g:syntastic_cpp_checkers=['clang_check']
+" let g:syntastic_cpp_compiler='clang++'
+" let g:syntastic_cpp_compiler_options=' -std=c++11 -stdlib=libc++'
+" let g:syntastic_cpp_check_header=1
+" let g:syntastic_debug=1
+"}}}
+"{{{ airline
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+"}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsListSnippets='<c-z>'
@@ -143,12 +163,9 @@ nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 "}}}
 "{{{ airline
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
+"{{{ tagbar
+nmap <F2> :TagbarToggle<cr>
 "}}}
-
 "}}}
 
 "{{{ key mappings
@@ -185,7 +202,7 @@ nnoremap <leader>w :update<cr>
 " quickly open ack
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
 " open multiple ctags selection
-nnoremap <leader>f g<C-]>
+nnoremap <leader>f :find 
 " reselect pasted text
 nnoremap <leader>v V`]
 " config files
@@ -210,6 +227,7 @@ nnoremap <leader>d :Gvdiff<cr>
 nnoremap <leader>S :so %<cr>
 "}}}
 " {{{ copy/paste
+map Y y$
 "system clipboard classic style
 vmap <C-c> "+y
 vmap <C-x> "+c
@@ -223,11 +241,7 @@ inoremap <C-s> <C-O>:update<CR>
 map <space> <c-w>
 nmap <space>9 91<C-w>\|
 nmap <space>n :vnew<cr>
-nmap <space>w <c-w>v
-" lazy scrolling with right hand..
-nnoremap <space><space>j <c-f>
-nnoremap <space><space>k <c-b>
-"}}}
+
 "}}}
 
 "{{{ auto commands
@@ -243,6 +257,7 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    autocmd FileType c,cpp,java,php autocmd BufWritePre <buffer> %s/\s\+$//e
 augroup END
 "}}}
 
