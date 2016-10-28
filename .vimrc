@@ -78,13 +78,14 @@ Plugin 'VundleVim/Vundle.vim'
 "
 " original repos on github
 Plugin 'mileszs/ack.vim'
-Plugin 'Valloric/YouCompleteMe.git'
-Plugin 'szw/vim-ctrlspace'
-Plugin 'szw/vim-g'
+" Plugin 'Valloric/YouCompleteMe.git'
+" Plugin 'scrooloose/syntastic.git'
+" Plugin 'szw/vim-ctrlspace'
+" Plugin 'szw/vim-g'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
-Plugin 'blindFS/vim-taskwarrior.git'
+" Plugin 'blindFS/vim-taskwarrior.git'
 Plugin 'tpope/vim-characterize.git'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-fugitive'
@@ -99,9 +100,10 @@ Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/SingleCompile.git'
-Plugin 'sickill/vim-pasta'
+" Plugin 'sickill/vim-pasta'
 Plugin 'AndrewRadev/sideways.vim'
-Plugin 'raspine/vim-benD'
+" Plugin 'raspine/vim-benD'
+Plugin 'ryanss/vim-hackernews'
 
 " color themes
 Plugin 'raspine/Zenburn'
@@ -122,15 +124,11 @@ filetype plugin indent on     " required
 " ./install.sh --clang-completer --system-libclang
 " ..oh and make sure to add the .ycm_extra_conf.py as specified below
 "
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_confirm_extra_conf = 0
-"let g:ycm_key_invoke_completion = '<C-z>'
-let g:EclimCompletionMethod = 'omnifunc'
+" let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
+" let g:ycm_confirm_extra_conf = 0
+" "let g:ycm_key_invoke_completion = '<C-z>'
+" let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
-"}}}
-"{{{ task warrior
-" directory to store log files defaults to taskwarrior data.location
-let g:task_log_directory   = '~/Dropbox/.task'
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -140,13 +138,17 @@ let g:UltiSnipsJumpForwardTrigger='<c-j>'
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 let g:UltiSnipsEditSplit='vertical'
 "}}}
-"{{{ vim-g
-vmap s :Google<cr>
-"}}}
 "sideways"{{{
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 "}}}
+"{{{ airline
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
+"}}}
+
 "}}}
 
 "{{{ key mappings
@@ -157,6 +159,7 @@ nnoremap <silent> <Plug>JoinWithoutSpace $J"_x
 \:call repeat#set("\<Plug>JoinWithoutSpace")<CR>
 nmap gJ <Plug>JoinWithoutSpace
 
+nnoremap gb :ls<cr>:b<Space>
 nnoremap gr :reg<CR>
 vnoremap <tab> %
 map H ^
@@ -171,6 +174,12 @@ map! <C-F> <Esc>gUiw`]a
 let mapleader = "\\"
 
 map <leader>j %
+
+nnoremap <leader>bv :vert sfind <space>
+nnoremap <leader>bs :sfind <space>
+nnoremap <leader>bf :find <space>
+nnoremap <leader>bd  :ls<cr>:bd<Space>
+nnoremap <leader>t  :tabs<cr>:tabn<Space>
 
 nnoremap <leader>w :update<cr>
 " quickly open ack
@@ -242,8 +251,8 @@ if has("gui_running")
   " colorscheme hybrid_material
   colorscheme solarized
   set background=light
-  if has("gui_gtk2")
-    set guifont=Monospace\ 9
+  if has("gui_gtk3")
+    set guifont=Monospace\ 10
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
