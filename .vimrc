@@ -304,6 +304,7 @@ endfun
 "}}}
 
 "{{{ scripts
+"{{{ LoadWorkspace
 function! LoadWorkspace()
     let lpath = &path
     let root = reverse(split(getcwd(), '/'))[0]
@@ -315,7 +316,7 @@ function! LoadWorkspace()
         set ft=cpp
     endif
 endfunction
-
+"}}}
 "{{{ Wipeout
 function! Wipeout()
   " list of *all* buffer numbers
