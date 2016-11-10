@@ -196,7 +196,7 @@ map <leader>j %
 nnoremap <leader>bv :vert sfind <space>
 nnoremap <leader>bs :sfind <space>
 nnoremap <leader>bf :find <space>
-nnoremap <leader>bd  :ls<cr>:bd<Space>
+nnoremap <leader>bd  :ls<cr>:bd %<cr>
 nnoremap <leader>t  :tabs<cr>:tabn<Space>
 
 nnoremap <leader>w :update<cr>
@@ -300,7 +300,11 @@ function! LoadWorkspace()
     let lpath = &path
     let root = reverse(split(getcwd(), '/'))[0]
     if finddir('submodules', -1)=='submodules'
-        let &path=&path . "," . "~/work/" . root . "/submodules/commmon/**"
+        let &path=&path . "," . getcwd() . "/submodules/**"
+        edit src/flytta2dab_app.hpp
+        set ft=cpp
+        vsplit src/flytta2dab_app.cpp
+        set ft=cpp
     endif
 endfunction
 
