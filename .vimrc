@@ -104,6 +104,7 @@ Plugin 'xuhdev/SingleCompile.git'
 Plugin 'AndrewRadev/sideways.vim'
 " Plugin 'raspine/vim-benD'
 Plugin 'ryanss/vim-hackernews'
+Plugin 'vim-scripts/cd-hook.git'
 
 " color themes
 Plugin 'raspine/Zenburn'
@@ -148,7 +149,6 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 "}}}
-
 "}}}
 
 "{{{ key mappings
@@ -243,6 +243,7 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    autocmd User chdir :call LoadWorkspace()
 augroup END
 "}}}
 
@@ -277,6 +278,14 @@ function! Hardcopy()
   execute 'colorscheme' colors_save
 endfun
 "}}}
+
+function! LoadWorkspace()
+    let lpath = &path
+    let root = reverse(split(getcwd(), '/'))[0]
+    if finddir('submodules', -1)=='submodules'
+        let &path=&path . "," . "~/work/" . root . "/submodules/commmon/**"
+    endif
+endfunction
 
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
 function! QuickfixFilenames()
