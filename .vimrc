@@ -204,13 +204,13 @@ nnoremap <leader>bv :vert sfind <space>
 nnoremap <leader>bs :sfind <space>
 nnoremap <leader>bf :find <space>
 nnoremap <leader>bd  :ls<cr>:bd %<cr>
-nnoremap <leader>t  :tabs<cr>:tabn<Space>
+nnoremap <leader>t  :tabs<cr>:tabn<space>
 
 nnoremap <leader>w :update<cr>
 " quickly open ack
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
 " open multiple ctags selection
-nnoremap <leader>f :find 
+nnoremap <leader>f :find<space>
 " reselect pasted text
 nnoremap <leader>v V`]
 " config files
@@ -273,9 +273,9 @@ augroup END
 
 "{{{ colors & font
 if has("gui_running")
-  " colorscheme hybrid_material
-  colorscheme solarized
-  set background=light
+  colorscheme hybrid_material
+  " colorscheme solarized
+  " set background=light
   if has("gui_gtk3")
     set guifont=Monospace\ 10
   elseif has("gui_macvim")
