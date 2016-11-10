@@ -13,7 +13,6 @@ set showmode
 set showcmd
 set hidden
 set wildmenu
-set wildmode=list:longest
 set cursorline
 set ttyfast
 set ruler
@@ -29,6 +28,14 @@ nnoremap Q <nop>
 " disable quick quit
 map <c-z> <nop>
 set autoread
+"}}}
+
+"{{{ wild mode
+set wildmode=list:longest
+set wildignorecase
+set wildignore=*.o
+set wildignore+=**/build-*
+set wildignore+=**/*.dir*
 "}}}
 
 "{{{ searching
@@ -177,7 +184,7 @@ nnoremap <silent> <Plug>JoinWithoutSpace $J"_x
 \:call repeat#set("\<Plug>JoinWithoutSpace")<CR>
 nmap gJ <Plug>JoinWithoutSpace
 
-nnoremap gb :ls<cr>:b<Space>
+nnoremap gb :ls<cr>:
 nnoremap gr :reg<CR>
 vnoremap <tab> %
 map H ^
@@ -296,6 +303,7 @@ function! Hardcopy()
 endfun
 "}}}
 
+"{{{ scripts
 function! LoadWorkspace()
     let lpath = &path
     let root = reverse(split(getcwd(), '/'))[0]
@@ -307,6 +315,42 @@ function! LoadWorkspace()
         set ft=cpp
     endif
 endfunction
+
+"{{{ Wipeout
+function! Wipeout()
+  " list of *all* buffer numbers
+  let l:buffers = range(1, bufnr('$'))
+
+  " what tab page are we in?
+  let l:currentTab = tabpagenr()
+  try
+    " go through all tab pages
+    let l:tab = 0
+    while l:tab < tabpagenr('$')
+      let l:tab += 1
+
+      " go through all windows
+      let l:win = 0
+      while l:win < winnr('$')
+        let l:win += 1
+        " whatever buffer is in this window in this tab, remove it from
+        " l:buffers list
+        let l:thisbuf = winbufnr(l:win)
+        call remove(l:buffers, index(l:buffers, l:thisbuf))
+      endwhile
+    endwhile
+
+    " if there are any buffers left, delete them
+    if len(l:buffers)
+      execute 'bwipeout' join(l:buffers)
+    endif
+  finally
+    " go back to our original tab page
+    execute 'tabnext' l:currentTab
+  endtry
+endfunction
+"}}}
+"}}}
 
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
 function! QuickfixFilenames()
