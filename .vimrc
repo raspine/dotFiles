@@ -188,10 +188,6 @@ nmap gJ <Plug>JoinWithoutSpace
 nnoremap gb :ls<cr>:
 nnoremap gr :reg<CR>
 vnoremap <tab> %
-map H ^
-vnoremap H ^
-map L $
-vnoremap L $
 " type in small letter, convert to capital
 map! <C-F> <Esc>gUiw`]a
 "}}}
@@ -200,12 +196,14 @@ map! <C-F> <Esc>gUiw`]a
 let mapleader = "\\"
 
 map <leader>j %
+map <leader>h ^
+map <leader>l $
 
 nnoremap <leader>bv :vert sfind <space>
 nnoremap <leader>bs :sfind <space>
 nnoremap <leader>bf :find <space>
-nnoremap <leader>bd  :ls<cr>:bd %<cr>
-nnoremap <leader>t  :tabs<cr>:tabn<space>
+nnoremap <leader>bd :ls<cr>:bd %<cr>
+nnoremap <leader>t :tabs<cr>:tabn<space>
 
 nnoremap <leader>w :Wipeout<cr>
 " quickly open ack
