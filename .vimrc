@@ -274,9 +274,9 @@ augroup END
 
 "{{{ colors & font
 if has("gui_running")
-  colorscheme hybrid_material
-  " colorscheme solarized
-  " set background=light
+  " colorscheme hybrid_material
+  colorscheme solarized
+  set background=light
   if has("gui_gtk3")
     set guifont=Monospace\ 10
   elseif has("gui_macvim")
