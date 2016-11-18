@@ -306,13 +306,16 @@ endfun
 "{{{ LoadWorkspace
 function! LoadWorkspace()
     let lpath = &path
-    let root = reverse(split(getcwd(), '/'))[0]
+    let projName = reverse(split(getcwd(), '/'))[0]
     if finddir('submodules', -1)=='submodules'
         let &path=&path . "," . getcwd() . "/submodules/**"
-        edit src/flytta2dab_app.hpp
+        exec "find src/" . projName . "*.hpp"
         set ft=cpp
-        vsplit src/flytta2dab_app.cpp
+        exec "vert sfind src/" . projName . "*.cpp"
         set ft=cpp
+        "TODO: fugitive does not load unless typing :e for each file, why
+        "the below line does not help
+        " windo edit
     endif
 endfunction
 "}}}
