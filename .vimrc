@@ -88,7 +88,7 @@ Plugin 'mileszs/ack.vim'
 " Plugin 'Valloric/YouCompleteMe.git'
 " Plugin 'scrooloose/syntastic.git'
 " Plugin 'szw/vim-ctrlspace'
-Plugin 'vhdirk/vim-cmake.git'
+Plugin 'raspine/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
 Plugin 'tpope/vim-characterize.git'
@@ -170,11 +170,10 @@ let g:UltiSnipsEditSplit='vertical'
 nnoremap <c-h> :SidewaysLeft<cr>
 nnoremap <c-l> :SidewaysRight<cr>
 "}}}
-"{{{ airline
-"{{{ tagbar
-nmap <F2> :TagbarToggle<cr>
-"}}}
-"}}}
+"{{{ cmake
+let g:cmake_build_type = 'Debug'
+let g:cmake_custom_vars = '-DRUN_TESTS=On'
+""}}}
 "}}}
 
 "{{{ key mappings
@@ -202,7 +201,7 @@ map <leader>l $
 nnoremap <leader>bv :vert sfind <space>
 nnoremap <leader>bs :sfind <space>
 nnoremap <leader>bf :find <space>
-nnoremap <leader>bd :ls<cr>:bd %<cr>
+nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>t :tabs<cr>:tabn<space>
 
 nnoremap <leader>w :Wipeout<cr>
@@ -218,8 +217,16 @@ nnoremap <leader>eb <C-w><C-v><C-l>:e ~/homescripts/.bashrc<cr>
 nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
+" cmake
+nnoremap <leader>cm :CMake<cr>
+nnoremap <leader>cc :echo g:cmake_build_type g:cmake_custom_vars<cr>
+nnoremap <leader>cr :let g:cmake_build_type='Release'<cr>
+nnoremap <leader>cd :let g:cmake_build_type='Debug'<cr>
+nnoremap <leader>cn :let g:cmake_custom_vars = '-DRUN_TESTS=On'<cr>
+nnoremap <leader>cf :let g:cmake_custom_vars = '-DRUN_TESTS=Off'<cr>
+
 " open copen window
-nnoremap <leader>c :botright Copen<cr>
+nnoremap <leader>X :botright Copen<cr>
 nnoremap <leader>x :botright copen<cr>
 nnoremap <leader>z :cclose<cr>
 " quickly turn highlight off
