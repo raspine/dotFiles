@@ -284,10 +284,8 @@ if has("gui_running")
   set background=light
   if has("gui_gtk3")
     set guifont=Monospace\ 10
-  elseif has("gui_macvim")
-    set guifont=Menlo\ Regular:h14
   elseif has("gui_win32")
-    set guifont=Consolas:h11:cANSI
+    set guifont=Consolas:h10:cANSI
   else
     set guifont=Monospace\ 9
   endif
