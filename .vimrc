@@ -198,9 +198,9 @@ map <leader>j %
 map <leader>h ^
 map <leader>l $
 
-nnoremap <leader>bv :vert sfind <space>
-nnoremap <leader>bs :sfind <space>
-nnoremap <leader>bf :find <space>
+nnoremap <leader>bv :vert sfind<space>
+nnoremap <leader>bs :sfind<space>
+nnoremap <leader>bf :find<space>
 nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>t :tabs<cr>:tabn<space>
 
