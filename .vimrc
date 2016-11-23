@@ -107,13 +107,13 @@ Plugin 'xuhdev/SingleCompile.git'
 Plugin 'AndrewRadev/sideways.vim'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
+Plugin 'artnez/vim-wipeout.git'
 
 " color themes
 Plugin 'raspine/Zenburn'
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'sheerun/vim-wombat-scheme.git'
 Plugin 'kristijanhusak/vim-hybrid-material.git'
-Plugin 'artnez/vim-wipeout.git'
 call vundle#end()
 filetype plugin indent on     " required
 "}}}
