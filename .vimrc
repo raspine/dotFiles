@@ -85,12 +85,11 @@ Plugin 'VundleVim/Vundle.vim'
 "
 " original repos on github
 Plugin 'mileszs/ack.vim'
-" Plugin 'Valloric/YouCompleteMe.git'
-" Plugin 'scrooloose/syntastic.git'
-" Plugin 'szw/vim-ctrlspace'
-Plugin 'raspine/vim-cmake.git'
+Plugin 'ajh17/VimCompletesMe.git'
+Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
+Plugin 'tpope/vim-obsession.git'
 Plugin 'tpope/vim-characterize.git'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-fugitive'
@@ -105,9 +104,7 @@ Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xuhdev/SingleCompile.git'
-" Plugin 'sickill/vim-pasta'
 Plugin 'AndrewRadev/sideways.vim'
-" Plugin 'raspine/vim-benD'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 
@@ -222,8 +219,8 @@ nnoremap <leader>cm :CMake<cr>
 nnoremap <leader>cc :echo g:cmake_build_type g:cmake_custom_vars<cr>
 nnoremap <leader>cr :let g:cmake_build_type='Release'<cr>
 nnoremap <leader>cd :let g:cmake_build_type='Debug'<cr>
-nnoremap <leader>cn :let g:cmake_custom_vars = '-DRUN_TESTS=On'<cr>
-nnoremap <leader>cf :let g:cmake_custom_vars = '-DRUN_TESTS=Off'<cr>
+nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
+nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
 
 " open copen window
 nnoremap <leader>X :botright Copen<cr>
