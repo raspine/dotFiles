@@ -154,6 +154,7 @@ filetype plugin indent on     " required
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#obsession#enabled = 1
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -195,28 +196,30 @@ map <leader>j %
 map <leader>h ^
 map <leader>l $
 
+" buffer convenience
 nnoremap <leader>bv :vert sfind <space>
 nnoremap <leader>bs :sfind <space>
 nnoremap <leader>bf :find <space>
 nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
+nnoremap <leader>w :Wipeout<cr>
+
+" when using many tabs..
 nnoremap <leader>t :tabs<cr>:tabn<space>
 
-nnoremap <leader>w :Wipeout<cr>
 " quickly open ack
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
-" open multiple ctags selection
-nnoremap <leader>f :find<space>
 " reselect pasted text
 nnoremap <leader>v V`]
+
 " config files
 nnoremap <leader>ev <C-w><C-v><C-l>:e ~/homescripts/.vimrc<cr>
 nnoremap <leader>eb <C-w><C-v><C-l>:e ~/homescripts/.bashrc<cr>
 nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
+
 " cmake
 nnoremap <leader>cm :CMake<cr>
-nnoremap <leader>cc :echo g:cmake_build_type g:cmake_custom_vars<cr>
 nnoremap <leader>cr :let g:cmake_build_type='Release'<cr>
 nnoremap <leader>cd :let g:cmake_build_type='Debug'<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
@@ -225,14 +228,14 @@ nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
 " open copen window
 nnoremap <leader>X :botright Copen<cr>
 nnoremap <leader>x :botright copen<cr>
-nnoremap <leader>z :cclose<cr>
-" quickly turn highlight off
-nnoremap <leader><space> :noh<cr>
-vnoremap <leader><space> :noh<cr>
+nnoremap <leader>cc :cclose<cr>
+nnoremap <leader>cl :lclose<cr>
+
 " aid the search and replace command
 " TODO: what do \( do?
 " :nmap <leader>s :%s/\(<c-r>=expand("<cword>")<cr>\)/
 nnoremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
+nnoremap <leader>f :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
 nnoremap <leader>g :Gstatus<cr>
 nnoremap <leader>d :Gvdiff<cr>
 nnoremap <leader>S :so %<cr>
