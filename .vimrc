@@ -203,8 +203,8 @@ nnoremap <leader>bf :find<space>
 nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>w :Wipeout<cr>
 
-" when using many tabs..
-nnoremap <leader>t :tabs<cr>:tabn<space>
+" when using many tabs and tabnew..
+nnoremap <leader>t :tabs<cr>:tabn
 
 " quickly open ack
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
@@ -314,11 +314,13 @@ function! LoadWorkspace()
     let projName = reverse(split(getcwd(), '/'))[0]
     if finddir('submodules', -1)=='submodules'
         let &path=&path . "," . getcwd() . "/submodules/**"
+        let &makeprg="make\ -C\ " . getcwd() . "/build"
+
         exec "find src/" . projName . "*.hpp"
         set ft=cpp
         exec "vert sfind src/" . projName . "*.cpp"
         set ft=cpp
-        "TODO: fugitive does not load unless typing :e for each file, why
+        "TODO: fugitive does not load unless typing :e for each file, why?
         "the below line does not help
         " windo edit
     endif
