@@ -9,7 +9,6 @@ setlocal commentstring=//\ %s
 nnoremap <F9> :SCCompileAF --std=c++11 <CR>
 nnoremap <F10> :SCCompileRun<cr>
 
-
 "folding settings
 set foldmethod=syntax
 set foldnestmax=1      "deepest fold levels
