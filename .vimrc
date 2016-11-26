@@ -314,7 +314,7 @@ function! LoadWorkspace()
     let projName = reverse(split(getcwd(), '/'))[0]
     if finddir('submodules', -1)=='submodules'
         let &path=&path . "," . getcwd() . "/submodules/**"
-        let &makeprg="make\ -C\ " . getcwd() . "/build"
+        let &makeprg="cmake --build 'build' --target"
 
         exec "find src/" . projName . "*.hpp"
         set ft=cpp
