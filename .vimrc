@@ -155,6 +155,7 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
+let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -312,17 +313,29 @@ endfun
 "{{{ LoadWorkspace
 function! LoadWorkspace()
 
+    " configure makeprg
     if filereadable("CMakeLists.txt")
         let &makeprg="cmake --build 'build' --target"
     elseif filereadable("configure.ac")
         let &makeprg="make"
     endif
 
-    "TODO: check if path already contains submodules
+    " reset to vim's standard path setting..
+    let &path=".,/usr/include/,,"
+
+    " .. and add our custom ones
     "TODO: use .git to check for submodules path
     if finddir('submodules', -1)=='submodules'
         let &path=&path . "," . getcwd() . "/submodules/**"
     endif
+
+    " turn off obsession
+    if ObsessionStatus() == '[$]'
+        exec "Obsession"
+    endif
+
+    " delete all buffers
+    exec "bufdo bd"
 
     " the projName is assumed to be the name of the root directory
     let l:projName = reverse(split(getcwd(), '/'))[0]
@@ -340,11 +353,11 @@ endfunction
 "}}}
 "{{{ Test
 function! Test()
-    let l:projName = reverse(split(getcwd(), '/'))[0]
-    let l:appFiles = glob("`find ./src -name *'".projName."'* -print`")
-    if len(appFiles) > 0
-        echo appFiles
-    endif
+    " let l:projName = reverse(split(getcwd(), '/'))[0]
+    " let l:appFiles = glob("`find ./src -name *'".projName."'* -print`")
+    " if len(appFiles) > 0
+    "     echo appFiles
+    " endif
 endfunction
 "}}}
 "{{{ Git search TODO:
