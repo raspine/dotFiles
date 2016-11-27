@@ -218,7 +218,8 @@ nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 
-" cmake
+" development
+nnoremap <leader>cs :call LoadWorkspace()<cr>
 nnoremap <leader>cm :CMake<cr>
 nnoremap <leader>cr :let g:cmake_build_type='Release'<cr>
 nnoremap <leader>cd :let g:cmake_build_type='Debug'<cr>
@@ -310,24 +311,43 @@ endfun
 "{{{ scripts
 "{{{ LoadWorkspace
 function! LoadWorkspace()
-    let lpath = &path
-    let projName = reverse(split(getcwd(), '/'))[0]
+
+    if filereadable("CMakeLists.txt")
+        let &makeprg="cmake --build 'build' --target"
+    elseif filereadable("configure.ac")
+        let &makeprg="make"
+    endif
+
+    "TODO: check if path already contains submodules
+    "TODO: use .git to check for submodules path
     if finddir('submodules', -1)=='submodules'
         let &path=&path . "," . getcwd() . "/submodules/**"
-        let &makeprg="cmake --build 'build' --target"
+    endif
 
-        exec "find src/" . projName . "*.hpp"
-        set ft=cpp
-        exec "vert sfind src/" . projName . "*.cpp"
-        set ft=cpp
-        "TODO: fugitive does not load unless typing :e for each file, why?
-        "the below line does not help
-        " windo edit
+    " the projName is assumed to be the name of the root directory
+    let l:projName = reverse(split(getcwd(), '/'))[0]
+
+    " open any files that contains projName
+    exec "silent! find src/*" . projName . "*.hpp"
+    set ft=cpp
+    exec "silent! vert sfind src/*" . projName . "*.cpp"
+    set ft=cpp
+    "TODO: fugitive does not load unless typing :e for each file, why?
+    "the below line does not help
+    " windo edit
+
+endfunction
+"}}}
+"{{{ Test
+function! Test()
+    let l:projName = reverse(split(getcwd(), '/'))[0]
+    let l:appFiles = glob("`find ./src -name *'".projName."'* -print`")
+    if len(appFiles) > 0
+        echo appFiles
     endif
 endfunction
 "}}}
-"}}}
-
+"{{{ Git search TODO:
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
 function! QuickfixFilenames()
     " Building a hash ensures we get each buffer only once
@@ -337,6 +357,8 @@ function! QuickfixFilenames()
     endfor
     return join(values(buffer_numbers))
 endfunction
+"}}}
+"}}}
 
 if has("gui_win32")
     cd d:\work
