@@ -341,25 +341,30 @@ function! LoadWorkspace()
         let &path=&path . "," . getcwd() . "/submodules/**"
     endif
 
-    " turn off obsession
-    if ObsessionStatus() == '[$]'
-        exec "Obsession"
-    endif
-
-    " delete all buffers
-    exec "bufdo bd"
-
     " the projName is assumed to be the name of the root directory
     let l:projName = reverse(split(getcwd(), '/'))[0]
 
-    " open any files that contains projName
-    exec "silent! find src/*" . projName . "*.hpp"
-    set ft=cpp
-    exec "silent! vert sfind src/*" . projName . "*.cpp"
-    set ft=cpp
-    "TODO: fugitive does not load unless typing :e for each file, why?
-    "the below line does not help
-    " windo edit
+    " only reset workspace if we find suitable workspace files to open
+    let l:appFiles = glob("`find ./src -name *'".projName."'* -print`")
+    if len(appFiles) > 0
+        " echo appFiles
+        " turn off obsession
+        if ObsessionStatus() == '[$]'
+            exec "Obsession"
+        endif
+
+        " delete all buffers
+        exec "bufdo bd"
+
+        " open any files that contains projName
+        exec "silent! find src/*" . projName . "*.hpp"
+        set ft=cpp
+        exec "silent! vert sfind src/*" . projName . "*.cpp"
+        set ft=cpp
+        "TODO: fugitive does not load unless typing :e for each file, why?
+        "the below line does not help
+        " windo edit
+    endif
 
 endfunction
 "}}}
