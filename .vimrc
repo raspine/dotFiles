@@ -330,7 +330,10 @@ function! LoadWorkspace()
     endif
 
     " reset to vim's standard path setting..
-    let &path=".,/usr/include/,,"
+    let &path=".,"
+    if !has("gui_win32")
+        let &path=".,/usr/include/,,"
+    endif
     " .. and add our custom ones
     let &path=&path . "," . getcwd() . "/include/**"
     let &path=&path . "," . getcwd() . "/src/**"
@@ -345,10 +348,9 @@ function! LoadWorkspace()
     let l:projName = reverse(split(getcwd(), '/'))[0]
 
     " only reset workspace if we find suitable workspace files to open
-    " TODO: probably does not work on Windows
+    " TODO: next line probably does'nt work on Windows
     let l:appFiles = glob("`find ./src -maxdepth 1 -name *'".projName."'* -print`")
     if len(appFiles) > 0
-        echo appFiles
         " turn off obsession
         if ObsessionStatus() == '[$]'
             exec "Obsession"
@@ -357,14 +359,13 @@ function! LoadWorkspace()
         " delete all buffers
         exec "bufdo bd"
 
-        " open any files that contains projName
-        exec "silent! find src/*" . projName . "*.hpp"
-        set ft=cpp
-        exec "silent! vert sfind src/*" . projName . "*.cpp"
-        set ft=cpp
-        "TODO: fugitive does not load unless typing :e for each file, why?
-        "the below line does not help
-        " windo edit
+        " open the files that contains projName
+        exec "find src/*" . projName . "*.hpp"
+        exec "vert sfind src/*" . projName . "*.cpp"
+
+        " other necessities
+        windo set ft=cpp
+        call fugitive#detect(getcwd())
     endif
 
 endfunction
