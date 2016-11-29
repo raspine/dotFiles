@@ -345,9 +345,10 @@ function! LoadWorkspace()
     let l:projName = reverse(split(getcwd(), '/'))[0]
 
     " only reset workspace if we find suitable workspace files to open
-    let l:appFiles = glob("`find ./src -name *'".projName."'* -print`")
+    " TODO: probably does not work on Windows
+    let l:appFiles = glob("`find ./src -maxdepth 1 -name *'".projName."'* -print`")
     if len(appFiles) > 0
-        " echo appFiles
+        echo appFiles
         " turn off obsession
         if ObsessionStatus() == '[$]'
             exec "Obsession"
