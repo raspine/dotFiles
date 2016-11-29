@@ -246,11 +246,8 @@ nnoremap <leader>S :so %<cr>
 map Y y$
 nmap <C-p> "0p
 " use dl and dh instead of standard 'x'/'X' and use
-" x as a blackhole version of d
-nnoremap xx "_dd
-nmap x "_d
-nmap X "_D
-vmap x "_d
+" x to refer to the blackhole register
+nmap x "_
 "system clipboard classic style
 vmap <C-c> "+y
 vmap <C-x> "+c
