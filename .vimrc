@@ -184,10 +184,9 @@ nnoremap <silent> <Plug>JoinWithoutSpace $J"_x
 nmap gJ <Plug>JoinWithoutSpace
 
 nnoremap gb :ls<cr>:
-nnoremap gr :reg<CR>
 vnoremap <tab> %
 " type in small letter, convert to capital
-map! <C-F> <Esc>gUiw`]a
+imap <C-F> <Esc>gUiw`]a
 "}}}
 "{{{ mapleader
 " quick save
@@ -203,6 +202,9 @@ nnoremap <leader>bs :sfind<space>
 nnoremap <leader>bf :find<space>
 nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>w :Wipeout<cr>
+
+" paste text from register in command mode
+nnoremap <leader>r :reg<CR>:put<space>
 
 " when using many tabs and tabnew..
 nnoremap <leader>t :tabs<cr>:tabn
@@ -244,10 +246,13 @@ nnoremap <leader>S :so %<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
-nmap <C-p> "0p
-" use dl and dh instead of standard 'x'/'X' and use
-" x to refer to the blackhole register
-nmap x "_
+nmap <c-p> "0p
+" nnoremap <silent> <Plug>VisualBlackHolePaste $"_dP
+"             \:call repeat#set("\<Plug>VisualBlackHolePaste")<CR>
+" xmap p <Plug>VisualBlackHolePaste
+
+xnoremap p "_dP
+
 "system clipboard classic style
 vmap <C-c> "+y
 vmap <C-x> "+c
