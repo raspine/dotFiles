@@ -13,6 +13,8 @@ set showmode
 set showcmd
 set hidden
 set wildmenu
+set showmatch
+set gdefault
 set cursorline
 set ttyfast
 set ruler
@@ -44,10 +46,8 @@ nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
-set gdefault
 set incsearch
-set showmatch
-set hlsearch
+" set hlsearch
 "}}}
 
 "{{{ line wrapping
@@ -155,7 +155,7 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
-let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
+" let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -244,6 +244,13 @@ nnoremap <leader>S :so %<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
+nmap <C-p> "0p
+" use dl and dh instead of standard 'x'/'X' and use
+" x as a blackhole version of d
+nnoremap xx "_dd
+nmap x "_d
+nmap X "_D
+vmap x "_d
 "system clipboard classic style
 vmap <C-c> "+y
 vmap <C-x> "+c
@@ -358,6 +365,14 @@ function! Test()
     " if len(appFiles) > 0
     "     echo appFiles
     " endif
+    let cmcache = readfile("build/CMakeCache.txt")
+    for line in cmcache
+        if line =~ "CMAKE_BUILD_TYPE"
+            let buildType = reverse(split(line, '='))[0]
+            echo buildType
+            break
+        endif
+    endfor
 endfunction
 "}}}
 "{{{ Git search TODO:
