@@ -322,8 +322,11 @@ function! LoadWorkspace()
 
     " reset to vim's standard path setting..
     let &path=".,/usr/include/,,"
-
     " .. and add our custom ones
+    let &path=&path . "," . getcwd() . "/include/**"
+    let &path=&path . "," . getcwd() . "/src/**"
+    let &path=&path . "," . getcwd() . "/test/**"
+
     "TODO: use .git to check for submodules path
     if finddir('submodules', -1)=='submodules'
         let &path=&path . "," . getcwd() . "/submodules/**"
