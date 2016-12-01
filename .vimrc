@@ -152,10 +152,20 @@ filetype plugin indent on     " required
 "{{{ airline
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#displayed_head_limit = 20
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
 " let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
+" let g:airline_section_b = airline#section#create(['%{branch}              ', '%{CMakeStat()}'])
+" let g:airline_section_c = airline#section#create(['%{CMakeStat()} ', '%t'])
+  function! AirlineInit()
+    let g:airline_section_a = airline#section#create(['branch'])
+    let g:airline_section_b = airline#section#create_left(['%{CMakeStat()}'])
+    let g:airline_section_c = airline#section#create(['%{getcwd()}'])
+  endfunction
+  autocmd User AirlineAfterInit call AirlineInit()
+
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -292,7 +302,7 @@ augroup END
 if has("gui_running")
   " colorscheme hybrid_material
   colorscheme solarized
-  set background=light
+  set background=dark
   if has("gui_gtk3")
     set guifont=Monospace\ 10
   elseif has("gui_win32")
@@ -370,21 +380,28 @@ function! LoadWorkspace()
 
 endfunction
 "}}}
-"{{{ Test
-function! Test()
-    " let l:projName = reverse(split(getcwd(), '/'))[0]
-    " let l:appFiles = glob("`find ./src -name *'".projName."'* -print`")
-    " if len(appFiles) > 0
-    "     echo appFiles
-    " endif
-    let cmcache = readfile("build/CMakeCache.txt")
-    for line in cmcache
-        if line =~ "CMAKE_BUILD_TYPE"
-            let buildType = reverse(split(line, '='))[0]
-            echo buildType
-            break
-        endif
-    endfor
+"{{{ CMakeStat
+function! CMakeStat()
+  let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
+  let l:build_dir = finddir(l:cmake_build_dir, '.;')
+
+  let l:retstr = ""
+  if l:build_dir != ""
+      echo build_dir
+      if filereadable(build_dir . '/CMakeCache.txt')
+          let cmcache = readfile(build_dir . '/CMakeCache.txt')
+          for line in cmcache
+              if line =~ "CMAKE_BUILD_TYPE"
+                  let value = reverse(split(line, '='))[0]
+                  let retstr = retstr . value . " "
+              elseif line =~ "RUN_TESTS"
+                  let value = reverse(split(line, '='))[0]
+                  let retstr = retstr . "T" . value . " "
+              endif
+          endfor
+      endif
+  endif
+  return retstr
 endfunction
 "}}}
 "{{{ Git search TODO:
@@ -405,5 +422,4 @@ if has("gui_win32")
 else
     cd ~/work
 endif
-
 
