@@ -387,7 +387,6 @@ function! CMakeStat()
 
   let l:retstr = ""
   if l:build_dir != ""
-      echo build_dir
       if filereadable(build_dir . '/CMakeCache.txt')
           let cmcache = readfile(build_dir . '/CMakeCache.txt')
           for line in cmcache
