@@ -180,7 +180,7 @@ let g:cmake_custom_vars = '-DRUN_TESTS=On'
 cmap w!! w !sudo tee >/dev/null %
 " join lines and remove the space
 nnoremap <silent> <Plug>JoinWithoutSpace $J"_x
-\:call repeat#set("\<Plug>JoinWithoutSpace")<CR>
+            \:call repeat#set("\<Plug>JoinWithoutSpace")<CR>
 nmap gJ <Plug>JoinWithoutSpace
 
 nnoremap gb :ls<cr>:
@@ -246,18 +246,23 @@ nnoremap <leader>S :so %<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
-nmap <c-p> "0p
-" nnoremap <silent> <Plug>VisualBlackHolePaste $"_dP
-"             \:call repeat#set("\<Plug>VisualBlackHolePaste")<CR>
-" xmap p <Plug>VisualBlackHolePaste
+" repeatable 'stamping' use equivalent cc instead of S
+nnoremap <silent> <Plug>Stamp diw"0P 
+            \:call repeat#set("\<Plug>Stamp")<CR>
+nmap S <Plug>Stamp
 
-xnoremap p "_dP
+" turns 'x' into a blackhole delete operator, use dl/dh instead of 'x'/'X'
+" implictly also turns xl/xh to black hole versions of 'x'/'X'
+nnoremap xx "_dd
+nnoremap x "_d
+nnoremap X "_D
+vnoremap x "_d
 
 "system clipboard classic style
 vmap <C-c> "+y
 vmap <C-x> "+c
-vmap <C-v> c<ESC>"+p
-imap <C-v> <C-r><C-o>+
+vmap <C-v> c<ESC>"+p=']
+imap <C-v> <C-o>"+P<C-o>=']
 noremap <C-s> :update<CR>
 vnoremap <C-s> <C-C>:update<CR>
 inoremap <C-s> <C-O>:update<CR>
