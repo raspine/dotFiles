@@ -336,21 +336,20 @@ augroup END
 
 "{{{ colors & font
 if has("gui_running")
-  " colorscheme hybrid_material
-  colorscheme solarized
-  set background=dark
-  set guifont=DejaVu\ Sans:s12
-  if has("gui_gtk3")
-    set guifont=Monospace\ 10
-  elseif has("gui_win32")
-    set guifont=Consolas:h10:cANSI
-  else
-    set guifont=Monospace\ 9
-  endif
+    " colorscheme hybrid_material
+    colorscheme solarized
+    set background=light
+    if has("gui_gtk3") || has("gui_gtk2")
+        set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+    elseif has("gui_win32")
+        set guifont=Consolas:h10:cANSI
+    else
+        set guifont=Monospace\ 9
+    endif
 else
-  colorscheme solarized
-  set background=light
-  colorscheme zenburn
+    colorscheme solarized
+    set background=light
+    colorscheme zenburn
 endif
 "}}}
 
