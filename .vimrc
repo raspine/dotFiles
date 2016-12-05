@@ -341,7 +341,7 @@ augroup END
 if has("gui_running")
     " colorscheme hybrid_material
     colorscheme solarized
-    set background=light
+    set background=dark
     if has("gui_gtk3") || has("gui_gtk2")
         set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
     elseif has("gui_win32")
@@ -366,6 +366,105 @@ endfun
 "}}}
 
 "{{{ scripts
+function! s:ExtractInner(str, left_delim, right_delim)
+    let astr = " " . a:str . " "
+    let inner = split(astr, a:left_delim)[1]
+    let inner = split(inner, a:right_delim)[0]
+    let inner = substitute(inner, '^\s*\(.\{-}\)\s*$', '\1', '')
+    return inner
+endfunction
+
+function! FindCMakeExeName()
+    let l:found_var = 0
+    let l:var_name = ""
+    let l:app_name = ""
+        
+    " look for CMakeLists.txt in current dir
+    let l:curr_cmake = expand("%:h") . '/CMakeLists.txt'
+    if filereadable(curr_cmake)
+        let cm_list = readfile(curr_cmake)
+        for line in cm_list
+            " look for the project name
+            if line =~ "add_executable\\_s*("
+                let var_name = <SID>ExtractInner(line, "(", " ")
+                if var_name =~ "${\\_s*project_name\\_s*}"
+                    for proj_line in cm_list
+                        if proj_line =~ "project\\_s*("
+                            let var_name = <SID>ExtractInner(proj_line, "(", ")")
+                            if var_name =~ "${"
+                                let app_name = var_name
+                                let var_name = <SID>ExtractInner(var_name, "{", "}")
+                                let found_var = 1
+                            else
+                                return var_name
+                            endif
+                            break
+                        else
+                            return ""
+                        endif
+                    endfor
+                elseif var_name =~ "${"
+                    let app_name = var_name
+                    let var_name = <SID>ExtractInner(var_name, "{", "}")
+                    let found_var = 1
+                else
+                    return var_name
+                endif
+            else
+                return ""
+            endif
+        endfor
+        if found_var == 0
+            return ""
+        endif
+    endif
+    
+    " we couldn't conclude the app name in the local CMakeLists.txt
+    " let's look in the root CMakeLists.txt, lurking above our build dir
+    let main_app_found = 0
+    let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
+    let l:build_dir = finddir(l:cmake_build_dir, '.;')
+    if filereadable(build_dir . '/../CMakeLists.txt')
+        let cm_list = readfile(build_dir . '/../CMakeLists.txt')
+        for line in cm_list
+            if found_var == 0
+            " look for the project name in case there was no local CMakeLists.txt
+                if line =~ "project\\_s*("
+                    let main_app_name = <SID>ExtractInner(line, "(", ")")
+                    " check if a cmake variable is used, if so make new loop and
+                    " find the variable
+                    if main_app_name =~ "${"
+                        let main_app_name = <SID>ExtractInner(main_app_name, "{", "}")
+                        for app_line in cm_list
+                            if app_line =~ main_app_name
+                                let main_app_name = <SID>ExtractInner(app_line, main_app_name, ")")
+                                return main_app_name
+                            endif
+                        endfor
+                    else
+                        return main_app_name
+                    endif
+                else
+                    return ""
+                endif
+            else
+                if line =~ "set\\_s*(\\_s*" . var_name
+                    let main_app_name = <SID>ExtractInner(line, var_name, ")")
+                    let main_app_found = 1
+                endif
+            " look for a set method case there was a local CMakeLists.txt
+
+            endif
+        endfor
+        if main_app_found == 0
+            return ""
+        endif
+
+        " substitute....
+    else
+        return ""
+    endif
+endfunction
 "{{{ LoadWorkspace
 function! LoadWorkspace()
 
