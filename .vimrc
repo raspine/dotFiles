@@ -156,46 +156,45 @@ let g:airline#extensions#branch#displayed_head_limit = 20
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
-let g:airline_powerline_fonts = 1
 " air-line
-let g:airline_powerline_fonts = 1
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
+if has("gui_gtk3") || has("gui_gtk2")
+    let g:airline_powerline_fonts = 1
+else
+    let g:airline_powerline_fonts = 0
 endif
 
-" unicode symbols
-let g:airline_left_sep = '»'
-let g:airline_left_sep = '▶'
-let g:airline_right_sep = '«'
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '␊'
-let g:airline_symbols.linenr = '␤'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.paste = 'Þ'
-let g:airline_symbols.paste = '∥'
-let g:airline_symbols.whitespace = 'Ξ'
+" if !exists('g:airline_symbols')
+"     let g:airline_symbols = {}
+" endif
 
-" airline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+" " unicode symbols
+" let g:airline_left_sep = '»'
+" let g:airline_left_sep = '▶'
+" let g:airline_right_sep = '«'
+" let g:airline_right_sep = '◀'
+" let g:airline_symbols.linenr = '␊'
+" let g:airline_symbols.linenr = '␤'
+" let g:airline_symbols.linenr = '¶'
+" let g:airline_symbols.branch = '⎇'
+" let g:airline_symbols.paste = 'ρ'
+" let g:airline_symbols.paste = 'Þ'
+" let g:airline_symbols.paste = '∥'
+" let g:airline_symbols.whitespace = 'Ξ'
 
+" " airline symbols
+" let g:airline_left_sep = ''
+" let g:airline_left_alt_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_right_alt_sep = ''
+" let g:airline_symbols.branch = ''
+" let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
 
-" let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
-" let g:airline_section_b = airline#section#create(['%{branch}              ', '%{CMakeStat()}'])
-" let g:airline_section_c = airline#section#create(['%{CMakeStat()} ', '%t'])
-  function! AirlineInit()
+function! AirlineInit()
     let g:airline_section_a = airline#section#create(['branch'])
     let g:airline_section_b = airline#section#create_left(['%{CMakeStat()}'])
-  endfunction
-  autocmd User AirlineAfterInit call AirlineInit()
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
 
 "}}}
 "{{{ Ultisnips
@@ -265,8 +264,8 @@ nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 " development
 nnoremap <leader>cs :call LoadWorkspace()<cr>
 nnoremap <leader>cm :CMake<cr>
-nnoremap <leader>cr :let g:cmake_build_type='Release'<cr>
-nnoremap <leader>cd :let g:cmake_build_type='Debug'<cr>
+nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
+nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
 
