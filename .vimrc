@@ -108,9 +108,9 @@ Plugin 'AndrewRadev/sideways.vim'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
+Plugin 'raspine/vim-testdog.git'
 
 " color themes
-Plugin 'raspine/Zenburn'
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'sheerun/vim-wombat-scheme.git'
 Plugin 'kristijanhusak/vim-hybrid-material.git'
@@ -269,6 +269,9 @@ nnoremap <leader>cr :let g:cmake_build_type='Release'<cr>
 nnoremap <leader>cd :let g:cmake_build_type='Debug'<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
+nnoremap <leader>uu :call TestDog("", "", "_test")<cr>
+nnoremap <leader>ug :call TestDog("gdb --args", "", "_test")<cr>
+nnoremap <leader>uv :call TestDog("valgrind", "", "_test")<cr>
 
 " open copen window
 nnoremap <leader>X :botright Copen<cr>
@@ -347,9 +350,7 @@ if has("gui_running")
         set guifont=Monospace\ 9
     endif
 else
-    colorscheme solarized
-    set background=light
-    colorscheme zenburn
+    colorscheme desert
 endif
 "}}}
 
@@ -438,86 +439,6 @@ function! CMakeStat()
   endif
   " return retstr
   return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
-endfunction
-"}}}
-"{{{ UnitTestLine
-" TODO: Is there a Vim function for this?
-function! ExtractInner(str, leftDelim, rightDelim)
-    let astr = " " . a:str . " "
-    let inner = split(astr, a:leftDelim)[1]
-    let inner = split(inner, a:rightDelim)[0]
-    let inner = substitute(inner, '^\s*\(.\{-}\)\s*$', '\1', '')
-    return inner
-endfunction
-
-function! TestDog(exeprefix, appprefix, apppostfix)
-    " find the app name...
-    " find the CMake build dir, our main CMakeLists.txt should be lurking just above
-    let l:found = 0
-    let l:appname = ""
-    let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
-    let l:build_dir = finddir(l:cmake_build_dir, '.;')
-    if filereadable(build_dir . '/../CMakeLists.txt')
-        let cmlists = readfile(build_dir . '/../CMakeLists.txt')
-        for line in cmlists
-            " look for the project name
-            if line =~ "project("
-                let appname = ExtractInner(line, "(", ")")
-                " check if a cmake variable is used, if so make new loop and
-                " find the variable
-                if appname =~ "${"
-                    let appname = ExtractInner(appname, "{", "}")
-                    for appline in cmlists
-                        if appline =~ appname
-                            let appname = ExtractInner(appline, appname, ")")
-                            let found = 1
-                            break
-                        endif
-                    endfor
-                 else
-                     let found = 1
-                     break
-                endif
-            endif
-        endfor
-    else
-        let l:dog_error = "Woof Woof! no scent of CMakeList.txt"
-        echo dog_error
-        return dog_error
-    endif
-
-    if found == 0
-        let l:dog_error = "Woof Woof! no scent of app name"
-        echo dog_error
-        return dog_error
-    endif
-
-    " ..appname found
-    " our line so far
-    let dog_line = a:exeprefix . " " . build_dir . "/" . a:appprefix . appname . a:apppostfix . " --run_test="
-
-    "append test suite
-    let l:curr_pos = getpos(".")
-    exec "silent! :keeppatterns /TEST_SUITE("
-    let l:new_pos = getpos(".")
-    if curr_pos == new_pos
-        let l:dog_error = "Woof Woof! no scent of test suite"
-        echo dog_error
-        return dog_error
-    endif
-    exec "normal! %%l"
-    let testsuite = expand("<cword>")
-    let dog_line = dog_line . testsuite
-    :call setpos('.', curr_pos)
-
-    "append test case
-    exec "normal! [[k%%l"
-    let testcase = expand("<cword>")
-    :call setpos('.', curr_pos)
-    let dog_line = dog_line . "/" . testcase
-
-    " finally write to clipboard
-    call setreg('+', dog_line)
 endfunction
 "}}}
 "{{{ Git search TODO:
