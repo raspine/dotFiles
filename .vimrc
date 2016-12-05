@@ -108,9 +108,9 @@ Plugin 'AndrewRadev/sideways.vim'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
+Plugin 'raspine/vim-testdog.git'
 
 " color themes
-Plugin 'raspine/Zenburn'
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'sheerun/vim-wombat-scheme.git'
 Plugin 'kristijanhusak/vim-hybrid-material.git'
@@ -268,6 +268,9 @@ nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
+nnoremap <leader>uu :call TestDog("", "", "_test")<cr>
+nnoremap <leader>ug :call TestDog("gdb --args", "", "_test")<cr>
+nnoremap <leader>uv :call TestDog("valgrind", "", "_test")<cr>
 
 " open copen window
 nnoremap <leader>X :botright Copen<cr>
@@ -346,9 +349,7 @@ if has("gui_running")
         set guifont=Monospace\ 9
     endif
 else
-    colorscheme solarized
-    set background=light
-    colorscheme zenburn
+    colorscheme desert
 endif
 "}}}
 
