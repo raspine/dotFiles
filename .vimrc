@@ -24,6 +24,7 @@ set relativenumber
 set number
 set undofile
 set guioptions-=T
+set guioptions-=M
 " disable Ex mode
 map q: <nop>
 nnoremap Q <nop>
@@ -268,9 +269,9 @@ nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
-nnoremap <leader>uu :call TestDog("", "", "_test")<cr>
-nnoremap <leader>ug :call TestDog("gdb --args", "", "_test")<cr>
-nnoremap <leader>uv :call TestDog("valgrind", "", "_test")<cr>
+nnoremap <leader>uu :call TestDogExecutable("")<cr>
+nnoremap <leader>ug :call TestDogExecutable("gdb --args")<cr>
+nnoremap <leader>uv :call TestDogExecutable("valgrind")<cr>
 
 " open copen window
 nnoremap <leader>X :botright Copen<cr>
@@ -290,7 +291,7 @@ nnoremap <leader>S :so %<cr>
 " {{{ copy/paste
 map Y y$
 " repeatable 'stamping' use equivalent cc instead of S
-nnoremap <silent> <Plug>Stamp diw"0P 
+nnoremap <silent> <Plug>Stamp diw"0P
             \:call repeat#set("\<Plug>Stamp")<CR>
 nmap S <Plug>Stamp
 
@@ -366,112 +367,6 @@ endfun
 "}}}
 
 "{{{ scripts
-function! s:ExtractInner(str, left_delim, right_delim)
-    let astr = " " . a:str . " "
-    let inner = split(astr, a:left_delim)[1]
-    let inner = split(inner, a:right_delim)[0]
-    let inner = substitute(inner, '^\s*\(.\{-}\)\s*$', '\1', '')
-    return inner
-endfunction
-
-function! FindCMakeExeName()
-    let l:found_var = 0
-    let l:var_name = ""
-    let l:app_name = ""
-        
-    echo "1"
-    " look for CMakeLists.txt in current dir
-    let l:curr_cmake = expand("%:h") . '/CMakeLists.txt'
-    if filereadable(curr_cmake)
-        let cm_list = readfile(curr_cmake)
-        for line in cm_list
-            " look for the project name
-            if line =~ "add_executable\\_s*("
-                let var_name = <SID>ExtractInner(line, "(", " ")
-                if var_name =~ "${\\_s*project_name\\_s*}"
-                    for proj_line in cm_list
-                        if proj_line =~ "project\\_s*("
-                            let var_name = <SID>ExtractInner(proj_line, "(", ")")
-                            if var_name =~ "${"
-                                let app_name = var_name
-                                let var_name = <SID>ExtractInner(var_name, "{", "}")
-                                let found_var = 1
-                            else
-                                return var_name
-                            endif
-                            break
-                        else
-                            echo "2"
-                            return ""
-                        endif
-                    endfor
-                elseif var_name =~ "${"
-                    let app_name = var_name
-                    let var_name = <SID>ExtractInner(var_name, "{", "}")
-                    let found_var = 1
-                else
-                    echo "3"
-                    return var_name
-                endif
-            else
-                return ""
-            endif
-        endfor
-        if found_var == 0
-            echo var_name
-            return ""
-        endif
-    endif
-    
-    echo var_name
-    " we couldn't conclude the app name in the local CMakeLists.txt
-    " let's look in the root CMakeLists.txt, lurking above our build dir
-    let main_app_name = ""
-    let main_app_found = 0
-    let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
-    let l:build_dir = finddir(l:cmake_build_dir, '.;')
-    if filereadable(build_dir . '/../CMakeLists.txt')
-        let cm_list = readfile(build_dir . '/../CMakeLists.txt')
-        for line in cm_list
-            if found_var == 0
-            " look for the project name in case there was no local CMakeLists.txt
-                if line =~ "project\\_s*("
-                    let main_app_name = <SID>ExtractInner(line, "(", ")")
-                    " check if a cmake variable is used, if so make new loop and
-                    " find the variable
-                    if main_app_name =~ "${"
-                        let main_app_name = <SID>ExtractInner(main_app_name, "{", "}")
-                        for app_line in cm_list
-                            if app_line =~ main_app_name
-                                let main_app_name = <SID>ExtractInner(app_line, main_app_name, ")")
-                                return main_app_name
-                            endif
-                        endfor
-                    else
-                        return main_app_name
-                    endif
-                else
-                    return ""
-                endif
-            else
-                if line =~ "set\\_s*(\\_s*" . var_name
-                    let main_app_name = <SID>ExtractInner(line, var_name, ")")
-                    let main_app_found = 1
-                endif
-            " look for a set method case there was a local CMakeLists.txt
-
-            endif
-        endfor
-        if main_app_found == 0
-            return ""
-        endif
-
-        " substitute....
-        echo main_app_name . var_name
-    else
-        return ""
-    endif
-endfunction
 "{{{ LoadWorkspace
 function! LoadWorkspace()
 
@@ -520,6 +415,8 @@ function! LoadWorkspace()
         windo set ft=cpp
         call fugitive#detect(getcwd())
     endif
+
+    call system('ctags -R --exclude=git_import')
 
 endfunction
 "}}}
