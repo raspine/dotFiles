@@ -263,7 +263,7 @@ nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 
 " development
 nnoremap <leader>cs :call LoadWorkspace()<cr>
-nnoremap <leader>cm :CMake<cr>
+nnoremap <leader>cb :CMake<cr>
 nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
@@ -306,6 +306,7 @@ vmap <C-c> "+y
 vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p=']
 imap <C-v> <C-o>"+P<C-o>=']
+cmap <C-v> <C-R>+
 noremap <C-s> :update<CR>
 vnoremap <C-s> <C-C>:update<CR>
 inoremap <C-s> <C-O>:update<CR>
@@ -377,9 +378,9 @@ function! LoadWorkspace()
 
     " reset to vim's standard path setting..
     let &path=".,"
-    if !has("gui_win32")
-        let &path=".,/usr/include/,,"
-    endif
+    " if !has("gui_win32")
+    "     let &path=".,/usr/include/,,"
+    " endif
     " .. and add our custom ones
     let &path=&path . "," . getcwd() . "/include/**"
     let &path=&path . "," . getcwd() . "/src/**"
