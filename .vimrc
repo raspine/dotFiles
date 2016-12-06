@@ -379,6 +379,7 @@ function! FindCMakeExeName()
     let l:var_name = ""
     let l:app_name = ""
         
+    echo "1"
     " look for CMakeLists.txt in current dir
     let l:curr_cmake = expand("%:h") . '/CMakeLists.txt'
     if filereadable(curr_cmake)
@@ -400,6 +401,7 @@ function! FindCMakeExeName()
                             endif
                             break
                         else
+                            echo "2"
                             return ""
                         endif
                     endfor
@@ -408,6 +410,7 @@ function! FindCMakeExeName()
                     let var_name = <SID>ExtractInner(var_name, "{", "}")
                     let found_var = 1
                 else
+                    echo "3"
                     return var_name
                 endif
             else
@@ -415,12 +418,15 @@ function! FindCMakeExeName()
             endif
         endfor
         if found_var == 0
+            echo var_name
             return ""
         endif
     endif
     
+    echo var_name
     " we couldn't conclude the app name in the local CMakeLists.txt
     " let's look in the root CMakeLists.txt, lurking above our build dir
+    let main_app_name = ""
     let main_app_found = 0
     let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
     let l:build_dir = finddir(l:cmake_build_dir, '.;')
@@ -461,6 +467,7 @@ function! FindCMakeExeName()
         endif
 
         " substitute....
+        echo main_app_name . var_name
     else
         return ""
     endif
