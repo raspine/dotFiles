@@ -245,7 +245,9 @@ nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>w :Wipeout<cr>
 
 " paste text from register in command mode
-nnoremap <leader>r :reg<CR>:put<space>
+nnoremap <leader>rr :reg<CR>:put<space>
+command! WipeReg let regs='123456789/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs 
+nnoremap <leader>rc :WipeReg<cr>
 
 " when using many tabs and tabnew..
 nnoremap <leader>t :tabs<cr>:tabn
@@ -269,9 +271,9 @@ nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
-nnoremap <leader>uu :call TestDogExecutable("")<cr>
-nnoremap <leader>ug :call TestDogExecutable("gdb --args")<cr>
-nnoremap <leader>uv :call TestDogExecutable("valgrind")<cr>
+nnoremap <leader>cu :call TestDogExecutable("")<cr>
+nnoremap <leader>cg :call TestDogExecutable("gdb --args")<cr>
+nnoremap <leader>cv :call TestDogExecutable("valgrind")<cr>
 
 " open copen window
 nnoremap <leader>X :botright Copen<cr>
