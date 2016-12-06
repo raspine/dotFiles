@@ -274,21 +274,23 @@ nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
 nnoremap <leader>cu :call TestDogExecutable("")<cr>
 nnoremap <leader>cg :call TestDogExecutable("gdb --args")<cr>
 nnoremap <leader>cv :call TestDogExecutable("valgrind")<cr>
+nnoremap <leader>ch :botright copen<cr>
+nnoremap <leader>cl :botright Copen<cr>
+nnoremap <leader>cj :cclose<cr>
 
-" open copen window
-nnoremap <leader>X :botright Copen<cr>
-nnoremap <leader>x :botright copen<cr>
-nnoremap <leader>cc :cclose<cr>
-nnoremap <leader>cl :lclose<cr>
+" local list
+nnoremap <leader>hh :lopen<cr>
+nnoremap <leader>hj :lclose<cr>
+nnoremap <leader>fh :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
+" TODO go back in command mode
+nnoremap <leader>ff :lvim // %
 
 " aid the search and replace command
 " TODO: what do \( do?
 " :nmap <leader>s :%s/\(<c-r>=expand("<cword>")<cr>\)/
 nnoremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
-nnoremap <leader>f :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
 nnoremap <leader>g :Gstatus<cr>
 nnoremap <leader>d :Gvdiff<cr>
-nnoremap <leader>S :so %<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
