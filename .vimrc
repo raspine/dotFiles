@@ -326,11 +326,16 @@ function! SmartSave()
     else
         exec "update"
     endif 
+
+    if filereadable("tags")
+        call system('ctags -a '. expand("%"))
+    endif
+
 endfunction
 
-noremap <C-s> :update<CR>
-vnoremap <C-s> <C-C>:update<CR>
-inoremap <C-s> <C-O>:update<CR>
+noremap <C-s> :call SmartSave()<CR>
+vnoremap <C-s> <C-C>:call SmartSave()<CR>
+inoremap <C-s> <C-O>:call SmartSave()<CR>
 "}}}
 "{{{ windows handling
 map <space> <c-w>
