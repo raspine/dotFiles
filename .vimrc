@@ -255,6 +255,7 @@ nnoremap <leader>t :tabs<cr>:tabn
 
 " quickly open ack
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
+
 " reselect pasted text
 nnoremap <leader>v V`]
 
@@ -283,15 +284,15 @@ nnoremap <leader>cj :cclose<cr>
 nnoremap <leader>hh :lopen<cr>
 nnoremap <leader>hj :lclose<cr>
 nnoremap <leader>fh :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
-" TODO go back in command mode
-nnoremap <leader>ff :lvim // %
+nnoremap <leader>ff :lvim // %<left><left><left>
 
 " aid the search and replace command
 " TODO: what do \( do?
 " :nmap <leader>s :%s/\(<c-r>=expand("<cword>")<cr>\)/
 nnoremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
 nnoremap <leader>g :Gstatus<cr>
-nnoremap <leader>d :Gvdiff<cr>
+nnoremap <leader>dh :Gvdiff HEAD<cr>
+nnoremap <leader>dd :Gvdiff<cr>
 
 " colors
 nnoremap <leader>ns :colorscheme solarized<cr>:set background=light<cr>
@@ -317,6 +318,16 @@ vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p=']
 imap <C-v> <C-o>"+P<C-o>=']
 cmap <C-v> <C-R>+
+"}}}
+""{{{ save
+function! SmartSave()
+    if exists(":Gwrite")
+        exec "Gwrite"
+    else
+        exec "update"
+    endif 
+endfunction
+
 noremap <C-s> :update<CR>
 vnoremap <C-s> <C-C>:update<CR>
 inoremap <C-s> <C-O>:update<CR>
