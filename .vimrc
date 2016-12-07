@@ -246,7 +246,8 @@ nnoremap <leader>w :Wipeout<cr>
 
 " paste text from register in command mode
 nnoremap <leader>rr :reg<CR>:put<space>
-command! WipeReg let regs='123456789/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs 
+" clear registers except q and w
+command! WipeReg let regs='123456789abcdefghijklmnoprstuvxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs 
 nnoremap <leader>rc :WipeReg<cr>
 
 " when using many tabs and tabnew..
@@ -291,6 +292,10 @@ nnoremap <leader>ff :lvim // %
 nnoremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
 nnoremap <leader>g :Gstatus<cr>
 nnoremap <leader>d :Gvdiff<cr>
+
+" colors
+nnoremap <leader>ns :colorscheme solarized<cr>:set background=light<cr>
+nnoremap <leader>nm :colorscheme hybrid_material<cr>:set background=dark<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
@@ -346,7 +351,7 @@ augroup END
 if has("gui_running")
     " colorscheme hybrid_material
     colorscheme solarized
-    set background=dark
+    set background=light
     if has("gui_gtk3") || has("gui_gtk2")
         set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
     elseif has("gui_win32")
