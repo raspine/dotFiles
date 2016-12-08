@@ -25,9 +25,6 @@ set number
 set undofile
 set guioptions-=T
 set guioptions-=M
-" disable Ex mode
-map q: <nop>
-nnoremap Q <nop>
 " disable quick quit
 map <c-z> <nop>
 set autoread
@@ -78,15 +75,8 @@ call vundle#begin()
 " required!
 Plugin 'VundleVim/Vundle.vim'
 
-" My Plugins here:
-"
-" Notes for syntastic
-" Install either flake8 or pyulint to make it work
-" pacman -S flake8	(for Arch linux)
-"
-" original repos on github
+Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'mileszs/ack.vim'
-Plugin 'ajh17/VimCompletesMe.git'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
@@ -130,7 +120,8 @@ filetype plugin indent on     " required
 " ..oh and make sure to add the .ycm_extra_conf.py as specified below
 "
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-" let g:ycm_confirm_extra_conf = 0
+" let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_confirm_extra_conf = 0
 " "let g:ycm_key_invoke_completion = '<C-z>'
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
@@ -439,6 +430,9 @@ function! LoadWorkspace()
         " other necessities
         windo set ft=cpp
         call fugitive#detect(getcwd())
+        if !filereadable(".ycm_extra_conf.py")
+            call system("ln -s ~/.vim/.ycm_extra_conf.py .ycm_extra_conf.py")
+        endif
     endif
 
     call system('ctags -R --exclude=git_import')
