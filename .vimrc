@@ -272,8 +272,8 @@ nnoremap <leader>cl :botright Copen<cr>
 nnoremap <leader>cj :cclose<cr>
 
 " local list
-nnoremap <leader>hh :lopen<cr>
-nnoremap <leader>hj :lclose<cr>
+nnoremap <leader>jh :lopen<cr>
+nnoremap <leader>jj :lclose<cr>
 nnoremap <leader>fh :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
 nnoremap <leader>ff :lvim // %<left><left><left>
 
