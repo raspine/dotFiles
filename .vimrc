@@ -311,19 +311,6 @@ imap <C-v> <C-o>"+P<C-o>=']
 cmap <C-v> <C-R>+
 "}}}
 ""{{{ save
-function! SmartSave()
-    if exists(":Gwrite")
-        exec "Gwrite"
-    else
-        exec "update"
-    endif 
-
-    if filereadable("tags")
-        call system('ctags -a '. expand("%"))
-    endif
-
-endfunction
-
 noremap <C-s> :call SmartSave()<CR>
 vnoremap <C-s> <C-C>:call SmartSave()<CR>
 inoremap <C-s> <C-O>:call SmartSave()<CR>
@@ -374,12 +361,6 @@ endif
 "{{{ printing
 set printfont=Monospace:h8
 set printoptions=number:y
-function! Hardcopy()
-  let colors_save = g:colors_name
-  colorscheme zellner
-  hardcopy
-  execute 'colorscheme' colors_save
-endfun
 "}}}
 
 "{{{ scripts
@@ -439,6 +420,20 @@ function! LoadWorkspace()
 
 endfunction
 "}}}
+"{{{ SmartSave
+function! SmartSave()
+    if exists(":Gwrite")
+        exec "Gwrite"
+    else
+        exec "update"
+    endif 
+
+    if filereadable("tags")
+        call system('ctags -a '. expand("%"))
+    endif
+endfunction
+
+"}}}
 "{{{ CMakeStat
 function! CMakeStat()
   let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
@@ -461,6 +456,14 @@ function! CMakeStat()
   endif
   " return retstr
   return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
+endfunction
+"}}}
+"{{{ HardCopy
+function! HardCopy()
+  let colors_save = g:colors_name
+  colorscheme zellner
+  hardcopy
+  execute 'colorscheme' colors_save
 endfunction
 "}}}
 "{{{ Git search TODO:
