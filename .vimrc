@@ -66,7 +66,7 @@ set list!
 "}}}
 
 "{{{ ctags
-set tags=./tags;/
+set tags=./.tags;/
 "}}}
 
 "{{{ vundle plugins
@@ -80,13 +80,9 @@ Plugin 'VundleVim/Vundle.vim'
 
 " My Plugins here:
 "
-" Notes for syntastic
-" Install either flake8 or pyulint to make it work
-" pacman -S flake8	(for Arch linux)
-"
 " original repos on github
 Plugin 'mileszs/ack.vim'
-Plugin 'ajh17/VimCompletesMe.git'
+Plugin 'valloric/YouCompleteMe.git'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
@@ -130,7 +126,7 @@ filetype plugin indent on     " required
 " ..oh and make sure to add the .ycm_extra_conf.py as specified below
 "
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-" let g:ycm_confirm_extra_conf = 0
+let g:ycm_confirm_extra_conf = 0
 " "let g:ycm_key_invoke_completion = '<C-z>'
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
@@ -327,8 +323,8 @@ function! SmartSave()
         exec "update"
     endif 
 
-    if filereadable("tags")
-        call system('ctags -a '. expand("%"))
+    if filereadable(".tags")
+        call system('ctags -f .tags -a '. expand("%"))
     endif
 
 endfunction
@@ -441,7 +437,7 @@ function! LoadWorkspace()
         call fugitive#detect(getcwd())
     endif
 
-    call system('ctags -R --exclude=git_import')
+    call system('ctags -R -f .tags --exclude=git_import')
 
 endfunction
 "}}}
