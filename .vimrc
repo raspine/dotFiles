@@ -410,12 +410,12 @@ function! LoadWorkspace()
         " other necessities
         windo set ft=cpp
         call fugitive#detect(getcwd())
-        if !filereadable(".ycm_extra_conf.py")
-            call system("ln -s ~/.vim/.ycm_extra_conf.py .ycm_extra_conf.py")
-        endif
     endif
 
     call system('ctags -R -f .tags --exclude=git_import')
+    if !filereadable(".ycm_extra_conf.py")
+        call system("ln -s ~/.vim/.ycm_extra_conf.py .ycm_extra_conf.py")
+    endif
 
 endfunction
 "}}}
