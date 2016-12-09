@@ -25,9 +25,6 @@ set number
 set undofile
 set guioptions-=T
 set guioptions-=M
-" disable Ex mode
-map q: <nop>
-nnoremap Q <nop>
 " disable quick quit
 map <c-z> <nop>
 set autoread
@@ -78,11 +75,8 @@ call vundle#begin()
 " required!
 Plugin 'VundleVim/Vundle.vim'
 
-" My Plugins here:
-"
-" original repos on github
+Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'mileszs/ack.vim'
-Plugin 'valloric/YouCompleteMe.git'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'jplaut/vim-arduino-ino.git'
 Plugin 'sudar/vim-arduino-syntax'
@@ -277,8 +271,8 @@ nnoremap <leader>cl :botright Copen<cr>
 nnoremap <leader>cj :cclose<cr>
 
 " local list
-nnoremap <leader>hh :lopen<cr>
-nnoremap <leader>hj :lclose<cr>
+nnoremap <leader>jh :lopen<cr>
+nnoremap <leader>jj :lclose<cr>
 nnoremap <leader>fh :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
 nnoremap <leader>ff :lvim // %<left><left><left>
 
@@ -316,19 +310,6 @@ imap <C-v> <C-o>"+P<C-o>=']
 cmap <C-v> <C-R>+
 "}}}
 ""{{{ save
-function! SmartSave()
-    if exists(":Gwrite")
-        exec "Gwrite"
-    else
-        exec "update"
-    endif 
-
-    if filereadable(".tags")
-        call system('ctags -f .tags -a '. expand("%"))
-    endif
-
-endfunction
-
 noremap <C-s> :call SmartSave()<CR>
 vnoremap <C-s> <C-C>:call SmartSave()<CR>
 inoremap <C-s> <C-O>:call SmartSave()<CR>
@@ -379,12 +360,6 @@ endif
 "{{{ printing
 set printfont=Monospace:h8
 set printoptions=number:y
-function! Hardcopy()
-  let colors_save = g:colors_name
-  colorscheme zellner
-  hardcopy
-  execute 'colorscheme' colors_save
-endfun
 "}}}
 
 "{{{ scripts
@@ -435,11 +410,28 @@ function! LoadWorkspace()
         " other necessities
         windo set ft=cpp
         call fugitive#detect(getcwd())
+        if !filereadable(".ycm_extra_conf.py")
+            call system("ln -s ~/.vim/.ycm_extra_conf.py .ycm_extra_conf.py")
+        endif
     endif
 
     call system('ctags -R -f .tags --exclude=git_import')
 
 endfunction
+"}}}
+"{{{ SmartSave
+function! SmartSave()
+    if exists(":Gwrite")
+        exec "Gwrite"
+    else
+        exec "update"
+    endif 
+
+    if filereadable("tags")
+        call system('ctags -a '. expand("%"))
+    endif
+endfunction
+
 "}}}
 "{{{ CMakeStat
 function! CMakeStat()
@@ -463,6 +455,14 @@ function! CMakeStat()
   endif
   " return retstr
   return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
+endfunction
+"}}}
+"{{{ HardCopy
+function! HardCopy()
+  let colors_save = g:colors_name
+  colorscheme zellner
+  hardcopy
+  execute 'colorscheme' colors_save
 endfunction
 "}}}
 "{{{ Git search TODO:
