@@ -27,6 +27,8 @@ set guioptions-=T
 set guioptions-=M
 " disable quick quit
 map <c-z> <nop>
+" disable ex mode (use gQ for improved ex mode)
+nnoremap Q <nop>
 set autoread
 "}}}
 
