@@ -121,7 +121,7 @@ filetype plugin indent on     " required
 "
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
-let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 " "let g:ycm_key_invoke_completion = '<C-z>'
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
@@ -429,7 +429,7 @@ function! SmartSave()
     endif 
 
     if filereadable("tags")
-        call system('ctags -a '. expand("%"))
+        call system('ctags -f .tags -a '. expand("%"))
     endif
 endfunction
 
