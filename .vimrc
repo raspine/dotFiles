@@ -121,6 +121,7 @@ filetype plugin indent on     " required
 "
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_autoclose_preview_window_after_completion = 1
 " "let g:ycm_key_invoke_completion = '<C-z>'
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
@@ -263,18 +264,18 @@ nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
-nnoremap <leader>cu :call TestDogExecutable("")<cr>
-nnoremap <leader>cg :call TestDogExecutable("gdb --args")<cr>
-nnoremap <leader>cv :call TestDogExecutable("valgrind")<cr>
+nnoremap <leader>cu :TestDogExe<cr>
+nnoremap <leader>cg :TestDogExe gdb --args<cr>
+nnoremap <leader>cv :TestDogExe valgrind<cr>
 nnoremap <leader>ch :botright copen<cr>
 nnoremap <leader>cl :botright Copen<cr>
 nnoremap <leader>cj :cclose<cr>
 
 " local list
-nnoremap <leader>lh :lopen<cr>
-nnoremap <leader>lj :lclose<cr>
-nnoremap <leader>fh :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
-nnoremap <leader>ff :lvim // %<left><left><left>
+nnoremap <leader>fh :lopen<cr>
+nnoremap <leader>fj :lclose<cr>
+nnoremap <leader>ff :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
+nnoremap <leader>fg :lvim // %<left><left><left>
 
 " aid the search and replace command
 " TODO: what do \( do?
