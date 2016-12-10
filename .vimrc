@@ -105,7 +105,6 @@ Plugin 'raspine/vim-testdog.git'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
-Plugin 'sheerun/vim-wombat-scheme.git'
 Plugin 'kristijanhusak/vim-hybrid-material.git'
 call vundle#end()
 filetype plugin indent on     " required
