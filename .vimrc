@@ -239,7 +239,7 @@ nnoremap <leader>w :Wipeout<cr>
 " paste text from register in command mode
 nnoremap <leader>rr :reg<CR>:put<space>
 " clear registers except q and w
-command! WipeReg let regs='123456789abcdefghijklmnoprstuvxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs 
+command! WipeReg let regs='123456789abcdefghijklmnoprstuvxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
 nnoremap <leader>rc :WipeReg<cr>
 
 " when using many tabs and tabnew..
@@ -272,19 +272,23 @@ nnoremap <leader>ch :botright copen<cr>
 nnoremap <leader>cl :botright Copen<cr>
 nnoremap <leader>cj :cclose<cr>
 
+" git
+nnoremap <leader>dg :Gstatus<cr>
+nnoremap <leader>dh :Gvdiff HEAD<cr>
+nnoremap <leader>dd :Gvdiff<cr>
+nnoremap <leader>dj :diffoff<cr>:q<cr>:Gedit<cr>
+
 " local list
 nnoremap <leader>fh :lopen<cr>
 nnoremap <leader>fj :lclose<cr>
 nnoremap <leader>ff :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
-nnoremap <leader>fg :lvim // %<left><left><left>
+nnoremap <leader>f. :lvim // %<left><left><left>
 
 " aid the search and replace command
 " TODO: what do \( do?
 " :nmap <leader>s :%s/\(<c-r>=expand("<cword>")<cr>\)/
-nnoremap <leader>s :%s/<c-r>=expand("<cword>")<cr>/
-nnoremap <leader>g :Gstatus<cr>
-nnoremap <leader>dh :Gvdiff HEAD<cr>
-nnoremap <leader>dd :Gvdiff<cr>
+nnoremap <leader>ss :%s/<c-r>=expand("<cword>")<cr>/
+nnoremap <leader>s<space> :windo %s/<c-r>=expand("<cword>")<cr>/
 
 " colors
 nnoremap <leader>ns :colorscheme solarized<cr>:set background=light<cr>
@@ -317,9 +321,9 @@ vnoremap <C-s> <C-C>:call SmartSave()<CR>
 inoremap <C-s> <C-O>:call SmartSave()<CR>
 "}}}
 "{{{ windows handling
-map <space> <c-w>
-nmap <space>9 91<C-w>\|
-nmap <space>n :vnew<cr>
+nnoremap <space> <c-w>
+nnoremap <space>9 91<C-w>\|
+nnoremap <space>n :vnew<cr>
 
 "}}}
 "}}}
@@ -427,7 +431,7 @@ function! SmartSave()
         exec "Gwrite"
     else
         exec "update"
-    endif 
+    endif
 
     if filereadable("tags")
         call system('ctags -f .tags -a '. expand("%"))
