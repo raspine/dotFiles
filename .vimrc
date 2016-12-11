@@ -216,7 +216,6 @@ nnoremap <silent> <Plug>JoinWithoutSpace $J"_x
             \:call repeat#set("\<Plug>JoinWithoutSpace")<CR>
 nmap gJ <Plug>JoinWithoutSpace
 
-nnoremap gb :ls<cr>:
 vnoremap <tab> %
 " type in small letter, convert to capital
 imap <C-F> <Esc>gUiw`]a
@@ -229,19 +228,6 @@ map <leader>j %
 map <leader>h ^
 map <leader>l $
 
-" buffer convenience
-nnoremap <leader>bv :vert sfind<space>
-nnoremap <leader>bs :sfind<space>
-nnoremap <leader>bf :find<space>
-nnoremap <leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
-nnoremap <leader>w :Wipeout<cr>
-
-" paste text from register in command mode
-nnoremap <leader>rr :reg<CR>:put<space>
-" clear registers except q and w
-command! WipeReg let regs='123456789abcdefghijklmnoprstuvxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
-nnoremap <leader>rc :WipeReg<cr>
-
 " when using many tabs and tabnew..
 nnoremap <leader>t :tabs<cr>:tabn
 
@@ -249,7 +235,24 @@ nnoremap <leader>t :tabs<cr>:tabn
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
 
 " reselect pasted text
-nnoremap <leader>v V`]
+nnoremap <leader>x V`]
+
+" paste text from register in command mode
+nnoremap <leader>r :reg<CR>:put<space>
+
+" buffer convenience
+nnoremap <leader>vv :find<space>
+nnoremap <leader>vh :vert topleft sfind<space>
+nnoremap <leader>vl :vert sfind<space>
+nnoremap <leader>vk :sfind<space>
+nnoremap <leader>vj :rightbelow sfind<space>
+nnoremap <leader>v<space> :bp<bar>sp<bar>bn<bar>bd<CR>
+
+" wipeout stuff
+nnoremap <leader>wb :Wipeout<cr>
+" clear registers except q and w
+command! WipeReg let regs='123456789abcdefghijklmnoprstuvxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
+nnoremap <leader>wr :WipeReg<cr>
 
 " config files
 nnoremap <leader>ev <C-w><C-v><C-l>:e ~/homescripts/.vimrc<cr>
@@ -268,25 +271,23 @@ nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
 nnoremap <leader>cu :TestDogExe<cr>
 nnoremap <leader>cg :TestDogExe gdb --args<cr>
 nnoremap <leader>cv :TestDogExe valgrind<cr>
-nnoremap <leader>ch :botright copen<cr>
-nnoremap <leader>cl :botright Copen<cr>
-nnoremap <leader>cj :cclose<cr>
+nnoremap <leader>cj :botright copen<cr>
+nnoremap <leader>ck :topleft Copen<cr>
+nnoremap <leader>c<space> :cclose<cr>
 
 " git
-nnoremap <leader>dg :Gstatus<cr>
+nnoremap <leader>dd :Gstatus<cr>
 nnoremap <leader>dh :Gvdiff HEAD<cr>
-nnoremap <leader>dd :Gvdiff<cr>
-nnoremap <leader>dj :diffoff<cr>:q<cr>:Gedit<cr>
+nnoremap <leader>dl :Gvdiff<cr>
+nnoremap <leader>d<space> :diffoff<cr>:q<cr>:Gedit<cr>
 
 " local list
-nnoremap <leader>fh :lopen<cr>
-nnoremap <leader>fj :lclose<cr>
-nnoremap <leader>ff :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
+nnoremap <leader>ff :lopen<cr>
+nnoremap <leader>f/ :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
 nnoremap <leader>f. :lvim // %<left><left><left>
+nnoremap <leader>f<space> :lclose<cr>
 
 " aid the search and replace command
-" TODO: what do \( do?
-" :nmap <leader>s :%s/\(<c-r>=expand("<cword>")<cr>\)/
 nnoremap <leader>ss :%s/<c-r>=expand("<cword>")<cr>/
 nnoremap <leader>s<space> :windo %s/<c-r>=expand("<cword>")<cr>/
 
@@ -369,6 +370,7 @@ set printoptions=number:y
 "}}}
 
 "{{{ scripts
+" TODO: remove git branch script
 "{{{ LoadWorkspace
 function! LoadWorkspace()
 
