@@ -370,7 +370,12 @@ set printoptions=number:y
 "}}}
 
 "{{{ scripts
-" TODO: remove git branch script
+" TODO: branch completion
+command! -nargs=1 DeleteBranch call DeleteBranch(<q-args>)
+function! DeleteBranch(branch)
+    exec "Git branch -D " . a:branch
+    exec "Git push origin :" . a:branch
+endfunction
 "{{{ LoadWorkspace
 function! LoadWorkspace()
 
@@ -400,7 +405,7 @@ function! LoadWorkspace()
     let l:projName = reverse(split(getcwd(), '/'))[0]
 
     " only reset workspace if we find suitable workspace files to open
-    " TODO: next line probably does'nt work on Windows
+    " TODO: next line probably doesn't work on Windows
     let l:appFiles = glob("`find ./src -maxdepth 1 -name *'".projName."'* -print`")
     if len(appFiles) > 0
         " turn off obsession
@@ -417,7 +422,7 @@ function! LoadWorkspace()
 
         " other necessities
         windo set ft=cpp
-        call fugitive#detect(getcwd())
+        windo call fugitive#detect(getcwd())
     endif
 
     call system('ctags -R -f .tags --exclude=git_import')
