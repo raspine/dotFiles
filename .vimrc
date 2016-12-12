@@ -279,7 +279,7 @@ nnoremap <leader>c<space> :cclose<cr>
 nnoremap <leader>dd :Gstatus<cr>
 nnoremap <leader>dh :Gvdiff HEAD<cr>
 nnoremap <leader>dl :Gvdiff<cr>
-nnoremap <leader>d<space> :diffoff<cr>:q<cr>:Gedit<cr>
+nnoremap <leader>d<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 
 " local list
 nnoremap <leader>ff :lopen<cr>
