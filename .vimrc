@@ -228,6 +228,9 @@ map <leader>j %
 map <leader>h ^
 map <leader>l $
 
+" exit ex mode
+cnoremap <leader>g<space> visual<cr>
+
 " when using many tabs and tabnew..
 nnoremap <leader>t :tabs<cr>:tabn
 
@@ -425,6 +428,7 @@ function! LoadWorkspace()
         windo call fugitive#detect(getcwd())
     endif
 
+    call system('eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail')
     call system('ctags -R -f .tags --exclude=git_import')
     if !filereadable(".ycm_extra_conf.py")
         call system("ln -s ~/.vim/.ycm_extra_conf.py .ycm_extra_conf.py")
