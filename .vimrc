@@ -282,6 +282,7 @@ nnoremap <leader>c<space> :cclose<cr>
 nnoremap <leader>dd :Gstatus<cr>
 nnoremap <leader>dh :Gvdiff HEAD<cr>
 nnoremap <leader>dl :Gvdiff<cr>
+nnoremap <leader>di :!eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)<cr>
 nnoremap <leader>d<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 
 " local list
@@ -428,7 +429,6 @@ function! LoadWorkspace()
         windo call fugitive#detect(getcwd())
     endif
 
-    call system('eval $(keychain --eval -Q --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail')
     call system('ctags -R -f .tags --exclude=git_import')
     if !filereadable(".ycm_extra_conf.py")
         call system("ln -s ~/.vim/.ycm_extra_conf.py .ycm_extra_conf.py")
