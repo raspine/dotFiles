@@ -431,7 +431,7 @@ function! LoadWorkspace()
 
     call system('ctags -R -f .tags --exclude=git_import')
     if !filereadable(".ycm_extra_conf.py")
-        call system("ln -s ~/.vim/.ycm_extra_conf.py .ycm_extra_conf.py")
+        call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
     endif
 
 endfunction
