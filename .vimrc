@@ -253,8 +253,8 @@ nnoremap <leader>v<space> :bp<bar>sp<bar>bn<bar>bd<CR>
 
 " wipeout stuff
 nnoremap <leader>wb :Wipeout<cr>
-" clear registers except q and w
-command! WipeReg let regs='123456789abcdefghijklmnoprstuvxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
+" clear registers except q and e
+command! WipeReg let regs='123456789abcdfghijklmnoprstuvwxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
 nnoremap <leader>wr :WipeReg<cr>
 
 " config files
