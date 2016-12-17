@@ -127,21 +127,6 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
 "}}}
-"{{{ syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list=1
-" let g:syntastic_auto_loc_list=1
-" let g:syntastic_check_on_open=1
-" let g:syntastic_check_on_wq=0
-" let g:syntastic_cpp_checkers=['clang_check']
-" let g:syntastic_cpp_compiler='clang++'
-" let g:syntastic_cpp_compiler_options=' -std=c++11 -stdlib=libc++'
-" let g:syntastic_cpp_check_header=1
-" let g:syntastic_debug=1
-"}}}
 "{{{ airline
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
@@ -150,7 +135,7 @@ let g:airline#extensions#branch#displayed_head_limit = 20
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
 " air-line
-if has("gui_gtk3") || has("gui_gtk2")
+if has("gui_running")
     let g:airline_powerline_fonts = 1
 else
     let g:airline_powerline_fonts = 0
