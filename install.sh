@@ -37,6 +37,7 @@ clever_ln_s ~/homescripts/.Xresources ~/.Xresources
 clever_ln_s ~/homescripts/.xprofile ~/.xprofile
 clever_ln_s ~/homescripts/.sshrc ~/.sshrc
 clever_ln_s ~/homescripts/.profile ~/.profile
+clever_ln_s ~/homescripts/.inputrc ~/.inputrc
 
 # vim
 mkdir -p ~/.vim/ftplugin
