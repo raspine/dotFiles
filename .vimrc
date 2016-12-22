@@ -47,7 +47,7 @@ vnoremap / /\v
 set ignorecase
 set smartcase
 set incsearch
-" set hlsearch
+set nohlsearch
 "}}}
 
 "{{{ line wrapping
@@ -209,8 +209,9 @@ imap <C-F> <Esc>gUiw`]a
 " quick save
 let mapleader = "\\"
 
-map <leader>j %
 map <leader>h ^
+map <leader>j %
+map <leader>k /[A-Z]<CR>
 map <leader>l $
 
 " exit ex mode
