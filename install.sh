@@ -54,6 +54,6 @@ clever_ln_s ~/homescripts/ftplugin/cmake.vim ~/.vim/ftplugin/cmake.vim
 
 # vifm
 mkdir -p ~/vifm/colors
-clever_ln_s ~/homescripts/vifm/vifmrc ~/.vifm/vifmrc
-clever_ln_s ~/homescripts/vifm/colors/astrall.vifm ~/.vifm/colors/astrall.vifm
+clever_ln_s ~/homescripts/vifm/vifmrc ~/vifm/vifmrc
+clever_ln_s ~/homescripts/vifm/colors/astrall.vifm ~/vifm/colors/astrall.vifm
 

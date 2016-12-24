@@ -9,3 +9,4 @@ spotify 1.0.38.171-1
 sshrc 0.6.1-1
 ttf-roboto 5:131072-1
 vimb 2.11-1
+powerline-fonts-git
