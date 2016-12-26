@@ -102,6 +102,7 @@ Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
 Plugin 'raspine/vim-testdog.git'
+Plugin 'rguthrie3/vim-breakpoint.git'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
@@ -257,9 +258,9 @@ nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
-nnoremap <leader>cu :TestDogExe<cr>
-nnoremap <leader>cg :TestDogExe gdb --args<cr>
-nnoremap <leader>cv :TestDogExe valgrind<cr>
+nnoremap <leader>cu :exec "!" . TestDogExecutable()<cr>
+nnoremap <leader>cg :exec "Spawn urxvt -e gdb --args " . TestDogExecutable()<cr>
+nnoremap <leader>cv :exec "!valgrind --leak-check=full " . TestDogExecutable()<cr>
 nnoremap <leader>cj :botright copen<cr>
 nnoremap <leader>ck :topleft Copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
@@ -363,8 +364,7 @@ function! DeleteBranch(branch)
     exec "Git branch -D " . a:branch
     exec "Git push origin :" . a:branch
 endfunction
-"{{{ LoadWorkspace
-function! LoadWorkspace()
+function! LoadWorkspace()"{{{
 
     " configure makeprg
     if filereadable("CMakeLists.txt")
@@ -417,10 +417,8 @@ function! LoadWorkspace()
         call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
     endif
 
-endfunction
-"}}}
-"{{{ SmartSave
-function! SmartSave()
+endfunction"}}}
+function! SmartSave()"{{{
     if exists(":Gwrite")
         exec "Gwrite"
     else
@@ -430,11 +428,8 @@ function! SmartSave()
     if filereadable("tags")
         call system('ctags -f .tags -a '. expand("%"))
     endif
-endfunction
-
-"}}}
-"{{{ CMakeStat
-function! CMakeStat()
+endfunction"}}}
+function! CMakeStat()"{{{
   let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
   let l:build_dir = finddir(l:cmake_build_dir, '.;')
 
@@ -455,16 +450,17 @@ function! CMakeStat()
   endif
   " return retstr
   return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
-endfunction
-"}}}
-"{{{ HardCopy
-function! HardCopy()
+endfunction"}}}
+function! GdbLaunch()"{{{
+"sign define break-point text=B texthl=special
+"sign place 9999 line=92 name=break-point buffer=3
+endfunction"}}}
+function! HardCopy()"{{{
   let colors_save = g:colors_name
   colorscheme zellner
   hardcopy
   execute 'colorscheme' colors_save
-endfunction
-"}}}
+endfunction"}}}
 "{{{ Git search TODO:
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
 function! QuickfixFilenames()
