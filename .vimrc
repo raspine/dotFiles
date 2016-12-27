@@ -102,7 +102,7 @@ Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
 Plugin 'raspine/vim-testdog.git'
-Plugin 'rguthrie3/vim-breakpoint.git'
+Plugin 'raspine/vim-breakpoints.git'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
@@ -215,20 +215,21 @@ map <leader>j %
 map <leader>k /[A-Z]<CR>
 map <leader>l $
 
-" exit ex mode
-cnoremap <leader>g<space> visual<cr>
-
-" when using many tabs and tabnew..
-nnoremap <leader>t :tabs<cr>:tabn
-
 " quickly open ack
 nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
 
 " reselect pasted text
 nnoremap <leader>x V`]
 
+" when using many tabs and tabnew..
+nnoremap <leader>t :tabs<cr>:tabn
+
+" registers
 " paste text from register in command mode
-nnoremap <leader>r :reg<CR>:put<space>
+nnoremap <leader>rr :reg<CR>:put<space>
+" clear registers except q and e
+command! WipeReg let regs='123456789abcdfghijklmnoprstuvwxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
+nnoremap <leader>r<space> :WipeReg<cr>
 
 " buffer convenience
 nnoremap <leader>vv :find<space>
@@ -236,13 +237,15 @@ nnoremap <leader>vh :vert topleft sfind<space>
 nnoremap <leader>vl :vert sfind<space>
 nnoremap <leader>vk :sfind<space>
 nnoremap <leader>vj :rightbelow sfind<space>
-nnoremap <leader>v<space> :bp<bar>sp<bar>bn<bar>bd<CR>
+" close buffer and load next buffer into window
+nnoremap <leader>vd :bp<bar>sp<bar>bn<bar>bd<CR>
+" close all buffers not viewed
+nnoremap <leader>v<space> :Wipeout<cr>
 
-" wipeout stuff
-nnoremap <leader>wb :Wipeout<cr>
-" clear registers except q and e
-command! WipeReg let regs='123456789abcdfghijklmnoprstuvwxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
-nnoremap <leader>wr :WipeReg<cr>
+" workspace
+nnoremap <leader>ww :call LoadWorkspace()<cr>
+" exit ex mode
+cnoremap <leader>w<space> visual<cr>
 
 " config files
 nnoremap <leader>ev <C-w><C-v><C-l>:e ~/homescripts/.vimrc<cr>
@@ -251,26 +254,39 @@ nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 
-" development
-nnoremap <leader>cs :call LoadWorkspace()<cr>
+" cmake
 nnoremap <leader>cb :CMake<cr>
 nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
-nnoremap <leader>cu :exec "!" . TestDogExecutable()<cr>
-nnoremap <leader>cg :exec "Spawn urxvt -e gdb --args " . TestDogExecutable()<cr>
-nnoremap <leader>cv :exec "!valgrind --leak-check=full " . TestDogExecutable()<cr>
+
+" quickfix
 nnoremap <leader>cj :botright copen<cr>
 nnoremap <leader>ck :topleft Copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
 
+" testdog
+" run test case directly in vim
+nnoremap <leader>dd :exec "!" . TestDogExecutable()<cr>
+" spawn a gdb session in a separate terminal (requires Tim Pope's vim-dispatch plugin)
+nnoremap <leader>dg :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . TestDogExecutable()<cr>
+" run the test case under valgrind
+nnoremap <leader>dv :exec "!valgrind --leak-check=full " . TestDogExecutable()<cr>
+" copy the execution line to clipboard
+nnoremap <leader>dr :call setreg('+', TestDogExecutable())<cr>
+
+" breakpoints
+nnoremap <leader>bb :BreakpointSet<cr>
+nnoremap <leader>bc :BreakpointClear<cr>
+nnoremap <leader>b<space> :BreakpointClearAll<cr>
+
 " git
-nnoremap <leader>dd :Gstatus<cr>
-nnoremap <leader>dh :Gvdiff HEAD<cr>
-nnoremap <leader>dl :Gvdiff<cr>
-nnoremap <leader>di :!eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)<cr>
-nnoremap <leader>d<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
+nnoremap <leader>gg :Gstatus<cr>
+nnoremap <leader>gh :Gvdiff HEAD<cr>
+nnoremap <leader>gl :Gvdiff<cr>
+nnoremap <leader>gi :!eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)<cr>
+nnoremap <leader>g<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 
 " local list
 nnoremap <leader>ff :lopen<cr>
@@ -450,10 +466,6 @@ function! CMakeStat()"{{{
   endif
   " return retstr
   return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
-endfunction"}}}
-function! GdbLaunch()"{{{
-"sign define break-point text=B texthl=special
-"sign place 9999 line=92 name=break-point buffer=3
 endfunction"}}}
 function! HardCopy()"{{{
   let colors_save = g:colors_name
