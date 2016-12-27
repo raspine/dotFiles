@@ -102,7 +102,7 @@ Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
 Plugin 'raspine/vim-testdog.git'
-Plugin 'raspine/vim-breakpoints.git'
+Plugin 'raspine/vim-breakgutter.git'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
