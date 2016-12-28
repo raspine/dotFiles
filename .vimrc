@@ -286,7 +286,6 @@ nnoremap <leader>b<space> :BreakpointClearAll<cr>
 nnoremap <leader>gg :Gstatus<cr>
 nnoremap <leader>gh :Gvdiff HEAD<cr>
 nnoremap <leader>gl :Gvdiff<cr>
-nnoremap <leader>gi :!eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)<cr>
 nnoremap <leader>g<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 
 " local list
