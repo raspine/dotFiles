@@ -101,6 +101,7 @@ Plugin 'AndrewRadev/sideways.vim'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
+Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
 
@@ -268,13 +269,13 @@ nnoremap <leader>c<space> :cclose<cr>
 
 " testdog
 " run test case directly in vim
-nnoremap <leader>dd :exec "!" . TestDogExecutable()<cr>
+nnoremap <leader>dd :exec "!" . FindExeTarget() . TestCaseArg()<cr>
 " spawn a gdb session in a separate terminal (requires Tim Pope's vim-dispatch plugin)
-nnoremap <leader>dg :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . TestDogExecutable()<cr>
-" run the test case under valgrind
-nnoremap <leader>dv :exec "!valgrind --leak-check=full " . TestDogExecutable()<cr>
+nnoremap <leader>dg :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg()<cr>
+" run the test suite under valgrind
+nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg()<cr>
 " copy the execution line to clipboard
-nnoremap <leader>dr :call setreg('+', TestDogExecutable())<cr>
+nnoremap <leader>dr :call setreg('+', FindExeTarget() . TestCaseArg())<cr>
 
 " breakpoints
 nnoremap <leader>bb :BreakpointSet<cr>
