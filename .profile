@@ -1,6 +1,6 @@
 
-eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
-
+# eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail)
+eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)
 export PATH="$PATH:~/.gem/ruby/2.2.0/bin"
 export PATH="$PATH:/usr/lib/ccache/bin/"
 

@@ -269,13 +269,15 @@ nnoremap <leader>c<space> :cclose<cr>
 
 " testdog
 " run test case directly in vim
-nnoremap <leader>dd :exec "!" . FindExeTarget() . TestCaseArg()<cr>
+nnoremap <leader>ds :exec "!" . FindExeTarget() . TestSuiteArg()<cr>
+" run test case directly in vim
+nnoremap <leader>dc :exec "!" . FindExeTarget() . TestCaseArg()<cr>
 " spawn a gdb session in a separate terminal (requires Tim Pope's vim-dispatch plugin)
 nnoremap <leader>dg :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg()<cr>
 " run the test suite under valgrind
 nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg()<cr>
 " copy the execution line to clipboard
-nnoremap <leader>dr :call setreg('+', FindExeTarget() . TestCaseArg())<cr>
+nnoremap <leader>dd :call setreg('+', FindExeTarget() . TestCaseArg())<cr>
 
 " breakpoints
 nnoremap <leader>bb :BreakpointSet<cr>
@@ -286,6 +288,7 @@ nnoremap <leader>b<space> :BreakpointClearAll<cr>
 nnoremap <leader>gg :Gstatus<cr>
 nnoremap <leader>gh :Gvdiff HEAD<cr>
 nnoremap <leader>gl :Gvdiff<cr>
+nnoremap <leader>gi :!eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)<cr>
 nnoremap <leader>g<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 
 " local list
@@ -473,7 +476,7 @@ function! HardCopy()"{{{
   hardcopy
   execute 'colorscheme' colors_save
 endfunction"}}}
-"{{{ Git search TODO:
+"{{{ Git search TODO: 
 command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
 function! QuickfixFilenames()
     " Building a hash ensures we get each buffer only once
