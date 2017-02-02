@@ -8,7 +8,7 @@ setlocal commentstring=//\ %s
 
 " https://www.topbug.net/blog/2012/03/07/use-singlecompile-to-compile-and-run-a-single-source-file-easily-in-vim/
 " nnoremap <F9> :SCCompile<cr>
-nnoremap <F9> :SCCompileAF --std=c++14 <CR>
+nnoremap <F9> :SCCompileAF --std=c++14 -lboost_system<CR>
 nnoremap <F10> :SCCompileRun<cr>
 
 "folding settings

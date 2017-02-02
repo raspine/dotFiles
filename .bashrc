@@ -6,9 +6,8 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-xrandr --output HDMI3 --left-of HDMI1
-#xrandr --output DP1 primary
-xrandr --output DP1 --right-of HDMI1
+xrandr --output HDMI3 --left-of DP1
+xrandr --output HDMI1 --right-of DP1
 
 source ~/homescripts/.sshrc
 
