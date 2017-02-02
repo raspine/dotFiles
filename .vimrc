@@ -104,7 +104,7 @@ Plugin 'artnez/vim-wipeout.git'
 Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
-Plugin 'quark-zju/vim-cpp-auto-include'
+Plugin 'm42e/vim-cpp-auto-include'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
@@ -355,7 +355,7 @@ augroup MyAutoCommands
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
     autocmd FileType c,cpp,java,php autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call LoadWorkspace()
-    autocmd BufWritePre /usr/include/**.cpp :ruby CppAutoInclude::process
+    " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
 augroup END
 "}}}
 
