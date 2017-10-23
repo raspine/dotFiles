@@ -30,6 +30,7 @@ map <c-z> <nop>
 " disable ex mode (use gQ for improved ex mode)
 nnoremap Q <nop>
 set autoread
+set nojoinspaces
 "}}}
 
 "{{{ wild mode
@@ -80,8 +81,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'vhdirk/vim-cmake.git'
-Plugin 'jplaut/vim-arduino-ino.git'
-Plugin 'sudar/vim-arduino-syntax'
 Plugin 'tpope/vim-obsession.git'
 Plugin 'tpope/vim-characterize.git'
 Plugin 'tpope/vim-unimpaired.git'
@@ -104,7 +103,7 @@ Plugin 'artnez/vim-wipeout.git'
 Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
-Plugin 'm42e/vim-cpp-auto-include'
+Plugin 'pangloss/vim-javascript'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
@@ -218,7 +217,7 @@ map <leader>k /[A-Z]<CR>
 map <leader>l $
 
 " quickly open ack
-nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
+nnoremap <leader>aa :Ack <c-r>=expand("<cword>")<cr>
 
 " reselect pasted text
 nnoremap <leader>x V`]
