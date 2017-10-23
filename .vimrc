@@ -271,20 +271,6 @@ nnoremap <leader>cj :botright copen<cr>
 nnoremap <leader>ck :topleft Copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
 
-" mappings for vim-target, vim-testdog, vim-breakgutter
-" run test case directly in vim
-nnoremap <leader>ds :exec "!" . FindExeTarget() . TestSuiteArg()<cr>
-" run test case directly in vim
-nnoremap <leader>dc :exec "!" . FindExeTarget() . TestCaseArg()<cr>
-" spawn a gdb session in a separate terminal (requires Tim Pope's vim-dispatch plugin)
-nnoremap <leader>dg :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg()<cr>
-" same but with custom argsuments (applies to any app)
-nnoremap <leader>dr :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " "<left>
-" run the test suite under valgrind
-nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg()<cr>
-" copy the execution line to clipboard
-nnoremap <leader>dd :call setreg('+', FindExeTarget() . TestCaseArg())<cr>
-
 " breakpoints
 nnoremap <leader>bb :BreakpointSet<cr>
 nnoremap <leader>bc :BreakpointClear<cr>
@@ -494,6 +480,19 @@ function! QuickfixFilenames()
     return join(values(buffer_numbers))
 endfunction
 "}}}
+"{{{ DebugApp
+function! DebugApp()
+    if &ft == 'javascript'
+        echo "js"
+    elseif &ft == 'cpp'
+        exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " "<left>
+    else
+        echo "DubugApp: filtype '" . &ft . "' not supported"
+    endif
+
+endfunction
+"}}}
+
 "}}}
 
 if has("gui_win32")
