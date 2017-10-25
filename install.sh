@@ -38,6 +38,7 @@ clever_ln_s ~/homescripts/.xprofile ~/.xprofile
 clever_ln_s ~/homescripts/.sshrc ~/.sshrc
 clever_ln_s ~/homescripts/.profile ~/.profile
 clever_ln_s ~/homescripts/.inputrc ~/.inputrc
+clever_ln_s ~/homescripts/.gitconfig ~/.gitconfig
 
 # vim
 mkdir -p ~/.vim/ftplugin

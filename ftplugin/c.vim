@@ -1,5 +1,9 @@
-imap <f5> <esc>:wa<cr>:make! -j8<cr>
-nmap <f5> :wa<cr>:make! -j8<cr>
+if (&ft != 'c')
+    finish
+endif
+
+imap <f5> <esc>:wa<cr>:make<cr>
+nmap <f5> :wa<cr>:make<cr>
 imap <f6> <esc>:wa<cr>:Make! -j8<cr>
 nmap <f6> :wa<cr>:Make! -j8<cr>
 

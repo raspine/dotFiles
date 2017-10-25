@@ -105,6 +105,7 @@ Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
 Plugin 'm42e/vim-cpp-auto-include'
+Plugin 'Matt-Deacalion/vim-systemd-syntax'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
@@ -413,6 +414,9 @@ function! LoadWorkspace()"{{{
     "TODO: use .git to check for submodules path
     if finddir('submodules', -1)=='submodules'
         let &path=&path . "," . getcwd() . "/submodules/**"
+    elseif finddir('Drivers', -1)=='Drivers'
+        let &path=&path . "," . getcwd() . "/Drivers/**"
+        let &path=&path . "," . getcwd() . "/Middlewares/**"
     endif
 
     " the projName is assumed to be the name of the root directory

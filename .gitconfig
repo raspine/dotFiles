@@ -21,3 +21,5 @@
 	githubapi = 06f92ddc075aa422a97ba1c00b235d4a21c7ff10
 [merge "ours"]
 	driver = true
+[submodule "submodules/common"]
+	url = git@github.com-paneda:paneda/common.git
