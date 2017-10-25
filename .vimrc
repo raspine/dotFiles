@@ -30,6 +30,7 @@ map <c-z> <nop>
 " disable ex mode (use gQ for improved ex mode)
 nnoremap Q <nop>
 set autoread
+set nojoinspaces
 "}}}
 
 "{{{ wild mode
@@ -80,8 +81,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'vhdirk/vim-cmake.git'
-Plugin 'jplaut/vim-arduino-ino.git'
-Plugin 'sudar/vim-arduino-syntax'
 Plugin 'tpope/vim-obsession.git'
 Plugin 'tpope/vim-characterize.git'
 Plugin 'tpope/vim-unimpaired.git'
@@ -104,8 +103,8 @@ Plugin 'artnez/vim-wipeout.git'
 Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
-Plugin 'm42e/vim-cpp-auto-include'
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
+Plugin 'pangloss/vim-javascript'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
@@ -219,7 +218,7 @@ map <leader>k /[A-Z]<CR>
 map <leader>l $
 
 " quickly open ack
-nnoremap <leader>a :Ack <c-r>=expand("<cword>")<cr>
+nnoremap <leader>aa :Ack <c-r>=expand("<cword>")<cr>
 
 " reselect pasted text
 nnoremap <leader>x V`]
@@ -272,20 +271,6 @@ nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
 nnoremap <leader>cj :botright copen<cr>
 nnoremap <leader>ck :topleft Copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
-
-" mappings for vim-target, vim-testdog, vim-breakgutter
-" run test case directly in vim
-nnoremap <leader>ds :exec "!" . FindExeTarget() . TestSuiteArg()<cr>
-" run test case directly in vim
-nnoremap <leader>dc :exec "!" . FindExeTarget() . TestCaseArg()<cr>
-" spawn a gdb session in a separate terminal (requires Tim Pope's vim-dispatch plugin)
-nnoremap <leader>dg :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg()<cr>
-" same but with custom argsuments (applies to any app)
-nnoremap <leader>dr :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " "<left>
-" run the test suite under valgrind
-nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg()<cr>
-" copy the execution line to clipboard
-nnoremap <leader>dd :call setreg('+', FindExeTarget() . TestCaseArg())<cr>
 
 " breakpoints
 nnoremap <leader>bb :BreakpointSet<cr>
@@ -499,6 +484,19 @@ function! QuickfixFilenames()
     return join(values(buffer_numbers))
 endfunction
 "}}}
+"{{{ DebugApp
+function! DebugApp()
+    if &ft == 'javascript'
+        echo "js"
+    elseif &ft == 'cpp'
+        exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " "<left>
+    else
+        echo "DubugApp: filtype '" . &ft . "' not supported"
+    endif
+
+endfunction
+"}}}
+
 "}}}
 
 if has("gui_win32")
