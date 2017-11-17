@@ -1,4 +1,4 @@
-# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu
+ vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu
 #
 # ~/.sshrc provides settings when connected over ssh
 #
@@ -101,7 +101,6 @@ export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 shopt -s histappend                      # append to history, don't overwrite it
-export TERM="xterm-256color"
 #so as not to be disturbed by Ctrl-S ctrl-Q in terminals:
 stty -ixon
 #}}}
