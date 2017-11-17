@@ -101,6 +101,7 @@ export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 shopt -s histappend                      # append to history, don't overwrite it
+export TERM="xterm"
 #so as not to be disturbed by Ctrl-S ctrl-Q in terminals:
 stty -ixon
 #}}}
