@@ -1,9 +1,9 @@
 set ts=4 sts=0 et sw=4 sta
 
 " run node with debug arguments
-nnoremap <leader>dr :call InsertDebug() <cr>
+nnoremap <leader>dr :call DebugNodeApp() <cr>
 
-function! InsertDebug()
+function! DebugNodeApp()
     let l:breakpoints = FindBreakpoints()
     " insert 'debugger' lines
     for breakpoint in l:breakpoints
