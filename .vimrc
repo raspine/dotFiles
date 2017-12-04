@@ -218,7 +218,7 @@ map <leader>k /[A-Z]<CR>
 map <leader>l $
 
 " quickly open ack
-nnoremap <leader>aa :Ack <c-r>=expand("<cword>")<cr>
+nnoremap <leader>aa :Ack --ignore-file=is:.tags <c-r>=expand("<cword>")<cr>
 
 " reselect pasted text
 nnoremap <leader>x V`]
