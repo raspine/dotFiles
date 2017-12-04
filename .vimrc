@@ -105,6 +105,7 @@ Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
 Plugin 'pangloss/vim-javascript'
+Plugin 'skywind3000/asyncrun.vim'
 
 " color themes
 Plugin 'altercation/vim-colors-solarized.git'
