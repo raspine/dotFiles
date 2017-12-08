@@ -35,10 +35,11 @@ set nojoinspaces
 
 "{{{ wild mode
 set wildmode=list:longest
-set wildignorecase
 set wildignore=*.o
 set wildignore+=**/build-*
 set wildignore+=**/*.dir*
+set nowildignorecase
+set nofileignorecase
 "}}}
 
 "{{{ searching
@@ -103,6 +104,7 @@ Plugin 'artnez/vim-wipeout.git'
 Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
+Plugin 'raspine/vim-git-project.git'
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
 Plugin 'pangloss/vim-javascript'
 Plugin 'skywind3000/asyncrun.vim'
@@ -380,38 +382,23 @@ function! DeleteBranch(branch)
 endfunction
 function! LoadWorkspace()"{{{
 
-    " configure makeprg
+    " language specifics
     if filereadable("CMakeLists.txt")
         let &makeprg="cmake --build 'build' --target"
+        if !filereadable(".ycm_extra_conf.py")
+            call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
+        endif
     elseif filereadable("configure.ac")
         let &makeprg="make"
+        if !filereadable(".ycm_extra_conf.py")
+            call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
+        endif
     endif
 
-    " reset to vim's standard path setting..
-    let &path=".,"
-    " if !has("gui_win32")
-    "     let &path=".,/usr/include/,,"
-    " endif
-    " .. and add our custom ones
-    let &path=&path . "," . getcwd() . "/include/**"
-    let &path=&path . "," . getcwd() . "/src/**"
-    let &path=&path . "," . getcwd() . "/test/**"
-
-    "TODO: use .git to check for submodules path
-    if finddir('submodules', -1)=='submodules'
-        let &path=&path . "," . getcwd() . "/submodules/**"
-    elseif finddir('Drivers', -1)=='Drivers'
-        let &path=&path . "," . getcwd() . "/Drivers/**"
-        let &path=&path . "," . getcwd() . "/Middlewares/**"
-    endif
-
-    " the projName is assumed to be the name of the root directory
-    let l:projName = reverse(split(getcwd(), '/'))[0]
+    let &path='.,' . GP_get_vim_paths()
 
     " only reset workspace if we find suitable workspace files to open
-    " TODO: next line probably doesn't work on Windows
-    let l:appFiles = glob("`find ./src -maxdepth 1 -name *'".projName."'* -print`")
-    if len(appFiles) > 0
+    if GP_is_repo()
         " turn off obsession
         if ObsessionStatus() == '[$]'
             exec "Obsession"
@@ -419,20 +406,20 @@ function! LoadWorkspace()"{{{
 
         " delete all buffers
         exec "bufdo bd"
+    endif
 
+    let appFiles = GP_get_files(GP_get_root_name())
+    for appFile in l:appFiles
+        echo appFile
         " open the files that contains projName
-        exec "find src/*" . projName . "*.hpp"
-        exec "vert sfind src/*" . projName . "*.cpp"
+        exec "vsp " . appFile
 
         " other necessities
         windo set ft=cpp
         windo call fugitive#detect(getcwd())
-    endif
+    endfor
 
-    call system('ctags -R -f .tags --exclude=git_import')
-    if !filereadable(".ycm_extra_conf.py")
-        call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
-    endif
+    exec '!ctags -R -f .tags ' . GP_get_ctags_exclude_args()
 
 endfunction"}}}
 function! SmartSave()"{{{
@@ -485,24 +472,13 @@ function! QuickfixFilenames()
     return join(values(buffer_numbers))
 endfunction
 "}}}
-"{{{ DebugApp
-function! DebugApp()
-    if &ft == 'javascript'
-        echo "js"
-    elseif &ft == 'cpp'
-        exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " "<left>
-    else
-        echo "DubugApp: filtype '" . &ft . "' not supported"
-    endif
-
-endfunction
-"}}}
-
 "}}}
 
 if has("gui_win32")
     cd d:\work
 else
-    cd ~/work
+    if getcwd() == '/home/jsc'
+        cd ~/work
+    endif
 endif
 
