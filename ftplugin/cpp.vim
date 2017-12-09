@@ -31,3 +31,7 @@ nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . Tes
 " copy the execution line to clipboard
 nnoremap <leader>dd :call setreg('+', FindExeTarget() . TestCaseArg())<cr>
 
+let &makeprg="cmake --build 'build' --target"
+if !filereadable(".ycm_extra_conf.py")
+    call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
+endif

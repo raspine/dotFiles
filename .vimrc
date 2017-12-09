@@ -248,7 +248,7 @@ nnoremap <leader>vd :bp<bar>sp<bar>bn<bar>bd<CR>
 nnoremap <leader>v<space> :Wipeout<cr>
 
 " workspace
-nnoremap <leader>ww :call LoadWorkspace()<cr>
+nnoremap <leader>ww :call InitWorkspace()<cr>
 " exit ex mode
 cnoremap <leader>w<space> visual<cr>
 
@@ -339,17 +339,17 @@ nnoremap <space>n :vnew<cr>
 augroup MyAutoCommands
     autocmd!
     " source .vimrc when saved
-    if has("gui_win32")
-        autocmd bufwritepost _vimrc source $MYVIMRC
-    else
-        autocmd bufwritepost .vimrc source $MYVIMRC
-    endif
+    " if has("gui_win32")
+    "     autocmd bufwritepost _vimrc source $MYVIMRC
+    " else
+    "     autocmd bufwritepost .vimrc source $MYVIMRC
+    " endif
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
     autocmd FileType c,cpp,java,php autocmd BufWritePre <buffer> %s/\s\+$//e
-    autocmd User chdir :call LoadWorkspace()
+    autocmd User chdir :call InitWorkspace()
     " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
 augroup END
 "}}}
@@ -380,47 +380,51 @@ function! DeleteBranch(branch)
     exec "Git branch -D " . a:branch
     exec "Git push origin :" . a:branch
 endfunction
-function! LoadWorkspace()"{{{
-
-    " language specifics
-    if filereadable("CMakeLists.txt")
-        let &makeprg="cmake --build 'build' --target"
-        if !filereadable(".ycm_extra_conf.py")
-            call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
-        endif
-    elseif filereadable("configure.ac")
-        let &makeprg="make"
-        if !filereadable(".ycm_extra_conf.py")
-            call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
-        endif
+function! InitWorkspace()"{{{
+    if !GP_is_repo()
+        return
     endif
 
+    " Set vim's 'path' variable. Only directories part of git repo is added.
+    " Vim's 'path' will be searched when using the |gf|, [f, ]f, ^Wf, |:find|,
+    " |:sfind|, |:tabfind| and other commands.
     let &path='.,' . GP_get_vim_paths()
 
-    " only reset workspace if we find suitable workspace files to open
-    if GP_is_repo()
-        " turn off obsession
-        if ObsessionStatus() == '[$]'
-            exec "Obsession"
-        endif
-
-        " delete all buffers
-        exec "bufdo bd"
-    endif
-
-    let appFiles = GP_get_files(GP_get_root_name())
-    for appFile in l:appFiles
-        echo appFile
-        " open the files that contains projName
-        exec "vsp " . appFile
-
-        " other necessities
-        windo set ft=cpp
-        windo call fugitive#detect(getcwd())
-    endfor
-
+    " Create ctags index, exclude directories that are not part of git repo.
     exec '!ctags -R -f .tags ' . GP_get_ctags_exclude_args()
 
+    " Turn off obsession before delete/opening buffers thus avoid messing up
+    " current session.
+    if ObsessionStatus() == '[$]'
+        exec "Obsession"
+    endif
+
+    " Delete all buffers and start fresh.
+    exec "bufdo bd"
+
+    " Open files containing root name as a default start. This is just a naming
+    " convention I use for the main app files in any given project.
+    " A manual :so Session.vim gets the last workspace back if the main app
+    " files is not what I want.
+    let appFiles = GP_get_files(GP_get_root_name())
+
+    " Prefer open *test* file first.
+    for appFile in l:appFiles
+        " open the files that contains projName
+        if appFile =~ 'test'
+            exec 'e ' . appFile
+            call fugitive#detect(getcwd())
+            filetype detect
+        endif
+    endfor
+    " Open other files in split.
+    for appFile in l:appFiles
+        if !(appFile =~ 'test')
+            exec 'sp ' . appFile
+            call fugitive#detect(getcwd())
+            filetype detect
+        endif
+    endfor
 endfunction"}}}
 function! SmartSave()"{{{
     if exists(":Gwrite")
