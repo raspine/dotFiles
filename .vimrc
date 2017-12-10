@@ -348,7 +348,7 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-    autocmd FileType c,cpp,java,php autocmd BufWritePre <buffer> %s/\s\+$//e
+    autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
     " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
 augroup END
@@ -391,21 +391,21 @@ function! InitWorkspace()"{{{
     let &path='.,' . GP_get_vim_paths()
 
     " Create ctags index, exclude directories that are not part of git repo.
-    exec '!ctags -R -f .tags ' . GP_get_ctags_exclude_args()
+    exec 'silent! !ctags -R -f .tags ' . GP_get_ctags_exclude_args()
 
-    " Turn off obsession before delete/opening buffers thus avoid messing up
-    " current session.
+    " Turn off obsession before delete/opening buffers and avoid messing up
+    " current session when change dir to another project.
     if ObsessionStatus() == '[$]'
         exec "Obsession"
     endif
 
-    " Delete all buffers and start fresh.
+    " Delete all buffers provides a fresh start.
     exec "bufdo bd"
 
     " Open files containing root name as a default start. This is just a naming
     " convention I use for the main app files in any given project.
-    " A manual :so Session.vim gets the last workspace back if the main app
-    " files is not what I want.
+    " A ':so Session.vim' loads the last workspace if the main app files is not
+    " what I want.
     let appFiles = GP_get_files(GP_get_root_name())
 
     " Prefer open *test* file first.
@@ -425,6 +425,9 @@ function! InitWorkspace()"{{{
             filetype detect
         endif
     endfor
+
+    " Move cursor to bottom file, i.e. the *test* file.
+    exec 'silent! 3 wincmd j'
 endfunction"}}}
 function! SmartSave()"{{{
     if exists(":Gwrite")

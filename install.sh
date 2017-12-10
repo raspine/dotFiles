@@ -53,6 +53,7 @@ clever_ln_s ~/homescripts/ftplugin/vim.vim ~/.vim/ftplugin/vim.vim
 clever_ln_s ~/homescripts/ftplugin/help.vim ~/.vim/ftplugin/help.vim
 clever_ln_s ~/homescripts/ftplugin/cmake.vim ~/.vim/ftplugin/cmake.vim
 clever_ln_s ~/homescripts/ftplugin/javascript.vim ~/.vim/ftplugin/javascript.vim
+clever_ln_s ~/homescripts/ftplugin/python.vim ~/.vim/ftplugin/python.vim
 
 # vifm
 mkdir -p ~/vifm/colors
