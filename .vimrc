@@ -388,7 +388,7 @@ function! InitWorkspace()"{{{
     " Set vim's 'path' variable. Only directories part of git repo is added.
     " Vim's 'path' will be searched when using the |gf|, [f, ]f, ^Wf, |:find|,
     " |:sfind|, |:tabfind| and other commands.
-    let &path='.,' . GP_get_vim_paths()
+    let &path='.,' . GP_get_vim_dirs()
 
     " Create ctags index, exclude directories that are not part of git repo.
     exec 'silent! !ctags -R -f .tags ' . GP_get_ctags_exclude_args()
