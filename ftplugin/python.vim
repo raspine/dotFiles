@@ -1,5 +1,5 @@
-imap <f5> <esc>:wa<cr>:AsyncRun docker-compose run test<cr>
-nmap <f5> :wa<cr>:AsyncRun docker-compose run test<cr>
+imap <f5> <esc>:wa<cr>:AsyncRun docker-compose run test<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f5> :wa<cr>:AsyncRun docker-compose run test<cr>:botright copen<cr>:wincmd p<cr>
 let &makeprg='python'
 
 "folding settings

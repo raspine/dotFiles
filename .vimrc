@@ -91,25 +91,28 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'xuhdev/SingleCompile.git'
 Plugin 'AndrewRadev/sideways.vim'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
+Plugin 'skywind3000/asyncrun.vim'
+
+" my stuff
 Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
 Plugin 'raspine/vim-git-project.git'
+
+" improved syntax highlightning
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
 Plugin 'pangloss/vim-javascript'
-Plugin 'skywind3000/asyncrun.vim'
 
-" color themes
+" looks
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'kristijanhusak/vim-hybrid-material.git'
 call vundle#end()
