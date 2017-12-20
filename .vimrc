@@ -99,6 +99,7 @@ Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
 Plugin 'skywind3000/asyncrun.vim'
+Plugin 'janko-m/vim-test.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -200,6 +201,11 @@ nnoremap <c-l> :SidewaysRight<cr>
 let g:cmake_build_type = 'Debug'
 let g:cmake_custom_vars = '-DRUN_TESTS=On'
 ""}}}
+"{{{ vim-test
+let test#python#runner = 'nose'
+let test#strategy = "dispatch"
+" Runners available are 'pytest', 'nose', 'nose2', 'djangotest', 'djangonose' and Python's built-in 'unittest'
+"}}}
 "}}}
 
 "{{{ key mappings
