@@ -23,6 +23,8 @@ set laststatus=2
 set relativenumber
 set number
 set undofile
+set splitright
+set formatoptions=qrn1
 set guioptions-=T
 set guioptions-=M
 " disable quick quit
@@ -35,9 +37,9 @@ set nojoinspaces
 
 "{{{ wild mode
 set wildmode=list:longest
-set wildignore=*.o
-set wildignore+=**/build-*
-set wildignore+=**/*.dir*
+" set wildignore=*.o
+" set wildignore+=**/build-*
+" set wildignore+=**/*.dir*
 set nowildignorecase
 set nofileignorecase
 "}}}
@@ -55,9 +57,7 @@ set nohlsearch
 "{{{ line wrapping
 set nowrap
 set textwidth=79
-set formatoptions=qrn1
 set colorcolumn=85
-set splitright
 "}}}
 
 "{{{ white spaces
@@ -304,6 +304,7 @@ nnoremap <leader>gh :Gvdiff HEAD<cr>
 nnoremap <leader>gl :Gvdiff<cr>
 " nnoremap <leader>gi :!eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)<cr>
 nnoremap <leader>g<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
+nnoremap <leader>gd :Git branch<cr>:call DeleteBranch('')<left><left>
 
 " local list
 nnoremap <leader>ff :lopen<cr>
@@ -375,8 +376,13 @@ augroup END
 
 "{{{ colors & font
 if has("gui_running")
-    colorscheme solarized
-    set background=light
+    if system('hostname')=~'home'
+        colorscheme hybrid_material
+        set background=dark
+    else
+        colorscheme solarized
+        set background=light
+    endif
     if has("gui_gtk3") || has("gui_gtk2")
         set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
     elseif has("gui_win32")
@@ -391,12 +397,13 @@ set printoptions=number:y
 "}}}
 
 "{{{ scripts
-" TODO: branch completion
+"{{{ DeleteBranch TODO: branch completion
 command! -nargs=1 DeleteBranch call DeleteBranch(<q-args>)
 function! DeleteBranch(branch)
     exec "Git branch -D " . a:branch
     exec "Git push origin :" . a:branch
 endfunction
+"}}}
 function! InitWorkspace()"{{{
     if !GP_is_repo()
         return
@@ -485,16 +492,5 @@ function! HardCopy()"{{{
   hardcopy
   execute 'colorscheme' colors_save
 endfunction"}}}
-"{{{ Git search TODO:
-command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
-function! QuickfixFilenames()
-    " Building a hash ensures we get each buffer only once
-    let buffer_numbers = {}
-    for quickfix_item in getqflist()
-        let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
-    endfor
-    return join(values(buffer_numbers))
-endfunction
-"}}}
 "}}}
 
