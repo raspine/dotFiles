@@ -202,6 +202,8 @@ nnoremap <c-l> :SidewaysRight<cr>
 let g:cmake_build_type = 'Debug'
 let g:cmake_custom_vars = '-DRUN_TESTS=On'
 ""}}}
+"{{{ asyncrun
+nmap <F6> AsyncStop
 "{{{ vim-test
 let test#python#runner = 'nose'
 let test#strategy = "dispatch"
