@@ -4,8 +4,8 @@ nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen
 set ts=4 sw=4 noet
 setlocal commentstring=//\ %s
 
-imap <F9> <esc>:wa<cr>:AsyncRun clang++ % -o %:r --std=c++14 -lboost_system<cr>:botright copen<cr>:wincmd p<cr>
-nmap <F9> :wa<cr>:AsyncRun clang++ % -o %:r --std=c++14 -lboost_system<cr>:botright copen<cr>:wincmd p<cr>
+nmap <F8> :wa<cr>:AsyncRun g++ % -o %:r --std=c++14 -Wall -Wextra -Wpedantic -lboost_system<cr>:botright copen<cr>:wincmd p<cr>
+nmap <F9> :wa<cr>:AsyncRun clang++ % -o %:r --std=c++14 -Wall -Wextra -Wpedantic -lboost_system<cr>:botright copen<cr>:wincmd p<cr>
 nmap <F10> :AsyncRun %:r<cr>:botright copen<cr>:wincmd p<cr>
 
 "folding settings

@@ -117,6 +117,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'kristijanhusak/vim-hybrid-material.git'
+Plugin 'ayu-theme/ayu-vim.git'
 call vundle#end()
 filetype plugin indent on     " required
 "}}}
@@ -203,7 +204,8 @@ let g:cmake_build_type = 'Debug'
 let g:cmake_custom_vars = '-DRUN_TESTS=On'
 ""}}}
 "{{{ asyncrun
-nmap <F6> AsyncStop
+nmap <F6> :AsyncStop
+"}}}
 "{{{ vim-test
 let test#python#runner = 'nose'
 let test#strategy = "dispatch"
@@ -316,6 +318,7 @@ nnoremap <leader>s<space> :windo %s/<c-r>=expand("<cword>")<cr>/
 " colors
 nnoremap <leader>ns :colorscheme solarized<cr>:set background=light<cr>
 nnoremap <leader>nm :colorscheme hybrid_material<cr>:set background=dark<cr>
+nnoremap <leader>na :let ayucolor="mirage"<cr>:colorscheme ayu<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
@@ -347,7 +350,6 @@ inoremap <C-s> <C-O>:call SmartSave()<CR>
 nnoremap <space> <c-w>
 nnoremap <space>9 91<C-w>\|
 nnoremap <space>n :vnew<cr>
-
 "}}}
 "}}}
 
@@ -380,8 +382,6 @@ if has("gui_running")
     elseif has("gui_win32")
         set guifont=Consolas:h10:cANSI
     endif
-else
-    colorscheme desert
 endif
 "}}}
 
