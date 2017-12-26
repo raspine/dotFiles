@@ -100,6 +100,7 @@ Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
+Plugin 'leafgarland/typescript-vim.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -284,6 +285,10 @@ nnoremap <leader>cj :botright copen<cr>
 nnoremap <leader>ck :topleft Copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
 
+" preview
+nnoremap <leader>pp :ptag<cr>
+nnoremap <leader>p<space> :pclose<cr>
+
 " breakpoints
 nnoremap <leader>bb :BreakpointSet<cr>
 nnoremap <leader>bc :BreakpointClear<cr>
@@ -353,6 +358,7 @@ augroup MyAutoCommands
     " else
     "     autocmd bufwritepost .vimrc source $MYVIMRC
     " endif
+    autocmd VimEnter * cd ~/work
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
@@ -489,12 +495,4 @@ function! QuickfixFilenames()
 endfunction
 "}}}
 "}}}
-
-if has("gui_win32")
-    cd d:\work
-else
-    if getcwd() == '/home/jsc'
-        cd ~/work
-    endif
-endif
 

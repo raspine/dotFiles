@@ -27,9 +27,6 @@ alias fgrep='fgrep --color=auto'
 alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T"'
 
-## vim
-alias svim='sudo vim'
-
 ## pacman
 alias pacs='sudo pacman -S'
 alias pacsyu='sudo pacman -Syu'
