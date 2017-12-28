@@ -204,7 +204,7 @@ let g:cmake_build_type = 'Debug'
 let g:cmake_custom_vars = '-DRUN_TESTS=On'
 ""}}}
 "{{{ asyncrun
-nmap <F6> :AsyncStop
+nmap <F6> :AsyncStop<cr>
 "}}}
 "{{{ vim-test
 let test#python#runner = 'nose'
