@@ -8,6 +8,11 @@ set foldnestmax=2
 set foldenable
 set foldlevel=0
 
+" vim-test settings
+" Runners available are 'pytest', 'nose', 'nose2', 'djangotest', 'djangonose' and Python's built-in 'unittest'
+let test#python#runner = 'nose'
+let test#strategy = "dispatch"
+
 " run test case directly in vim
 nnoremap <leader>ds :wa<cr>:TestSuite<cr>
 " run test case directly in vim

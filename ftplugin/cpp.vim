@@ -2,7 +2,11 @@ imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright 
 nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
 
 set ts=4 sw=4 noet
+
 setlocal commentstring=//\ %s
+" wrap comment word using vim-surround
+nmap <leader>cc ysiw*gvS/
+" uncoment with ds/
 
 nmap <F8> :wa<cr>:AsyncRun g++ % -o %:r --std=c++14 -Wall -Wextra -Wpedantic -lboost_system<cr>:botright copen<cr>:wincmd p<cr>
 nmap <F9> :wa<cr>:AsyncRun clang++ % -o %:r --std=c++14 -Wall -Wextra -Wpedantic -lboost_system<cr>:botright copen<cr>:wincmd p<cr>
@@ -13,6 +17,16 @@ set foldmethod=syntax
 set foldnestmax=1
 set foldenable
 set foldlevel=1
+
+let g:cmake_build_type = 'Debug'
+let g:cmake_custom_vars = '-DRUN_TESTS=On'
+" cmake
+nnoremap <leader>cb :CMake<cr>
+nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
+nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
+nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
+nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
+
 
 " mappings for vim-target, vim-testdog, vim-breakgutter
 " run test case directly in vim

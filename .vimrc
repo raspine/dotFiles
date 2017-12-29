@@ -1,25 +1,17 @@
 " vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
 
 "{{{ general
-syntax on
-set noswapfile
 set nocompatible
+set noswapfile
 set modeline
 set modelines=5
-set encoding=utf-8
-set scrolloff=3
-set autoindent
 set showmode
 set showcmd
 set hidden
-set wildmenu
 set showmatch
 set gdefault
 set cursorline
 set ttyfast
-set ruler
-set backspace=indent,eol,start
-set laststatus=2
 set relativenumber
 set number
 set undofile
@@ -31,27 +23,22 @@ set guioptions-=M
 map <c-z> <nop>
 " disable ex mode (use gQ for improved ex mode)
 nnoremap Q <nop>
-set autoread
 set nojoinspaces
 "}}}
 
 "{{{ wild mode
 set wildmode=list:longest
-" set wildignore=*.o
-" set wildignore+=**/build-*
-" set wildignore+=**/*.dir*
 set nowildignorecase
 set nofileignorecase
 "}}}
 
 "{{{ searching
-" q/ for search hsitory
+" q/ for search history
 nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
-set incsearch
-set nohlsearch
+set hlsearch
 "}}}
 
 "{{{ line wrapping
@@ -60,17 +47,7 @@ set textwidth=79
 set colorcolumn=85
 "}}}
 
-"{{{ white spaces
-set list listchars=tab:→\ ,trail:·,precedes:·,nbsp:_
-nnoremap <F11> : set list!<CR>
-set list!
-"}}}
-
-"{{{ ctags
-set tags=./.tags;/
-"}}}
-
-"{{{ vundle plugins
+"{{{ plugins
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -80,8 +57,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'Valloric/YouCompleteMe.git'
-Plugin 'mileszs/ack.vim'
-Plugin 'vhdirk/vim-cmake.git'
+Plugin 'tpope/vim-sensible.git'
 Plugin 'tpope/vim-obsession.git'
 Plugin 'tpope/vim-characterize.git'
 Plugin 'tpope/vim-unimpaired.git'
@@ -91,10 +67,11 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-surround'
+Plugin 'vhdirk/vim-cmake.git'
+Plugin 'mileszs/ack.vim'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'AndrewRadev/sideways.vim'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
@@ -117,9 +94,8 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'altercation/vim-colors-solarized.git'
 Plugin 'kristijanhusak/vim-hybrid-material.git'
-Plugin 'ayu-theme/ayu-vim.git'
 call vundle#end()
-filetype plugin indent on     " required
+filetype plugin indent on
 "}}}
 
 "{{{ plugin config
@@ -146,39 +122,14 @@ let g:airline#extensions#branch#displayed_head_limit = 20
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
+let g:airline_theme='hybrid'
 " air-line
 if has("gui_running")
     let g:airline_powerline_fonts = 1
 else
     let g:airline_powerline_fonts = 0
 endif
-
-" if !exists('g:airline_symbols')
-"     let g:airline_symbols = {}
-" endif
-
-" " unicode symbols
-" let g:airline_left_sep = '»'
-" let g:airline_left_sep = '▶'
-" let g:airline_right_sep = '«'
-" let g:airline_right_sep = '◀'
-" let g:airline_symbols.linenr = '␊'
-" let g:airline_symbols.linenr = '␤'
-" let g:airline_symbols.linenr = '¶'
-" let g:airline_symbols.branch = '⎇'
-" let g:airline_symbols.paste = 'ρ'
-" let g:airline_symbols.paste = 'Þ'
-" let g:airline_symbols.paste = '∥'
-" let g:airline_symbols.whitespace = 'Ξ'
-
-" " airline symbols
-" let g:airline_left_sep = ''
-" let g:airline_left_alt_sep = ''
-" let g:airline_right_sep = ''
-" let g:airline_right_alt_sep = ''
-" let g:airline_symbols.branch = ''
-" let g:airline_symbols.readonly = ''
-" let g:airline_symbols.linenr = ''
+let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 
 function! AirlineInit()
     let g:airline_section_a = airline#section#create(['branch'])
@@ -195,21 +146,8 @@ let g:UltiSnipsJumpForwardTrigger='<c-j>'
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 let g:UltiSnipsEditSplit='vertical'
 "}}}
-"sideways"{{{
-nnoremap <c-h> :SidewaysLeft<cr>
-nnoremap <c-l> :SidewaysRight<cr>
-"}}}
-"{{{ cmake
-let g:cmake_build_type = 'Debug'
-let g:cmake_custom_vars = '-DRUN_TESTS=On'
-""}}}
 "{{{ asyncrun
 nmap <F6> :AsyncStop<cr>
-"}}}
-"{{{ vim-test
-let test#python#runner = 'nose'
-let test#strategy = "dispatch"
-" Runners available are 'pytest', 'nose', 'nose2', 'djangotest', 'djangonose' and Python's built-in 'unittest'
 "}}}
 "}}}
 
@@ -224,6 +162,7 @@ nmap gJ <Plug>JoinWithoutSpace
 vnoremap <tab> %
 " type in small letter, convert to capital
 imap <C-F> <Esc>gUiw`]a
+nnoremap <F11> : set list!<CR>
 "}}}
 "{{{ mapleader
 " quick save
@@ -272,17 +211,10 @@ nnoremap <leader>eb <C-w><C-v><C-l>:e ~/homescripts/.bashrc<cr>
 nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
-
-" wrap comment word using vim-surround
-nmap <leader>cc ysiw*gvS/
-" uncoment with ds/
-
-" cmake
-nnoremap <leader>cb :CMake<cr>
-nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
-nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
-nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
-nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
+nnoremap <leader>ec <C-w><C-v><C-l>:e ~/.vim/ftplugin/cpp.vim<cr>
+nnoremap <leader>ej <C-w><C-v><C-l>:e ~/.vim/ftplugin/javascript.vim<cr>
+nnoremap <leader>et <C-w><C-v><C-l>:e ~/.vim/ftplugin/typescript.vim<cr>
+nnoremap <leader>ep <C-w><C-v><C-l>:e ~/.vim/ftplugin/python.vim<cr>
 
 " quickfix
 nnoremap <leader>cj :botright copen<cr>
@@ -319,7 +251,6 @@ nnoremap <leader>s<space> :windo %s/<c-r>=expand("<cword>")<cr>/
 " colors
 nnoremap <leader>ns :colorscheme solarized<cr>:set background=light<cr>
 nnoremap <leader>nm :colorscheme hybrid_material<cr>:set background=dark<cr>
-nnoremap <leader>na :let ayucolor="mirage"<cr>:colorscheme ayu<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
@@ -402,9 +333,8 @@ command! -nargs=1 DeleteBranch call DeleteBranch(<q-args>)
 function! DeleteBranch(branch)
     exec "Git branch -D " . a:branch
     exec "Git push origin :" . a:branch
-endfunction
-"}}}
-function! InitWorkspace()"{{{
+endfunction "}}}
+function! InitWorkspace() "{{{
     if !GP_is_repo()
         return
     endif
@@ -452,8 +382,8 @@ function! InitWorkspace()"{{{
 
     " Move cursor to bottom file, i.e. the *test* file.
     exec 'silent! 3 wincmd j'
-endfunction"}}}
-function! SmartSave()"{{{
+endfunction "}}}
+function! SmartSave() "{{{
     if exists(":Gwrite")
         exec "Gwrite"
     else
@@ -463,8 +393,8 @@ function! SmartSave()"{{{
     if filereadable("tags")
         call system('ctags -f .tags -a '. expand("%"))
     endif
-endfunction"}}}
-function! CMakeStat()"{{{
+endfunction "}}}
+function! CMakeStat() "{{{
   let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
   let l:build_dir = finddir(l:cmake_build_dir, '.;')
 
@@ -483,14 +413,13 @@ function! CMakeStat()"{{{
           endfor
       endif
   endif
-  " return retstr
   return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
 endfunction"}}}
-function! HardCopy()"{{{
+function! HardCopy() "{{{
   let colors_save = g:colors_name
   colorscheme zellner
   hardcopy
   execute 'colorscheme' colors_save
-endfunction"}}}
+endfunction "}}}
 "}}}
 
