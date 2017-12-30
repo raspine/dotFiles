@@ -115,7 +115,7 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
 "}}}
-"{{{ airline
+"{{{ AirLine
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#branch#displayed_head_limit = 20
@@ -131,32 +131,6 @@ else
 endif
 let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 
-function! CMakeStat() "{{{
-  let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
-  let l:build_dir = finddir(l:cmake_build_dir, '.;')
-
-  let l:retstr = ""
-  if l:build_dir != ""
-      if filereadable(build_dir . '/CMakeCache.txt')
-          let cmcache = readfile(build_dir . '/CMakeCache.txt')
-          for line in cmcache
-              " cmake variable
-              if line =~ "CMAKE_BUILD_TYPE"
-                  let value = reverse(split(line, '='))[0]
-                  let retstr = retstr . value . " "
-              " custom variable
-              elseif line =~ "RUN_TESTS"
-                  let value = reverse(split(line, '='))[0]
-                  let retstr = retstr . "T" . value . " "
-              endif
-          endfor
-      endif
-  endif
-  return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
-endfunction"}}}
-call airline#parts#define('cmake', {'function': 'CMakeStat'})
-let g:airline_section_b = airline#section#create_left(['cmake'])
-
 function! AirlineInit()
     let g:airline_section_a = airline#section#create(['branch'])
 endfunction
@@ -170,7 +144,7 @@ let g:UltiSnipsJumpForwardTrigger='<c-j>'
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 let g:UltiSnipsEditSplit='vertical'
 "}}}
-"{{{ asyncrun
+"{{{ AsyncRun
 nmap <F6> :AsyncStop<cr>
 "}}}
 "}}}

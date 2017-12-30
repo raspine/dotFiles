@@ -28,6 +28,32 @@ nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
 nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
 nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
 
+function! CMakeStat() "{{{
+  let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
+  let l:build_dir = finddir(l:cmake_build_dir, '.;')
+
+  let l:retstr = ""
+  if l:build_dir != ""
+      if filereadable(build_dir . '/CMakeCache.txt')
+          let cmcache = readfile(build_dir . '/CMakeCache.txt')
+          for line in cmcache
+              " cmake variable
+              if line =~ "CMAKE_BUILD_TYPE"
+                  let value = reverse(split(line, '='))[0]
+                  let retstr = retstr . value . " "
+              " custom variable
+              elseif line =~ "RUN_TESTS"
+                  let value = reverse(split(line, '='))[0]
+                  let retstr = retstr . "T" . value . " "
+              endif
+          endfor
+      endif
+  endif
+  return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
+endfunction"}}}
+call airline#parts#define('cmake', {'function': 'CMakeStat'})
+let g:airline_section_b = airline#section#create_left(['cmake'])
+
 
 " mappings for vim-target, vim-testdog, vim-breakgutter
 " run test case directly in vim
