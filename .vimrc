@@ -67,7 +67,6 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-surround'
-Plugin 'vhdirk/vim-cmake.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
@@ -78,6 +77,7 @@ Plugin 'artnez/vim-wipeout.git'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
 Plugin 'leafgarland/typescript-vim.git'
+Plugin 'vhdirk/vim-cmake.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -131,12 +131,36 @@ else
 endif
 let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 
+function! CMakeStat() "{{{
+  let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
+  let l:build_dir = finddir(l:cmake_build_dir, '.;')
+
+  let l:retstr = ""
+  if l:build_dir != ""
+      if filereadable(build_dir . '/CMakeCache.txt')
+          let cmcache = readfile(build_dir . '/CMakeCache.txt')
+          for line in cmcache
+              " cmake variable
+              if line =~ "CMAKE_BUILD_TYPE"
+                  let value = reverse(split(line, '='))[0]
+                  let retstr = retstr . value . " "
+              " custom variable
+              elseif line =~ "RUN_TESTS"
+                  let value = reverse(split(line, '='))[0]
+                  let retstr = retstr . "T" . value . " "
+              endif
+          endfor
+      endif
+  endif
+  return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
+endfunction"}}}
+call airline#parts#define('cmake', {'function': 'CMakeStat'})
+let g:airline_section_b = airline#section#create_left(['cmake'])
+
 function! AirlineInit()
     let g:airline_section_a = airline#section#create(['branch'])
-    let g:airline_section_b = airline#section#create_left(['%{CMakeStat()}'])
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
-
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -327,7 +351,7 @@ set printfont=Monospace:h8
 set printoptions=number:y
 "}}}
 
-"{{{ scripts
+"{{{ various scripts
 "{{{ DeleteBranch TODO: branch completion
 command! -nargs=1 DeleteBranch call DeleteBranch(<q-args>)
 function! DeleteBranch(branch)
@@ -394,27 +418,6 @@ function! SmartSave() "{{{
         call system('ctags -f .tags -a '. expand("%"))
     endif
 endfunction "}}}
-function! CMakeStat() "{{{
-  let l:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
-  let l:build_dir = finddir(l:cmake_build_dir, '.;')
-
-  let l:retstr = ""
-  if l:build_dir != ""
-      if filereadable(build_dir . '/CMakeCache.txt')
-          let cmcache = readfile(build_dir . '/CMakeCache.txt')
-          for line in cmcache
-              if line =~ "CMAKE_BUILD_TYPE"
-                  let value = reverse(split(line, '='))[0]
-                  let retstr = retstr . value . " "
-              elseif line =~ "RUN_TESTS"
-                  let value = reverse(split(line, '='))[0]
-                  let retstr = retstr . "T" . value . " "
-              endif
-          endfor
-      endif
-  endif
-  return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
-endfunction"}}}
 function! HardCopy() "{{{
   let colors_save = g:colors_name
   colorscheme zellner

@@ -18,9 +18,10 @@ set foldnestmax=1
 set foldenable
 set foldlevel=1
 
+" var for vim-cmake plugin
 let g:cmake_build_type = 'Debug'
-let g:cmake_custom_vars = '-DRUN_TESTS=On'
-" cmake
+let g:cmake_custom_vars = '-DRUN_TESTS=Off'
+" leader mappings
 nnoremap <leader>cb :CMake<cr>
 nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
