@@ -52,7 +52,7 @@ function! CMakeStat() "{{{
   return substitute(retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
 endfunction"}}}
 call airline#parts#define('cmake', {'function': 'CMakeStat'})
-let g:airline_section_b = airline#section#create_left(['cmake'])
+let g:airline_section_b = airline#section#create_left(['branch','cmake'])
 
 
 " mappings for vim-target, vim-testdog, vim-breakgutter

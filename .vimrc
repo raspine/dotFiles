@@ -131,10 +131,10 @@ else
 endif
 let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 
-function! AirlineInit()
-    let g:airline_section_a = airline#section#create(['branch'])
-endfunction
-autocmd User AirlineAfterInit call AirlineInit()
+" function! AirlineInit()
+"     let g:airline_section_a = airline#section#create(['branch'])
+" endfunction
+" autocmd User AirlineAfterInit call AirlineInit()
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
