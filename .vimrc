@@ -38,7 +38,7 @@ nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
-set hlsearch
+set nohlsearch
 "}}}
 
 "{{{ line wrapping
@@ -131,6 +131,8 @@ else
 endif
 let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 
+let g:airline_section_a = airline#section#create(['branch'])
+let g:airline_section_b = airline#section#create([''])
 " function! AirlineInit()
 "     let g:airline_section_a = airline#section#create(['branch'])
 " endfunction
@@ -168,7 +170,11 @@ let mapleader = "\\"
 
 map <leader>h ^
 map <leader>j %
-map <leader>k /[A-Z]<CR>
+" useful for camelcase or '_' delimed words can be used with operators and works
+" with repeat e.g. d<leader>k deletes word from wordIsCamelCase or word_is_delimed
+"                                               ^                  ^
+map <leader>k /\v[A-Z]\|_<CR>
+xmap <leader>k /\_.[A-Z]\|\_._<CR>
 map <leader>l $
 
 " quickly open ack
@@ -183,8 +189,8 @@ nnoremap <leader>t :tabs<cr>:tabn
 " registers
 " paste text from register in command mode
 nnoremap <leader>rr :reg<CR>:put<space>
-" clear registers except q and e
-command! WipeReg let regs='123456789abcdfghijklmnoprstuvwxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
+" clear registers except e
+command! WipeReg let regs='123456789abcdfghijklmnopqrstuvwxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
 nnoremap <leader>r<space> :WipeReg<cr>
 
 " buffer convenience
@@ -252,10 +258,12 @@ nnoremap <leader>nm :colorscheme hybrid_material<cr>:set background=dark<cr>
 "}}}
 " {{{ copy/paste
 map Y y$
-" repeatable 'stamping' use equivalent cc instead of S
+" maps 'S' to repeatable 'stamping' instead of substitute line
+" as normal 'S' only is a synonym for 'cc', nothing is lost
 nnoremap <silent> <Plug>Stamp diw"0P
             \:call repeat#set("\<Plug>Stamp")<CR>
 nmap S <Plug>Stamp
+xmap S "0P
 
 " turns 'x' into a blackhole delete operator, use dl/dh instead of 'x'/'X'
 " implictly also turns xl/xh to black hole versions of 'x'/'X'
