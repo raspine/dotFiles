@@ -154,15 +154,34 @@ nmap <F6> :AsyncStop<cr>
 "{{{ key mappings
 "{{{ general
 cmap w!! w !sudo tee >/dev/null %
-" join lines and remove the space
-nnoremap <silent> <Plug>JoinWithoutSpace $J"_x
-            \:call repeat#set("\<Plug>JoinWithoutSpace")<CR>
-nmap gJ <Plug>JoinWithoutSpace
-
-vnoremap <tab> %
 " type in small letter, convert to capital
 imap <C-F> <Esc>gUiw`]a
 nnoremap <F11> : set list!<CR>
+
+" use synonym 'yy' instead of 'Y'
+map Y y$
+" Use synonym 'cc' instead of 'S'. Instead 'S' is used as repeatable 'stamping'.
+nnoremap <silent> <Plug>Stamp diw"0P
+            \:call repeat#set("\<Plug>Stamp")<CR>
+nmap S <Plug>Stamp
+xmap S "0P
+
+" Use synonym dl/dh instead of 'x'/'X'. Instead 'x' is used as a camelcase or
+" '_' sensitive version of 'w'. can be used with operators and works with repeat
+" e.g. 'dx' deletes 'word' from wordIsCamelCase or word_is_underscored
+"                               ^                  ^
+"TODO: does not include last char before new line
+map x /\v[A-Z]\|_\|\_s<CR>
+xmap x /\_.[A-Z]\|\_._\|\_.\_s<CR>
+map X ?\v<\|[A-Z]\|_<CR>
+xmap X ?\v<\|[A-Z]\|_<CR>
+
+"system clipboard classic style
+vmap <C-c> "+y
+vmap <C-x> "+c
+vmap <C-v> c<ESC>"+p=']
+imap <C-v> <C-o>"+P<C-o>=']
+cmap <C-v> <C-R>+
 "}}}
 "{{{ mapleader
 " quick save
@@ -170,11 +189,6 @@ let mapleader = "\\"
 
 map <leader>h ^
 map <leader>j %
-" useful for camelcase or '_' delimed words can be used with operators and works
-" with repeat e.g. d<leader>k deletes word from wordIsCamelCase or word_is_delimed
-"                                               ^                  ^
-map <leader>k /\v[A-Z]\|_<CR>
-xmap <leader>k /\_.[A-Z]\|\_._<CR>
 map <leader>l $
 
 " quickly open ack
@@ -255,29 +269,6 @@ nnoremap <leader>s<space> :windo %s/<c-r>=expand("<cword>")<cr>/
 " colors
 nnoremap <leader>ns :colorscheme solarized<cr>:set background=light<cr>
 nnoremap <leader>nm :colorscheme hybrid_material<cr>:set background=dark<cr>
-"}}}
-" {{{ copy/paste
-map Y y$
-" maps 'S' to repeatable 'stamping' instead of substitute line
-" as normal 'S' only is a synonym for 'cc', nothing is lost
-nnoremap <silent> <Plug>Stamp diw"0P
-            \:call repeat#set("\<Plug>Stamp")<CR>
-nmap S <Plug>Stamp
-xmap S "0P
-
-" turns 'x' into a blackhole delete operator, use dl/dh instead of 'x'/'X'
-" implictly also turns xl/xh to black hole versions of 'x'/'X'
-nnoremap xx "_dd
-nnoremap x "_d
-nnoremap X "_D
-vnoremap x "_d
-
-"system clipboard classic style
-vmap <C-c> "+y
-vmap <C-x> "+c
-vmap <C-v> c<ESC>"+p=']
-imap <C-v> <C-o>"+P<C-o>=']
-cmap <C-v> <C-R>+
 "}}}
 ""{{{ save
 noremap <C-s> :call SmartSave()<CR>
