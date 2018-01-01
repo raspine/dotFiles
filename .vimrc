@@ -78,6 +78,7 @@ Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
 Plugin 'leafgarland/typescript-vim.git'
 Plugin 'vhdirk/vim-cmake.git'
+Plugin 'bkad/CamelCaseMotion.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -160,21 +161,19 @@ nnoremap <F11> : set list!<CR>
 
 " use synonym 'yy' instead of 'Y'
 map Y y$
+
 " Use synonym 'cc' instead of 'S'. Instead 'S' is used as repeatable 'stamping'.
 nnoremap <silent> <Plug>Stamp diw"0P
             \:call repeat#set("\<Plug>Stamp")<CR>
 nmap S <Plug>Stamp
 xmap S "0P
 
-" Use synonym dl/dh instead of 'x'/'X'. Instead 'x' is used as a camelcase or
-" '_' sensitive version of 'w'. can be used with operators and works with repeat
-" e.g. 'dx' deletes 'word' from wordIsCamelCase or word_is_underscored
-"                               ^                  ^
-"TODO: does not include last char before new line
-map x /\v[A-Z]\|_\|\_s<CR>
-xmap x /\_.[A-Z]\|\_._\|\_.\_s<CR>
-map X ?\v<\|[A-Z]\|_<CR>
-xmap X ?\v<\|[A-Z]\|_<CR>
+" Use synonym dl/dh instead of 'x'/'X'. Instead 'x' is used as a camelCase or
+" snake_case sensitive version of 'w'.
+map <silent> x <Plug>CamelCaseMotion_w
+map <silent> X <Plug>CamelCaseMotion_b
+imap <silent> <C-l> <C-o><Plug>CamelCaseMotion_w
+imap <silent> <C-h> <C-o><Plug>CamelCaseMotion_b
 
 "system clipboard classic style
 vmap <C-c> "+y
@@ -184,7 +183,6 @@ imap <C-v> <C-o>"+P<C-o>=']
 cmap <C-v> <C-R>+
 "}}}
 "{{{ mapleader
-" quick save
 let mapleader = "\\"
 
 map <leader>h ^
@@ -233,6 +231,7 @@ nnoremap <leader>ec <C-w><C-v><C-l>:e ~/.vim/ftplugin/cpp.vim<cr>
 nnoremap <leader>ej <C-w><C-v><C-l>:e ~/.vim/ftplugin/javascript.vim<cr>
 nnoremap <leader>et <C-w><C-v><C-l>:e ~/.vim/ftplugin/typescript.vim<cr>
 nnoremap <leader>ep <C-w><C-v><C-l>:e ~/.vim/ftplugin/python.vim<cr>
+nnoremap <leader>q <esc>:w<cr>:so %<cr>
 
 " quickfix
 nnoremap <leader>cj :botright copen<cr>
