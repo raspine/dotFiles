@@ -6,6 +6,7 @@ set ts=4 sw=4 noet
 setlocal commentstring=//\ %s
 " wrap comment word using vim-surround
 nmap <leader>cc ysiw*gvS/
+xmap <leader>cc S*gvS/
 " uncoment with ds/
 
 nmap <F8> :wa<cr>:AsyncRun g++ % -o %:r --std=c++14 -Wall -Wextra -Wpedantic -lboost_system<cr>:botright copen<cr>:wincmd p<cr>

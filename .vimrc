@@ -1,7 +1,7 @@
 " vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
 
 "{{{ general
-set nocompatible
+" set nocompatible
 set noswapfile
 set modeline
 set modelines=5
@@ -38,7 +38,7 @@ nnoremap / /\v
 vnoremap / /\v
 set ignorecase
 set smartcase
-set nohlsearch
+set hlsearch
 "}}}
 
 "{{{ line wrapping
@@ -70,7 +70,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'mileszs/ack.vim'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
@@ -182,7 +181,8 @@ map Y y$
 nnoremap <silent> <Plug>Stamp diw"0P
             \:call repeat#set("\<Plug>Stamp")<CR>
 nmap S <Plug>Stamp
-xmap S "0P
+" Note: This mapping overrides vim-surround's 'gS'
+xmap gS "0P
 
 " Use synonym dl/dh instead of 'x'/'X'. Instead 'x' is used as a camelCase or
 " snake_case sensitive version of 'w'.
