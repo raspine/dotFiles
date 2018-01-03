@@ -11,6 +11,10 @@ endif
 let g:ycm_semantic_triggers['typescript'] = ['.']
 let g:typescript_compiler_options="--experimentalDecorators"
 
+" let g:airline_section_a = airline#section#create(['branch'])
+" let g:airline_section_b = airline#section#create(['%{g:asyncrun_status}'])
+" substitute('running', '\(^[a-z,A-Z]\).*', '\U\1', '')
+
 function! InsertDeuggerLines()
     let l:breakpoints = FindBreakpoints()
     for breakpoint in l:breakpoints

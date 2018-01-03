@@ -70,7 +70,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'mileszs/ack.vim'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+" Plugin 'honza/vim-snippets'
 Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
@@ -112,7 +112,7 @@ filetype plugin indent on
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
-" "let g:ycm_key_invoke_completion = '<C-z>'
+" let g:ycm_key_invoke_completion = '<C-z>'
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:enable_ycm_at_startup = 0
 "}}}
@@ -124,6 +124,7 @@ let g:airline#extensions#branch#displayed_head_limit = 20
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
 let g:airline_theme='hybrid'
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " air-line
 if has("gui_running")
     let g:airline_powerline_fonts = 1
@@ -141,11 +142,26 @@ let g:airline_section_b = airline#section#create([''])
 "}}}
 "{{{ Ultisnips
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsListSnippets='<c-z>'
-let g:UltiSnipsExpandTrigger='<c-x>'
-let g:UltiSnipsJumpForwardTrigger='<c-j>'
-let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+" let g:UltiSnipsExpandTrigger = '<c-x>'
+" let g:UltiSnipsListSnippets='<c-z>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 let g:UltiSnipsEditSplit='vertical'
+let g:UltiSnipsSnippetDir=$HOME.'/.vim/UltiSnips'
+" let g:UltiSnipsSnippetDirectories=['UltiSnips']
+let g:UltiSnipsEnableSnipMate=0
+
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:ulti_expand_or_jump_res = 0
+function! ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        return "\<CR>"
+    endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 "}}}
 "{{{ AsyncRun
 nmap <F6> :AsyncStop<cr>
@@ -254,6 +270,8 @@ nnoremap <leader>gl :Gvdiff<cr>
 " nnoremap <leader>gi :!eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)<cr>
 nnoremap <leader>g<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 nnoremap <leader>gd :Git branch<cr>:call DeleteBranch('')<left><left>
+nnoremap <leader>gb :Git branch<cr>:Git checkout<space>
+nnoremap <leader>gB :Git branch -a<cr>:Git checkout<space>
 
 " local list
 nnoremap <leader>ff :lopen<cr>
