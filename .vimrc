@@ -24,6 +24,7 @@ map <c-z> <nop>
 " disable ex mode (use gQ for improved ex mode)
 nnoremap Q <nop>
 set nojoinspaces
+set tags +=.tags
 "}}}
 
 "{{{ wild mode
@@ -84,6 +85,7 @@ Plugin 'raspine/vim-target.git'
 Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
 Plugin 'raspine/vim-git-project.git'
+Plugin 'raspine/vim-code-runner.git'
 
 " improved syntax highlightning
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
@@ -188,6 +190,12 @@ xmap gS "0P
 " snake_case sensitive version of 'w'.
 map <silent> x <Plug>CamelCaseMotion_w
 map <silent> X <Plug>CamelCaseMotion_b
+sunmap x
+sunmap X
+omap <silent> ix <Plug>CamelCaseMotion_iw
+xmap <silent> ix <Plug>CamelCaseMotion_iw
+omap <silent> iX <Plug>CamelCaseMotion_ib
+xmap <silent> iX <Plug>CamelCaseMotion_ib
 imap <silent> <C-l> <C-o><Plug>CamelCaseMotion_w
 imap <silent> <C-h> <C-o><Plug>CamelCaseMotion_b
 
