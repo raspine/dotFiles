@@ -2,33 +2,32 @@
 imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
 nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
 
-set ts=4 sw=4 noet
+setlocal ts=4 sw=4 noet
 
 setlocal commentstring=//\ %s
-" wrap comment word using vim-surround
+" C-style comment using vim-surround
 nmap <leader>cc ysiw*gvS/
 xmap <leader>cc S*gvS/
 " uncoment with ds/
 
+" vim-code-runner settings
 let g:code_runner_compiler = 'clang++'
 let g:code_runner_standard = 'c++14'
 let g:code_runner_flags = ''
 let g:code_runner_libs = ''
-
 nmap <F8> :wa<cr>:InteractiveCompile<cr>
 nmap <F9> :wa<cr>:DirectCompile<cr>
 nmap <F10> :RunCode<cr>
 
 "folding settings
-set foldmethod=syntax
-set foldnestmax=1
-set foldenable
-set foldlevel=1
+setlocal foldmethod=syntax
+setlocal foldnestmax=1
+setlocal foldenable
+setlocal foldlevel=1
 
-" var for vim-cmake plugin
+" vim-cmake settings
 let g:cmake_build_type = 'Debug'
 let g:cmake_custom_vars = '-DRUN_TESTS=Off'
-" leader mappings
 nnoremap <leader>cb :CMake<cr>
 nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
 nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
