@@ -1,0 +1,169 @@
+priority -50
+
+extends c
+
+# We want to overwrite everything in parent ft.
+priority -49
+###########################################################################
+#			    Global functions 						  #
+###########################################################################
+
+global !p
+
+def write_docstring_args(arglist, snip):
+	args = str(arglist).split(',')
+
+	if len(args) > 1:
+		c = 0
+		for arg in args:
+			if c == 0:
+				snip.rv += arg
+				c = 1
+			else:
+				snip += '*       : %s' % arg.strip()
+	else:
+		snip.rv = args[0]
+
+
+endglobal
+
+###########################################################################
+#                            TextMate Snippets                            #
+###########################################################################
+snippet beginend "$1.begin(), $1.end() (beginend)"
+${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
+endsnippet
+
+snippet cl "class .. (class)"
+class ${1:`!p snip.rv = snip.basename or "name"`}
+{
+public:
+	${1/(\w+).*/$1/} (${2:arguments});
+	virtual ~${1/(\w+).*/$1/} ();
+
+private:
+	${0:/* data */}
+};
+endsnippet
+
+snippet ns "namespace .. (namespace)"
+namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`}
+{
+	${VISUAL}$0
+}${1/.+/ \/* /m}$1${1/.+/ *\/ /m}
+endsnippet
+
+snippet readfile "read file (readF)"
+std::vector<char> v;
+if (FILE *fp = fopen(${1:"filename"}, "r"))
+{
+	char buf[1024];
+	while(size_t len = fread(buf, 1, sizeof(buf), fp))
+		v.insert(v.end(), buf, buf + len);
+	fclose(fp);
+}
+endsnippet
+
+snippet map "std::map (map)"
+std::map<${1:key}, ${2:value}> map$0;
+endsnippet
+
+snippet vector "std::vector (v)"
+std::vector<${1:char}> v$0;
+endsnippet
+
+snippet tp "template <typename ..> (template)"
+template <typename ${1:_InputIter}>
+endsnippet
+
+snippet cla "An entire .h generator" b
+#ifndef ${2:`!v substitute(vim_snippets#Filename('$1_H','ClassName'),'.*','\U&\E','')`}
+#define $2
+
+class ${1:`!v substitute(substitute(vim_snippets#Filename('$1','ClassName'),'^.','\u&',''), '_\(\w\)', '\u\1', 'g')`}
+{
+private:
+	$3
+
+public:
+	$1();
+	virtual ~$1();
+};
+
+#endif /* $2 */
+endsnippet
+
+
+snippet fnc "Basic c++ doxygen function template" b
+/**
+* @brief: ${4:brief}
+*
+* @param: `!p write_docstring_args(t[3],snip)`
+*
+* @return: `!p snip.rv = t[1]`
+*/
+${1:ReturnType} ${2:FunctionName}(${3:param})
+{
+  ${0:FunctionBody}
+}
+endsnippet
+
+snippet mainn "main() (main)"
+#include <iostream>
+
+int main()
+{
+	std::cout << "${VISUAL}$0" << std::endl;
+	return 0;
+}
+endsnippet
+
+snippet for "std::iterator for-each loop"
+for (${1:vector<T>}::iterator i = ${2:items.}begin(); i != $2end(); ++i)${0}
+endsnippet
+
+snippet foreach "std::iterator for-each loop"
+for (auto ${1:item} = ${2:items})
+{
+	${0}
+}
+endsnippet
+
+snippet itera "C++-11 auto iterator"
+for (auto ${1:i} = $1.begin(); $1 != $1.end(); ++$1)
+{
+	${2:std::cout << *$1 << std::endl;}${0}
+}
+endsnippet
+
+snippet iter "iterator"
+for (${1:std::vector}<${2:type}>::${3:const_iterator} ${4:i} = ${5:container}.begin(); $4 != $5.end(); ++$4)
+{
+	${0}
+}
+endsnippet
+
+snippet mfun "member function implementations"
+${4:void} ${1:`!p snip.rv = snip.basename`}::${2:memberFunction}(${3})
+{
+	${5:return};${0}
+}
+endsnippet
+
+snippet cout "cout"
+std::cout << ${1} << std::endl;${0}
+endsnippet
+
+snippet scin "scin"
+${1:std::}cin >> ${1};${0}
+endsnippet
+
+snippet sptr "C++11 make shared pointer"
+auto ${1:ptr} = std::make_shared<${2:class}>(${3:obj});$0
+endsnippet
+
+snippet uptr "C++14 make unique pointer"
+auto ${1:ptr} = std::make_unique<${2:class}>(${3:obj});$0
+endsnippet
+
+# vim:ft=snippets:
