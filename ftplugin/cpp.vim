@@ -1,4 +1,5 @@
 " vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
+nnoremap <f4> :exec "Spawn urxvt -e " . FindExeTarget() . " "<left>
 imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
 nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
 
@@ -67,10 +68,10 @@ let g:airline_section_b = airline#section#create(['cmake'])
 nnoremap <leader>ds :exec "!" . FindExeTarget() . TestSuiteArg()<cr>
 " run test case directly in vim
 nnoremap <leader>dc :exec "!" . FindExeTarget() . TestCaseArg()<cr>
-" spawn a gdb session in a separate terminal (requires Tim Pope's vim-dispatch plugin)
-nnoremap <leader>dg :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg()<cr>
+" spawn a gdb session in a separate terminal
+nnoremap <leader>dg :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg() . '&'<cr>
 " same but with custom arguments (applies to any app)
-nnoremap <leader>dr :exec "Spawn urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " "<left>
+nnoremap <leader>dr :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " " . '&'<left><left>
 " run the test suite under valgrind
 nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg()<cr>
 " copy the execution line to clipboard

@@ -63,7 +63,6 @@ Plugin 'tpope/vim-obsession.git'
 Plugin 'tpope/vim-characterize.git'
 Plugin 'tpope/vim-unimpaired.git'
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-dispatch.git'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-vinegar'
@@ -71,12 +70,10 @@ Plugin 'tpope/vim-surround'
 Plugin 'mileszs/ack.vim'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
-Plugin 'ryanss/vim-hackernews'
 Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
-Plugin 'leafgarland/typescript-vim.git'
 Plugin 'vhdirk/vim-cmake.git'
 Plugin 'bkad/CamelCaseMotion.git'
 
@@ -90,6 +87,7 @@ Plugin 'raspine/vim-code-runner.git'
 " improved syntax highlightning
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
 Plugin 'pangloss/vim-javascript'
+Plugin 'leafgarland/typescript-vim.git'
 
 " looks
 Plugin 'vim-airline/vim-airline'
@@ -257,8 +255,10 @@ nnoremap <leader>ep <C-w><C-v><C-l>:e ~/.vim/ftplugin/python.vim<cr>
 nnoremap <leader>q <esc>:w<cr>:so %<cr>
 
 " quickfix
+nnoremap <leader>ch :vert topleft copen<cr>
 nnoremap <leader>cj :botright copen<cr>
-nnoremap <leader>ck :topleft Copen<cr>
+nnoremap <leader>ck :topleft copen<cr>
+nnoremap <leader>cl :vert botright copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
 
 " preview
@@ -411,7 +411,7 @@ function! SmartSave() "{{{
         exec "update"
     endif
 
-    if filereadable("tags")
+    if filereadable(".tags")
         call system('ctags -f .tags -a '. expand("%"))
     endif
 endfunction "}}}
