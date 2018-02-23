@@ -124,7 +124,7 @@ let g:airline#extensions#obsession#enabled = 1
 let g:airline_theme='hybrid'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " air-line
-if has("gui_running")
+if has("gui_running" && !gui_win32)
     let g:airline_powerline_fonts = 1
 else
     let g:airline_powerline_fonts = 0
@@ -310,12 +310,11 @@ nnoremap <space>n :vnew<cr>
 augroup MyAutoCommands
     autocmd!
     " source .vimrc when saved
-    " if has("gui_win32")
-    "     autocmd bufwritepost _vimrc source $MYVIMRC
-    " else
-    "     autocmd bufwritepost .vimrc source $MYVIMRC
-    " endif
-    autocmd VimEnter * cd ~/work
+    if has("gui_win32")
+        autocmd VimEnter * cd d:/work
+    else
+        autocmd VimEnter * cd ~/work
+    endif
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c

@@ -1,6 +1,8 @@
 
-eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda)
-# eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)
+if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+	eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda)
+	# eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)
+fi
 export PATH="$PATH:~/.gem/ruby/2.2.0/bin"
 export PATH="$PATH:/usr/lib/ccache/bin/"
 
