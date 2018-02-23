@@ -20,6 +20,7 @@ set encoding=utf-8
 set formatoptions=qrn1
 set guioptions-=T
 set guioptions-=M
+set noeb vb t_vb=
 " disable quick quit
 map <c-z> <nop>
 " disable ex mode (use gQ for improved ex mode)
