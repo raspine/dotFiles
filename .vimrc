@@ -1,4 +1,4 @@
-" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
+" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3:ff=unix
 
 "{{{ general
 " set nocompatible
@@ -16,6 +16,7 @@ set relativenumber
 set number
 set undofile
 set splitright
+set encoding=utf-8
 set formatoptions=qrn1
 set guioptions-=T
 set guioptions-=M

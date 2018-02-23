@@ -1,4 +1,4 @@
-# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu
+# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu:ff=unix
 #
 # ~/.bashrc
 #

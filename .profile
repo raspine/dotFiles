@@ -1,3 +1,4 @@
+# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu:ff=unix
 
 if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda)
