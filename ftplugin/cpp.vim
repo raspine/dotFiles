@@ -1,7 +1,12 @@
-" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
-nnoremap <f4> :exec "Spawn urxvt -e " . FindExeTarget() . " "<left>
-imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
+" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3:ff=unix
+if has("gui_win32")
+    imap <f5> <esc>:wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
+    nmap <f5> :wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
+else
+    nnoremap <f4> :exec "Spawn urxvt -e " . FindExeTarget() . " "<left>
+    imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
+    nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
+endif
 
 setlocal ts=4 sw=4 noet
 
