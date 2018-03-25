@@ -1,4 +1,4 @@
-set ts=2 sts=0 et sw=2 sta
+set ts=4 sts=0 et sw=4 sta
 
 " run node with debug arguments
 nnoremap <leader>dr :call DebugNodeApp() <cr>
