@@ -1,4 +1,4 @@
-" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
+" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3:ff=unix
 
 "{{{ general
 " set nocompatible
@@ -16,9 +16,11 @@ set relativenumber
 set number
 set undofile
 set splitright
+set encoding=utf-8
 set formatoptions=qrn1
 set guioptions-=T
 set guioptions-=M
+set noeb vb t_vb=
 " disable quick quit
 map <c-z> <nop>
 " disable ex mode (use gQ for improved ex mode)
@@ -124,7 +126,7 @@ let g:airline#extensions#obsession#enabled = 1
 let g:airline_theme='hybrid'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " air-line
-if has("gui_running")
+if has("gui_running" && !gui_win32)
     let g:airline_powerline_fonts = 1
 else
     let g:airline_powerline_fonts = 0
@@ -310,12 +312,11 @@ nnoremap <space>n :vnew<cr>
 augroup MyAutoCommands
     autocmd!
     " source .vimrc when saved
-    " if has("gui_win32")
-    "     autocmd bufwritepost _vimrc source $MYVIMRC
-    " else
-    "     autocmd bufwritepost .vimrc source $MYVIMRC
-    " endif
-    autocmd VimEnter * cd ~/work
+    if has("gui_win32")
+        autocmd VimEnter * cd d:/work
+    else
+        autocmd VimEnter * cd ~/work
+    endif
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
@@ -338,7 +339,8 @@ if has("gui_running")
     if has("gui_gtk3") || has("gui_gtk2")
         set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
     elseif has("gui_win32")
-        set guifont=Consolas:h10:cANSI
+        set guifont=DejaVu_Sans_Mono:h9
+        " set guifont=Consolas:h10:cANSI
     endif
 endif
 "}}}

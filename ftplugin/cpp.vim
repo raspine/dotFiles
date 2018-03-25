@@ -1,14 +1,20 @@
-" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3
+" vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3:ff=unix
 function! LaunchApp()
 	let s:cmd = FindExeTarget()
 	if s:cmd != ""
 		execute 'AsyncRun ' . s:cmd
 	endif
 endfunction
-
 nnoremap <f4> :call LaunchApp()<cr>
-imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
+if has("gui_win32")
+    imap <f5> <esc>:wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
+nnoremap <f4> :call LaunchApp()<cr>
+nmap <f5> :wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
+lse
+    nnoremap <f4> :exec "Spawn urxvt -e " . FindExeTarget() . " "<left>
+    imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
+    nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
+endif
 
 setlocal ts=4 sw=4 noet
 
