@@ -65,17 +65,21 @@ let g:airline_section_b = airline#section#create(['cmake'])
 
 " mappings for vim-target, vim-testdog, vim-breakgutter
 " run test case directly in vim
-nnoremap <leader>ds :exec "!" . FindExeTarget() . TestSuiteArg()<cr>
+nnoremap <leader>da :exec "!" . FindExeTarget() . TestSuiteArg()<cr>
 " run test case directly in vim
 nnoremap <leader>dc :exec "!" . FindExeTarget() . TestCaseArg()<cr>
 " spawn a gdb session in a separate terminal
 nnoremap <leader>dg :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg() . '&'<cr>
+" spawn a gdb session in a separate terminal
+nnoremap <leader>dh :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " same but with custom arguments (applies to any app)
 nnoremap <leader>dr :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " " . '&'<left><left>
+" run the test case under valgrind
+nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . TestCaseArg()<cr>
 " run the test suite under valgrind
-nnoremap <leader>dv :exec "!valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg()<cr>
+nnoremap <leader>ds :exec "!valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg()<cr>
 " copy the execution line to clipboard
-nnoremap <leader>dd :call setreg('+', FindExeTarget() . TestCaseArg())<cr>
+nnoremap <leader>dd :call setreg('+', "gdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg())<cr>
 
 let &makeprg="cmake --build 'build' --target"
 if !filereadable(".ycm_extra_conf.py")
