@@ -1,4 +1,4 @@
-# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu
+# vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=5:nonu:nornu:ff=unix
 #
 # ~/.sshrc provides settings when connected over ssh
 #
@@ -98,22 +98,24 @@ export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 shopt -s histappend                      # append to history, don't overwrite it
-export TERM="rxvt"
-#so as not to be disturbed by Ctrl-S ctrl-Q in terminals:
+if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    export TERM="rxvt"
+fi
+# so as not to be disturbed by Ctrl-S ctrl-Q in terminals:
 stty -ixon
 #}}}
 
 # {{{ PS1
-#source /usr/share/git/completion/git-prompt.sh
-#PROMPT_COMMAND='__git_ps1 "\u \W" "\\\$ " " (%s)"'
-function color_my_prompt {
-    local __user_and_host="\[\033[01;32m\]\u@\h"
-    local __cur_location="\[\033[01;37m\]\w"
-    local __git_branch_color="\[\033[33m\]"
-    local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
-    local __prompt_tail="\[\033[35m\]$"
-    local __last_color="\[\033[00m\]"
-    export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
+# source /usr/share/git/completion/git-prompt.sh
+# PROMPT_COMMAND='__git_ps1 "\u \W" "\\\$ " " (%s)"'
+ function color_my_prompt {
+     local __user_and_host="\[\033[01;32m\]\u@\h"
+     local __cur_location="\[\033[01;37m\]\w"
+     local __git_branch_color="\[\033[33m\]"
+     local __git_branch='`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\(\\\\\1\)\ /`'
+     local __prompt_tail="\[\033[35m\]$"
+     local __last_color="\[\033[00m\]"
+     export PS1="$__user_and_host $__cur_location $__git_branch_color$__git_branch$__prompt_tail$__last_color "
 }
 color_my_prompt
 # }}}
