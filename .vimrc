@@ -76,8 +76,9 @@ Plugin 'vim-scripts/cd-hook.git'
 Plugin 'artnez/vim-wipeout.git'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
-Plugin 'vhdirk/vim-cmake.git'
 Plugin 'bkad/CamelCaseMotion.git'
+Plugin 'junegunn/fzf.vim.git'
+Plugin 'junegunn/goyo.vim.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -165,7 +166,24 @@ inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" 
 "}}}
 "{{{ AsyncRun
 nmap <F6> :AsyncStop<cr>
+" let g:asyncrun_open = 300
 "}}}
+" {{{FZF
+" Files command with preview window
+nnoremap Q: :History:<cr>
+nnoremap Q/ :History/<cr>
+nnoremap QF :Files<cr>
+nnoremap QG :GFiles<cr>
+nnoremap QC :BCommits<cr>
+nnoremap QL :Lines<cr>
+nnoremap QB :Buffers<cr>
+nnoremap QT :Tags<cr>
+command! -bang -nargs=? -complete=dir Files
+            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+command! -bang Colors
+  \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
+" [[B]Commits] Customize the options used by 'git log':
+" let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 "}}}
 
 "{{{ key mappings
@@ -262,6 +280,7 @@ nnoremap <leader>cj :botright copen<cr>
 nnoremap <leader>ck :topleft copen<cr>
 nnoremap <leader>cl :vert botright copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
+" <leader>cc reserved for ft plugins
 
 " preview
 nnoremap <leader>pp :ptag<cr>
@@ -324,6 +343,7 @@ augroup MyAutoCommands
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
     autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
+    autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
     " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
 augroup END
 "}}}
@@ -360,6 +380,7 @@ function! DeleteBranch(branch)
 endfunction "}}}
 function! InitWorkspace() "{{{
     if !GP_is_repo()
+        echoerr "Not a git repo"
         return
     endif
 

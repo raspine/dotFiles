@@ -1,17 +1,122 @@
 " vim: ts=4:sw=4:et:fdm=marker:foldenable:foldlevel=0:fdc=3:ff=unix
-function! LaunchApp()
-	let s:cmd = FindExeTarget()
-	if s:cmd != ""
-		execute 'AsyncRun ' . s:cmd
+
+"{{{ various scripts
+" Launches app (+custom arguments) that file belongs to (using vim-target)
+" add a additional 'T' argment to launch app in separate terminal
+command! -nargs=? Launch call s:launch(<f-args>)
+function! s:launch(...) "{{{
+    let l:userArgList = []
+	let l:termArgIndex = -1
+    if !empty(a:000)
+        let l:userArgList = split(a:000[0])
+        let l:termArgIndex = index(l:userArgList, "T")
+        if l:termArgIndex >= 0
+            let l:userArgList = filter(l:userArgList, 'v:val != "T"')
+        endif
+    endif
+	" use vim-target to find the app
+	let l:app = FindExeTarget()
+	if l:app != ""
+		if l:termArgIndex >= 0
+    		execute "!urxvt -hold -e " . l:app . " " . join(l:userArgList) . '&'
+		else
+			execute 'AsyncRun ' . l:app . " " . join(l:userArgList)
+		endif
 	endif
-endfunction
-nnoremap <f4> :call LaunchApp()<cr>
+endfunction"}}}
+
+let s:cmake_changed = 0
+let s:last_stat_string = ""
+function! CMakeStat() "{{{
+	if s:cmake_changed == 0
+		return s:last_stat_string
+	endif
+
+	if !GP_is_repo()
+		echoerr "Not a git repo"
+		return
+	endif
+
+	" GP_get_root_path provides the root path without having to open a file
+	let l:build_dir = GP_get_root_path() . '/build'
+
+	let l:retstr = ""
+    if filereadable(l:build_dir . '/CMakeCache.txt')
+        let l:cmcache = readfile(l:build_dir . '/CMakeCache.txt')
+        for line in l:cmcache
+            " cmake variable
+            if line =~ "CMAKE_BUILD_TYPE"
+                let l:value = reverse(split(line, '='))[0]
+                let l:retstr = l:retstr . l:value . ' '
+                " custom variable
+            elseif line =~ "RUN_TESTS"
+                let l:value = reverse(split(line, '='))[0]
+                let l:retstr = l:retstr . "RT" . l:value . " "
+            elseif line =~ "CMAKE_CXX_COMPILER:UNINITIALIZED"
+                let l:value = reverse(split(line, '='))[0]
+                let l:retstr = l:retstr . fnamemodify(l:value, ':t:r') . ' '
+            endif
+        endfor
+    endif
+	let s:last_stat_string = substitute(l:retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
+	let s:cmake_changed = 0
+	return s:last_stat_string
+endfunction"}}}
+
+command! -nargs=? CMake call s:cmake(<f-args>)
+command! CMakeClean call s:cmakeclean()
+
+function! s:cmake(...)"{{{
+
+    if !GP_is_repo()
+        echoerr "Not a git repo"
+        return
+    endif
+
+	" GP_get_root_path provides the root path without having to open a file
+	let l:build_dir = GP_get_root_path() . '/build'
+	exec 'cd' l:build_dir
+
+    " Add default arguments
+    let l:argument = []
+    let l:argument += [ "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" ]
+
+    " Create symbolic link to compilation database for use with YouCompleteMe
+    if filereadable("compile_commands.json")
+        if has("win32")
+            exec "mklink" "../compile_commands.json" "compile_commands.json"
+        else
+            silent echo system("ln -s " . l:build_dir . "/compile_commands.json ../compile_commands.json")
+        endif
+        echom "Created symlink to compilation database"
+    endif
+
+    " Execute cmake command
+	let s:cmake_changed = 1
+	let s:cmd = 'cmake '. join(l:argument, " ") . " " . join(a:000) . ' ..'
+    echo s:cmd
+    execute 'AsyncRun ' . s:cmd
+
+    exec 'cd - '
+
+endfunction"}}}
+
+function! s:cmakeclean()"{{{
+    if !GP_is_repo()
+        echoerr "Not a git repo"
+        return
+    endif
+
+	let l:build_dir = GP_get_root_path() . '/build'
+    silent echo system("rm -r '" . l:build_dir. "'/*")
+    echom "Build directory has been cleaned."
+endfunction"}}}
+"}}}
+nnoremap <f4> :Launch<space>
 if has("gui_win32")
     imap <f5> <esc>:wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
-nnoremap <f4> :call LaunchApp()<cr>
-nmap <f5> :wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
-lse
-    nnoremap <f4> :exec "Spawn urxvt -e " . FindExeTarget() . " "<left>
+	nmap <f5> :wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
+else
     imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
     nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
 endif
@@ -39,42 +144,23 @@ setlocal foldnestmax=1
 setlocal foldenable
 setlocal foldlevel=1
 
-" vim-cmake settings
-let g:cmake_build_type = 'Debug'
-let g:cmake_custom_vars = '-DRUN_TESTS=Off'
-nnoremap <leader>cb :CMake<cr>
-nnoremap <leader>cr :CMake -DCMAKE_BUILD_TYPE=Release<cr>
-nnoremap <leader>cd :CMake -DCMAKE_BUILD_TYPE=Debug<cr>
-nnoremap <leader>cn :CMake -DRUN_TESTS=On<cr>
-nnoremap <leader>cf :CMake -DRUN_TESTS=Off<cr>
+" cmake settings
+nnoremap <leader>cc :CMake<space>
+" for use with CMake command
+cabbrev ccg -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
+cabbrev ccc -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+cabbrev cbd -DCMAKE_BUILD_TYPE=Debug
+cabbrev cbr -DCMAKE_BUILD_TYPE=Release
+cabbrev rto -DRUN_TESTS=On
+cabbrev rtf -DRUN_TESTS=Off
+cabbrev bto -DBUILD_TESTS=On
+cabbrev btf -DBUILD_TESTS=On -DRUN_TESTS=Off
+cabbrev gco -DGENERATE_COVERAGE_INFO=On
+cabbrev gcf -DGENERATE_COVERAGE_INFO=Off
 
-function! CMakeStat() "{{{
-  let s:cmake_build_dir = get(g:, 'cmake_build_dir', 'build')
-  let s:build_dir = finddir(s:cmake_build_dir, '.;')
-
-  let s:retstr = ""
-  if s:build_dir != ""
-      if filereadable(s:build_dir . '/CMakeCache.txt')
-          let cmcache = readfile(s:build_dir . '/CMakeCache.txt')
-          for line in cmcache
-              " cmake variable
-              if line =~ "CMAKE_BUILD_TYPE"
-                  let value = reverse(split(line, '='))[0]
-                  let s:retstr = s:retstr . value . " "
-              " custom variable
-              elseif line =~ "RUN_TESTS"
-                  let value = reverse(split(line, '='))[0]
-                  let s:retstr = s:retstr . "T" . value . " "
-              endif
-          endfor
-      endif
-  endif
-  return substitute(s:retstr, '^\s*\(.\{-}\)\s*$', '\1', '')
-endfunction"}}}
 call airline#parts#define('cmake', {'function': 'CMakeStat'})
 let g:airline_section_a = airline#section#create(['branch'])
 let g:airline_section_b = airline#section#create(['cmake'])
-
 
 " mappings for vim-target, vim-testdog, vim-breakgutter
 " run test case directly in vim
@@ -94,7 +180,3 @@ nnoremap <leader>ds :exec "!urxvt -hold -e valgrind --leak-check=full " . FindEx
 " copy the execution line to clipboard
 nnoremap <leader>dd :call setreg('+', "gdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg())<cr>
 
-let &makeprg="cmake --build 'build' --target"
-if !filereadable(".ycm_extra_conf.py")
-    call system("ln -s ~/homescripts/.ycm_extra_conf.py .ycm_extra_conf.py")
-endif
