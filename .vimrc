@@ -78,7 +78,6 @@ Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
 Plugin 'bkad/CamelCaseMotion.git'
 Plugin 'junegunn/fzf.vim.git'
-Plugin 'junegunn/goyo.vim.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'

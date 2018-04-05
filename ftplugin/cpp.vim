@@ -51,9 +51,17 @@ function! CMakeStat() "{{{
                 " custom variable
             elseif line =~ "RUN_TESTS"
                 let l:value = reverse(split(line, '='))[0]
-                let l:retstr = l:retstr . "RT" . l:value . " "
-            elseif line =~ "CMAKE_CXX_COMPILER:UNINITIALIZED"
+                let l:retstr = l:retstr . "rt:" . l:value . ' '
+            elseif line =~ "BUILD_TESTS"
                 let l:value = reverse(split(line, '='))[0]
+                let l:retstr = l:retstr . "bt:" . l:value . ' '
+            elseif line =~ "GENERATE_COVERAGE_INFO"
+                let l:value = reverse(split(line, '='))[0]
+                let l:retstr = l:retstr . "ci:" . l:value . ' '
+            elseif line =~ "CMAKE_CXX_COMPILER:UNINITIALIZED" ||
+						\line =~ "CMAKE_CXX_COMPILER_ARG1:STRING"
+                let l:value = reverse(split(line, '='))[0]
+				let l:value = substitute(l:value, '^\s*\(.\{-}\)\s*$', '\1', '')
                 let l:retstr = l:retstr . fnamemodify(l:value, ':t:r') . ' '
             endif
         endfor
