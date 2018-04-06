@@ -69,11 +69,9 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-surround'
-Plugin 'mileszs/ack.vim'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'vim-scripts/cd-hook.git'
-Plugin 'artnez/vim-wipeout.git'
 Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
 Plugin 'bkad/CamelCaseMotion.git'
@@ -177,12 +175,22 @@ nnoremap QC :BCommits<cr>
 nnoremap QL :Lines<cr>
 nnoremap QB :Buffers<cr>
 nnoremap QT :Tags<cr>
+nnoremap QK :Helptags<cr>
 command! -bang -nargs=? -complete=dir Files
             \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 command! -bang Colors
   \ call fzf#vim#colors({'left': '15%', 'options': '--reverse --margin 30%,0'}, <bang>0)
 " [[B]Commits] Customize the options used by 'git log':
 " let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
+"}}}
 "}}}
 
 "{{{ key mappings
@@ -229,8 +237,8 @@ map <leader>h ^
 map <leader>j %
 map <leader>l $
 
-" quickly open ack
-nnoremap <leader>aa :Ack --ignore-file=is:.tags <c-r>=expand("<cword>")<cr>
+" quickly run Rg command
+nnoremap <leader>aa :Rg <c-r>=expand("<cword>")<cr>
 
 " reselect pasted text
 nnoremap <leader>x V`]
@@ -254,7 +262,7 @@ nnoremap <leader>vj :rightbelow sfind<space>
 " close buffer and load next buffer into window
 nnoremap <leader>vd :bp<bar>sp<bar>bn<bar>bd<CR>
 " close all buffers not viewed
-nnoremap <leader>v<space> :Wipeout<cr>
+nnoremap <leader>v<space> :call DeleteHiddenBuffers()<cr>
 
 " workspace
 nnoremap <leader>ww :call InitWorkspace()<cr>
@@ -444,4 +452,13 @@ function! HardCopy() "{{{
   hardcopy
   execute 'colorscheme' colors_save
 endfunction "}}}
+"https://stackoverflow.com/questions/8450919/how-can-i-delete-all-hidden-buffers
+function! DeleteHiddenBuffers()"{{{
+    let tpbl=[]
+    call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+    for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
+        silent execute 'bwipeout' buf
+    endfor
+endfunction
+"}}}
 "}}}
