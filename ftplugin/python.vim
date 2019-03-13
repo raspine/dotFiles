@@ -4,7 +4,7 @@ let &makeprg='python'
 
 "folding settings
 set foldmethod=indent
-set foldnestmax=2
+set foldnestmax=1
 set foldenable
 set foldlevel=0
 

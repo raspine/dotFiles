@@ -7,12 +7,18 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	export PATH="$PATH:/usr/lib/ccache/bin/"
 
 	export JAVA_HOME=/usr/lib/jvm/default
-	TEMPLATE_BOOST_ROOT="/home/jsc/work/thirdpart/boost/boost_1_66_0"
+	TEMPLATE_BOOST_ROOT="/home/jsc/work/thirdpart/boost/boost_1_68_0"
 	BOOST_ROOT=$TEMPLATE_BOOST_ROOT
 	export TEMPLATE_BOOST_ROOT
 	export BOOST_ROOT
 	export CC="ccache clang"
 	export CXX="ccache clang++"
+    # export CMAKE_C_COMPILER=$CC
+    # export CMAKE_CXX_COMPILER=$CXX
+    export PATH=/opt/cross-pi-gcc-8.3.0-1/bin:$PATH
+    export LD_LIBRARY_PATH=/opt/cross-pi-gcc-8.3.0-1/lib:$LD_LIBRARY_PATH
+    PERU_CACHE_DIR="/home/jsc/work/thirdpart/peru"
+    export PERU_CACHE_DIR
 
 else
 	env=~/.ssh/agent.env

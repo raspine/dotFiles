@@ -2,10 +2,13 @@ if (&ft != 'c')
     finish
 endif
 
-imap <f5> <esc>:wa<cr>:make<cr>
-nmap <f5> :wa<cr>:make<cr>
-imap <f6> <esc>:wa<cr>:Make! -j8<cr>
-nmap <f6> :wa<cr>:Make! -j8<cr>
+if has("gui_win32")
+    imap <f5> <esc>:wa<cr>:AsyncRun make<cr>:botright copen<cr>:wincmd p<cr>
+    nmap <f5> :wa<cr>:AsyncRun make<cr>:botright copen<cr>:wincmd p<cr>
+else
+    imap <f5> <esc>:wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
+    nmap <f5> :wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
+endif
 
 set ts=4 sw=4 noet
 

@@ -55,7 +55,7 @@ function! CMakeStat() "{{{
             elseif line =~ "BUILD_TESTS"
                 let l:value = reverse(split(line, '='))[0]
                 let l:retstr = l:retstr . "bt:" . l:value . ' '
-            elseif line =~ "GENERATE_COVERAGE_INFO"
+            elseif line =~ "COVERAGE_INFO"
                 let l:value = reverse(split(line, '='))[0]
                 let l:retstr = l:retstr . "ci:" . l:value . ' '
             elseif line =~ "CMAKE_CXX_COMPILER:UNINITIALIZED" ||
@@ -153,18 +153,19 @@ setlocal foldenable
 setlocal foldlevel=1
 
 " cmake settings
-nnoremap <leader>cc :CMake<space>
+nnoremap <leader>cm :CMake<space>
 " for use with CMake command
 cabbrev ccg -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
 cabbrev ccc -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+cabbrev cca -DCMAKE_C_COMPILER=/opt/cross-pi-gcc-8.3.0-1/bin/arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=/opt/cross-pi-gcc-8.3.0-1/bin/arm-linux-gnueabihf-g++
 cabbrev cbd -DCMAKE_BUILD_TYPE=Debug
 cabbrev cbr -DCMAKE_BUILD_TYPE=Release
 cabbrev rto -DRUN_TESTS=On
 cabbrev rtf -DRUN_TESTS=Off
 cabbrev bto -DBUILD_TESTS=On
 cabbrev btf -DBUILD_TESTS=On -DRUN_TESTS=Off
-cabbrev gco -DGENERATE_COVERAGE_INFO=On
-cabbrev gcf -DGENERATE_COVERAGE_INFO=Off
+cabbrev cio -DCOVERAGE_INFO=On
+cabbrev cif -DCOVERAGE_INFO=Off
 
 call airline#parts#define('cmake', {'function': 'CMakeStat'})
 let g:airline_section_a = airline#section#create(['branch'])

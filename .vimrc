@@ -76,7 +76,7 @@ Plugin 'skywind3000/asyncrun.vim'
 Plugin 'janko-m/vim-test.git'
 Plugin 'bkad/CamelCaseMotion.git'
 Plugin 'junegunn/fzf.vim.git'
-Plugin 'andymass/vim-matchup.git'
+Plugin 'dhruvasagar/vim-table-mode.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -125,11 +125,11 @@ let g:airline#extensions#obsession#enabled = 1
 let g:airline_theme='hybrid'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 " air-line
-if has("gui_running" && !gui_win32)
-    let g:airline_powerline_fonts = 1
-else
-    let g:airline_powerline_fonts = 0
-endif
+" if has("gui_running" && !gui_win32)
+"     let g:airline_powerline_fonts = 1
+" else
+"     let g:airline_powerline_fonts = 0
+" endif
 let g:airline_section_z = airline#section#create(['%{ObsessionStatus(''$'', '''')}', 'windowswap', '%3p%% ', 'linenr', ':%3v '])
 
 let g:airline_section_a = airline#section#create(['branch'])
@@ -199,6 +199,7 @@ command! -bang -nargs=* Rg
 cmap w!! w !sudo tee >/dev/null %
 " type in small letter, convert to capital
 imap <C-F> <Esc>gUiw`]a
+set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:.
 nnoremap <F11> : set list!<CR>
 
 " use synonym 'yy' instead of 'Y'
@@ -289,6 +290,7 @@ nnoremap <leader>ck :topleft copen<cr>
 nnoremap <leader>cl :vert botright copen<cr>
 nnoremap <leader>c<space> :cclose<cr>
 " <leader>cc reserved for ft plugins
+" <leader>cm reserved for ft plugins
 
 " preview
 nnoremap <leader>pp :ptag<cr>
@@ -316,7 +318,7 @@ nnoremap <leader>f. :lvim // %<left><left><left>
 nnoremap <leader>f<space> :lclose<cr>
 
 " aid the search and replace command
-nnoremap <leader>ss :%s/<c-r>=expand("<cword>")<cr>/
+nnoremap <leader>ss :%s/\<<c-r>=expand("<cword>")<cr>\>/
 nnoremap <leader>s<space> :windo %s/<c-r>=expand("<cword>")<cr>/
 
 " colors
