@@ -3,7 +3,6 @@
 if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	eval $(keychain --eval --agents ssh --quiet ~/.ssh/id_rsa_paneda)
 	# eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)
-	export PATH="$PATH:~/.gem/ruby/2.2.0/bin"
 	export PATH="$PATH:/usr/lib/ccache/bin/"
 
 	export JAVA_HOME=/usr/lib/jvm/default
@@ -15,6 +14,8 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	export CXX="ccache clang++"
     # export CMAKE_C_COMPILER=$CC
     # export CMAKE_CXX_COMPILER=$CXX
+    # export CC=arm-linux-gnueabihf-gcc
+    # export CXX=arm-linux-gnueabihf-g++
     export PATH=/opt/cross-pi-gcc-8.3.0-1/bin:$PATH
     export LD_LIBRARY_PATH=/opt/cross-pi-gcc-8.3.0-1/lib:$LD_LIBRARY_PATH
     PERU_CACHE_DIR="/home/jsc/work/thirdpart/peru"

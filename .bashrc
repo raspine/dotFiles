@@ -13,6 +13,8 @@
 
 source ~/homescripts/.sshrc
 
+source /usr/share/xTIMEcomposer/Community_14.3.3/SetEnv
+
 source /usr/share/fzf/completion.bash && source /usr/share/fzf/key-bindings.bash
 # Setting fd as the default source for fzf
 export FZF_DEFAULT_COMMAND='rg --files'

@@ -278,6 +278,7 @@ nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 nnoremap <leader>ec <C-w><C-v><C-l>:e ~/.vim/ftplugin/cpp.vim<cr>
+nnoremap <leader>ex <C-w><C-v><C-l>:e ~/.vim/ftplugin/xc.vim<cr>
 nnoremap <leader>ej <C-w><C-v><C-l>:e ~/.vim/ftplugin/javascript.vim<cr>
 nnoremap <leader>et <C-w><C-v><C-l>:e ~/.vim/ftplugin/typescript.vim<cr>
 nnoremap <leader>ep <C-w><C-v><C-l>:e ~/.vim/ftplugin/python.vim<cr>
@@ -355,6 +356,18 @@ augroup MyAutoCommands
     autocmd User chdir :call InitWorkspace()
     autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
     " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
+augroup END
+"
+" for hex editing
+augroup Binary
+    au!
+    au BufReadPre  *.bin let &bin=1
+    au BufReadPost *.bin if &bin | %!xxd
+    au BufReadPost *.bin set ft=xxd | endif
+    au BufWritePre *.bin if &bin | %!xxd -r
+    au BufWritePre *.bin endif
+    au BufWritePost *.bin if &bin | %!xxd
+    au BufWritePost *.bin set nomod | endif
 augroup END
 "}}}
 

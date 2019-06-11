@@ -120,7 +120,7 @@ function! s:cmakeclean()"{{{
     echom "Build directory has been cleaned."
 endfunction"}}}
 "}}}
-nnoremap <f4> :Launch<space>
+nnoremap <f7> :Launch<space>
 if has("gui_win32")
     imap <f5> <esc>:wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
 	nmap <f5> :wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
