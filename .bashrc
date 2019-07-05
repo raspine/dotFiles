@@ -19,6 +19,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_DEFAULT_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || \
     cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+source /usr/share/xTIMEcomposer/Community_14.3.3/SetEnv
 
 export BASH_ENV=~/.bashrc
 

@@ -20,7 +20,6 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     export LD_LIBRARY_PATH=/opt/cross-pi-gcc-8.3.0-1/lib:$LD_LIBRARY_PATH
     PERU_CACHE_DIR="/home/jsc/work/thirdpart/peru"
     export PERU_CACHE_DIR
-    source /usr/share/xTIMEcomposer/Community_14.3.3/SetEnv
 
 else
 	env=~/.ssh/agent.env

@@ -69,6 +69,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-abolish'
 Plugin 'nelstrom/vim-visual-star-search.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'vim-scripts/cd-hook.git'
@@ -84,6 +85,7 @@ Plugin 'raspine/vim-testdog.git'
 Plugin 'raspine/vim-breakgutter.git'
 Plugin 'raspine/vim-git-project.git'
 Plugin 'raspine/vim-code-runner.git'
+Plugin 'raspine/vim-xc.git'
 
 " improved syntax highlightning
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
@@ -187,7 +189,7 @@ command! -bang Colors
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   'rg --column --line-number --no-heading --color=always --no-ignore-vcs '.shellescape(<q-args>), 1,
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)
@@ -350,11 +352,11 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
-    autocmd BufNewFile,BufRead *.xc   set ft=xc
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
     autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
     autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
+    autocmd FileType fugitive nnoremap <buffer> q :q<cr>:wincmd p<cr>
     " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
 augroup END
 "
@@ -410,10 +412,11 @@ function! InitWorkspace() "{{{
     " Set vim's 'path' variable. Only directories part of git repo is added.
     " Vim's 'path' will be searched when using the |gf|, [f, ]f, ^Wf, |:find|,
     " |:sfind|, |:tabfind| and other commands.
-    let &path='.,' . GP_get_vim_dirs()
+    let &path='.,' . GP_get_vim_dirs() . 'import/**'
 
     " Create ctags index, exclude directories that are not part of git repo.
-    exec 'silent! !ctags -R -f .tags ' . GP_get_ctags_exclude_args()
+    " exec 'silent! !ctags -R -f .tags ' . GP_get_ctags_exclude_args()
+    exec 'silent! !ctags -R -f .tags'
 
     " Turn off obsession before delete/opening buffers and avoid messing up
     " current session when change dir to another project.
