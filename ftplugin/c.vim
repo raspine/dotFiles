@@ -2,17 +2,10 @@ if (&ft != 'c')
     finish
 endif
 
-if has("gui_win32")
-    imap <f5> <esc>:wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
-	nmap <f5> :wa<cr>:AsyncRun cmake --build build<cr>:botright copen<cr>:wincmd p<cr>
-    " imap <f5> <esc>:wa<cr>:AsyncRun make<cr>:botright copen<cr>:wincmd p<cr>
-    " nmap <f5> :wa<cr>:AsyncRun make<cr>:botright copen<cr>:wincmd p<cr>
-else
-    imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
-    nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
-    " imap <f5> <esc>:wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
-    " nmap <f5> :wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
-endif
+imap <f4> <esc>:wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f4> :wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
+imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' --target -j8<cr>:botright copen<cr>:wincmd p<cr>
 
 set ts=4 sw=4 noet
 setlocal commentstring=/*%s*/

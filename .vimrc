@@ -78,6 +78,7 @@ Plugin 'janko-m/vim-test.git'
 Plugin 'bkad/CamelCaseMotion.git'
 Plugin 'junegunn/fzf.vim.git'
 Plugin 'dhruvasagar/vim-table-mode.git'
+Plugin 'majutsushi/tagbar.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -126,6 +127,8 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
 let g:airline_theme='hybrid'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tagbar#flags = 'f'  " show full tag hierarchy 
 " air-line
 " if has("gui_running" && !gui_win32)
 "     let g:airline_powerline_fonts = 1

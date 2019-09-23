@@ -22,4 +22,4 @@
 [merge "ours"]
 	driver = true
 [submodule "submodules/common"]
-	url = git@github.com-paneda:paneda/common.git
+	url = git@github.com:paneda/common.git
