@@ -19,3 +19,13 @@ set foldmethod=syntax
 set foldnestmax=1
 set foldenable
 set foldlevel=1
+
+" vim-code-runner settings
+let g:code_runner_compiler = 'gcc'
+let g:code_runner_standard = 'c99'
+let g:code_runner_flags = ''
+let g:code_runner_libs = ''
+nmap <F8> :wa<cr>:InteractiveCompile<cr>
+nmap <F9> :wa<cr>:DirectCompile<cr>
+nmap <F10> :RunCode<cr>
+
