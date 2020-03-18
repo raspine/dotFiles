@@ -78,6 +78,7 @@ Plugin 'janko-m/vim-test.git'
 Plugin 'bkad/CamelCaseMotion.git'
 Plugin 'junegunn/fzf.vim.git'
 Plugin 'dhruvasagar/vim-table-mode.git'
+Plugin 'majutsushi/tagbar.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -131,6 +132,8 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#obsession#enabled = 1
 let g:airline_theme='hybrid'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tagbar#flags = 'f'  " show full tag hierarchy 
 " air-line
 " if has("gui_running" && !gui_win32)
 "     let g:airline_powerline_fonts = 1
@@ -194,7 +197,7 @@ command! -bang Colors
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
             \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   'rg --column --line-number --no-heading --color=always --no-ignore-vcs '.shellescape(<q-args>), 1,
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)
@@ -361,7 +364,12 @@ augroup MyAutoCommands
     autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
     autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
+<<<<<<< HEAD
     autocmd BufEnter COMMIT_EDITMSG startinsert
+=======
+    autocmd FileType fugitive nnoremap <buffer> q :q<cr>:wincmd p<cr>
+    " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
+>>>>>>> f581d83ff88357a92a639db73dffb582a690e7e2
 augroup END
 "
 " for hex editing
@@ -416,10 +424,11 @@ function! InitWorkspace() "{{{
     " Set vim's 'path' variable. Only directories part of git repo is added.
     " Vim's 'path' will be searched when using the |gf|, [f, ]f, ^Wf, |:find|,
     " |:sfind|, |:tabfind| and other commands.
-    let &path='.,' . GP_get_vim_dirs()
+    let &path='.,' . GP_get_vim_dirs() . 'import/**'
 
     " Create ctags index, exclude directories that are not part of git repo.
-    exec 'silent! !ctags -R -f .tags ' . GP_get_ctags_exclude_args()
+    " exec 'silent! !ctags -R -f .tags ' . GP_get_ctags_exclude_args()
+    exec 'silent! !ctags -R -f .tags'
 
     " Turn off obsession before delete/opening buffers and avoid messing up
     " current session when change dir to another project.
