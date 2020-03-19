@@ -364,12 +364,8 @@ augroup MyAutoCommands
     autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
     autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
-<<<<<<< HEAD
-    autocmd BufEnter COMMIT_EDITMSG startinsert
-=======
     autocmd FileType fugitive nnoremap <buffer> q :q<cr>:wincmd p<cr>
     " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
->>>>>>> f581d83ff88357a92a639db73dffb582a690e7e2
 augroup END
 "
 " for hex editing
