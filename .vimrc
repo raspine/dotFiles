@@ -79,7 +79,6 @@ Plugin 'bkad/CamelCaseMotion.git'
 Plugin 'junegunn/fzf.vim.git'
 Plugin 'dhruvasagar/vim-table-mode.git'
 Plugin 'majutsushi/tagbar.git'
-Plugin 'sirtaj/vim-openscad.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
