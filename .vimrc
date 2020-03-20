@@ -79,6 +79,7 @@ Plugin 'bkad/CamelCaseMotion.git'
 Plugin 'junegunn/fzf.vim.git'
 Plugin 'dhruvasagar/vim-table-mode.git'
 Plugin 'majutsushi/tagbar.git'
+Plugin 'sirtaj/vim-openscad.git'
 
 " my stuff
 Plugin 'raspine/vim-target.git'
@@ -115,8 +116,10 @@ filetype plugin indent on
 " let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:EclimCompletionMethod = 'omnifunc'
-" let g:enable_ycm_at_startup = 0
+" Let clangd fully control code completion
+" let g:ycm_clangd_uses_ycmd_caching = 0
+" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+let g:ycm_clangd_binary_path = exepath("clangd")
 "}}}
 "{{{ AirLine
 " Enable the list of buffers

@@ -38,3 +38,5 @@ else
 		fi
 		unset env
 fi
+
+[[ -f ~/.bashrc ]] && . ~/.bashrc
