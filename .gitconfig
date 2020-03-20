@@ -23,3 +23,5 @@
 	driver = true
 [submodule "submodules/common"]
 	url = git@github.com:paneda/common.git
+[core]
+	autocrlf = input

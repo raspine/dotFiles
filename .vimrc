@@ -9,7 +9,6 @@ set showmode
 set showcmd
 set hidden
 set showmatch
-set gdefault
 set cursorline
 set ttyfast
 set relativenumber
@@ -20,6 +19,7 @@ set encoding=utf-8
 set formatoptions=qrn1
 set guioptions-=T
 set guioptions-=M
+" no bells
 set noeb vb t_vb=
 " disable quick quit
 map <c-z> <nop>
@@ -93,6 +93,7 @@ Plugin 'raspine/vim-xc.git'
 Plugin 'Matt-Deacalion/vim-systemd-syntax'
 Plugin 'pangloss/vim-javascript'
 Plugin 'leafgarland/typescript-vim.git'
+Plugin 'sirtaj/vim-openscad.git'
 
 " looks
 Plugin 'vim-airline/vim-airline'
