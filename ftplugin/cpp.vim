@@ -171,9 +171,9 @@ let g:airline_section_b = airline#section#create(['cmake'])
 
 " mappings for vim-target, vim-testdog, vim-breakgutter
 " run test case directly in vim
-nnoremap <leader>da :exec "!urxvt -hold -e " . FindExeTarget() . TestSuiteArg() . '&'<cr>
+nnoremap <leader>da :exec "AsyncRun " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " run test case directly in vim
-nnoremap <leader>dc :exec "!" . FindExeTarget() . TestCaseArg()<cr>
+nnoremap <leader>dc :exec "AsyncRun " . FindExeTarget() . TestCaseArg()<cr>
 " spawn a gdb session in a separate terminal
 nnoremap <leader>dg :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg() . '&'<cr>
 " spawn a gdb session in a separate terminal

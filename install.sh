@@ -43,21 +43,21 @@ clever_ln_s ~/homescripts/.gitconfig ~/.gitconfig
 # vim
 mkdir -p ~/.vim/ftplugin
 clever_ln_s ~/homescripts/.vimrc ~/.vim/vimrc
-clever_ln_s ~/homescripts/ftplugin/java.vim ~/.vim/ftplugin/java.vim
-clever_ln_s ~/homescripts/ftplugin/lua.vim ~/.vim/ftplugin/lua.vim
-clever_ln_s ~/homescripts/ftplugin/c.vim ~/.vim/ftplugin/c.vim
-clever_ln_s ~/homescripts/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim
-clever_ln_s ~/homescripts/ftplugin/sh.vim ~/.vim/ftplugin/sh.vim
-clever_ln_s ~/homescripts/ftplugin/json.vim ~/.vim/ftplugin/json.vim
-clever_ln_s ~/homescripts/ftplugin/vim.vim ~/.vim/ftplugin/vim.vim
-clever_ln_s ~/homescripts/ftplugin/help.vim ~/.vim/ftplugin/help.vim
-clever_ln_s ~/homescripts/ftplugin/cmake.vim ~/.vim/ftplugin/cmake.vim
-clever_ln_s ~/homescripts/ftplugin/javascript.vim ~/.vim/ftplugin/javascript.vim
-clever_ln_s ~/homescripts/ftplugin/python.vim ~/.vim/ftplugin/python.vim
-clever_ln_s ~/homescripts/ftplugin/matlab.vim ~/.vim/ftplugin/matlab.vim
-clever_ln_s ~/homescripts/ftplugin/html.vim ~/.vim/ftplugin/html.vim
-clever_ln_s ~/homescripts/ftplugin/typescript.vim ~/.vim/ftplugin/typescript.vim
-clever_ln_s ~/homescripts/ftplugin/xc.vim ~/.vim/ftplugin/xc.vim
+clever_ln_s ~/homescripts/after/ftplugin/java.vim ~/.vim/ftplugin/java.vim
+clever_ln_s ~/homescripts/after/ftplugin/lua.vim ~/.vim/ftplugin/lua.vim
+clever_ln_s ~/homescripts/after/ftplugin/c.vim ~/.vim/ftplugin/c.vim
+clever_ln_s ~/homescripts/after/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim
+clever_ln_s ~/homescripts/after/ftplugin/sh.vim ~/.vim/ftplugin/sh.vim
+clever_ln_s ~/homescripts/after/ftplugin/json.vim ~/.vim/ftplugin/json.vim
+clever_ln_s ~/homescripts/after/ftplugin/vim.vim ~/.vim/ftplugin/vim.vim
+clever_ln_s ~/homescripts/after/ftplugin/help.vim ~/.vim/ftplugin/help.vim
+clever_ln_s ~/homescripts/after/ftplugin/cmake.vim ~/.vim/ftplugin/cmake.vim
+clever_ln_s ~/homescripts/after/ftplugin/javascript.vim ~/.vim/ftplugin/javascript.vim
+clever_ln_s ~/homescripts/after/ftplugin/python.vim ~/.vim/ftplugin/python.vim
+clever_ln_s ~/homescripts/after/ftplugin/matlab.vim ~/.vim/ftplugin/matlab.vim
+clever_ln_s ~/homescripts/after/ftplugin/html.vim ~/.vim/ftplugin/html.vim
+clever_ln_s ~/homescripts/after/ftplugin/typescript.vim ~/.vim/ftplugin/typescript.vim
+clever_ln_s ~/homescripts/after/ftplugin/xc.vim ~/.vim/ftplugin/xc.vim
 
 # vifm
 mkdir -p ~/vifm/colors

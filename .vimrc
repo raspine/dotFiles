@@ -51,76 +51,167 @@ set colorcolumn=85
 "}}}
 
 "{{{ plugins
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle
-" required!
-Plugin 'VundleVim/Vundle.vim'
-
-Plugin 'Valloric/YouCompleteMe.git'
-Plugin 'tpope/vim-sensible.git'
-Plugin 'tpope/vim-obsession.git'
-Plugin 'tpope/vim-characterize.git'
-Plugin 'tpope/vim-unimpaired.git'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-vinegar'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-abolish'
-Plugin 'nelstrom/vim-visual-star-search.git'
-Plugin 'SirVer/ultisnips'
-Plugin 'vim-scripts/cd-hook.git'
-Plugin 'skywind3000/asyncrun.vim'
-Plugin 'janko-m/vim-test.git'
-Plugin 'bkad/CamelCaseMotion.git'
-Plugin 'junegunn/fzf.vim.git'
-Plugin 'dhruvasagar/vim-table-mode.git'
-Plugin 'majutsushi/tagbar.git'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-characterize'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
+Plug 'nelstrom/vim-visual-star-search'
+Plug 'SirVer/ultisnips'
+Plug 'vim-scripts/cd-hook'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'janko-m/vim-test'
+Plug 'bkad/CamelCaseMotion'
+Plug 'junegunn/fzf.vim'
+Plug 'dhruvasagar/vim-table-mode'
 
 " my stuff
-Plugin 'raspine/vim-target.git'
-Plugin 'raspine/vim-testdog.git'
-Plugin 'raspine/vim-breakgutter.git'
-Plugin 'raspine/vim-git-project.git'
-Plugin 'raspine/vim-code-runner.git'
-Plugin 'raspine/vim-xc.git'
+Plug 'raspine/vim-target'
+Plug 'raspine/vim-testdog'
+Plug 'raspine/vim-breakgutter'
+Plug 'raspine/vim-git-project'
+Plug 'raspine/vim-code-runner'
+Plug 'raspine/vim-xc'
 
 " improved syntax highlightning
-Plugin 'Matt-Deacalion/vim-systemd-syntax'
-Plugin 'pangloss/vim-javascript'
-Plugin 'leafgarland/typescript-vim.git'
-Plugin 'sirtaj/vim-openscad.git'
+Plug 'Matt-Deacalion/vim-systemd-syntax'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'sirtaj/vim-openscad'
 
 " looks
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'altercation/vim-colors-solarized.git'
-Plugin 'kristijanhusak/vim-hybrid-material.git'
-call vundle#end()
-filetype plugin indent on
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'altercation/vim-colors-solarized'
+Plug 'kristijanhusak/vim-hybrid-material'
+
+call plug#end()
 "}}}
 
 "{{{ plugin config
-"{{{ YCM
-" Notes for YCM:
-" Sometimes it will crash when building with it own libclang so
-" then use:
-" pacman -S clang (for Arch linux)
-" cd ~/.vim/bundle/YouCompleteMe
-" ./install.sh --clang-completer --system-libclang
-" ..oh and make sure to add the .ycm_extra_conf.py as specified below
-"
-" let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_autoclose_preview_window_after_insertion = 1
-" Let clangd fully control code completion
-" let g:ycm_clangd_uses_ycmd_caching = 0
-" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
-let g:ycm_clangd_binary_path = exepath("clangd")
-"}}}
+"{{{ coc
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if exists('*complete_info')
+    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+    imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    else
+        call CocAction('doHover')
+    endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+    autocmd!
+    " Setup formatexpr specified filetype(s).
+    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+    " Update signature help on jump placeholder.
+    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for selections ranges.
+" NOTE: Requires 'textDocument/selectionRange' support from the language server.
+" coc-tsserver, coc-python are the examples of servers that support it.
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+"}}} coc
 "{{{ AirLine
 " Enable the list of buffers
 let g:airline#extensions#tabline#enabled = 1
@@ -174,7 +265,7 @@ inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" 
 nmap <F6> :AsyncStop<cr>
 " let g:asyncrun_open = 300
 "}}}
-" {{{FZF
+" {{{ FZF
 " Files command with preview window
 nnoremap Q: :History:<cr>
 nnoremap Q/ :History/<cr>
@@ -256,6 +347,11 @@ nnoremap <leader>x V`]
 " when using many tabs and tabnew..
 nnoremap <leader>t :tabs<cr>:tabn
 
+" Find symbol of current document
+nnoremap <leader>o  :<C-u>CocList outline<cr>
+" Find symbol of current workspace
+nnoremap <leader>O  :<C-u>CocList -I symbols<cr>
+
 " registers
 " paste text from register in command mode
 nnoremap <leader>rr :reg<CR>:put<space>
@@ -285,11 +381,11 @@ nnoremap <leader>eb <C-w><C-v><C-l>:e ~/homescripts/.bashrc<cr>
 nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
-nnoremap <leader>ec <C-w><C-v><C-l>:e ~/.vim/ftplugin/cpp.vim<cr>
-nnoremap <leader>ex <C-w><C-v><C-l>:e ~/.vim/ftplugin/xc.vim<cr>
-nnoremap <leader>ej <C-w><C-v><C-l>:e ~/.vim/ftplugin/javascript.vim<cr>
-nnoremap <leader>et <C-w><C-v><C-l>:e ~/.vim/ftplugin/typescript.vim<cr>
-nnoremap <leader>ep <C-w><C-v><C-l>:e ~/.vim/ftplugin/python.vim<cr>
+nnoremap <leader>ec <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/cpp.vim<cr>
+nnoremap <leader>ex <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/xc.vim<cr>
+nnoremap <leader>ej <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/javascript.vim<cr>
+nnoremap <leader>et <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/typescript.vim<cr>
+nnoremap <leader>ep <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/python.vim<cr>
 nnoremap <leader>q <esc>:w<cr>:so %<cr>
 
 " quickfix
