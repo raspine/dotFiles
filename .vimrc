@@ -72,6 +72,7 @@ Plug 'janko-m/vim-test'
 Plug 'bkad/CamelCaseMotion'
 Plug 'junegunn/fzf.vim'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'derekwyatt/vim-fswitch'
 
 " my stuff
 Plug 'raspine/vim-target'
@@ -383,10 +384,15 @@ nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 nnoremap <leader>ec <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/cpp.vim<cr>
 nnoremap <leader>ex <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/xc.vim<cr>
-nnoremap <leader>ej <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/javascript.vim<cr>
 nnoremap <leader>et <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/typescript.vim<cr>
 nnoremap <leader>ep <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/python.vim<cr>
 nnoremap <leader>q <esc>:w<cr>:so %<cr>
+" open c/c++ companion file
+nnoremap <leader>ek :FSSplitAbove<cr>
+nnoremap <leader>ej :FSSplitBelow<cr>
+nnoremap <leader>eh :FSSplitLeft<cr>
+nnoremap <leader>el :FSSplitRight<cr>
+nnoremap <leader>ee :FSHere<cr>
 
 " quickfix
 nnoremap <leader>ch :vert topleft copen<cr>
