@@ -72,6 +72,7 @@ Plug 'janko-m/vim-test'
 Plug 'bkad/CamelCaseMotion'
 Plug 'junegunn/fzf.vim'
 Plug 'dhruvasagar/vim-table-mode'
+Plug 'yssl/QFEnter'
 
 " my stuff
 Plug 'raspine/vim-target'
