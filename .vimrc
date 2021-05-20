@@ -68,7 +68,6 @@ Plug 'nelstrom/vim-visual-star-search'
 Plug 'SirVer/ultisnips'
 Plug 'vim-scripts/cd-hook'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'janko-m/vim-test'
 Plug 'bkad/CamelCaseMotion'
 Plug 'junegunn/fzf.vim'
 Plug 'dhruvasagar/vim-table-mode'
@@ -347,7 +346,7 @@ nnoremap <leader>aa :Rg <c-r>=expand("<cword>")<cr>
 nnoremap <leader>x V`]
 
 " when using many tabs and tabnew..
-nnoremap <leader>t :tabs<cr>:tabn
+nnoremap <leader>t :tabn
 
 " Find symbol of current document
 nnoremap <leader>o  :<C-u>CocList outline<cr>
