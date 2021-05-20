@@ -1,0 +1,8 @@
+set breakpoint pending on
+set confirm off
+set disassembly-flavor intel
+dashboard registers -style column-major True
+dashboard -layout !registers !assembly !source variables stack
+dashboard variables -style compact False
+dashboard variables -style align
+

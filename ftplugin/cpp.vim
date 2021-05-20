@@ -175,15 +175,15 @@ nnoremap <leader>da :exec "AsyncRun " . FindExeTarget() . TestSuiteArg() . '&'<c
 " run test case directly in vim
 nnoremap <leader>dc :exec "AsyncRun " . FindExeTarget() . TestCaseArg()<cr>
 " spawn a gdb session in a separate terminal
-nnoremap <leader>dg :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg() . '&'<cr>
+nnoremap <leader>dg :exec "!urxvt -e cgdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg() . '&'<cr>
 " spawn a gdb session in a separate terminal
-nnoremap <leader>dh :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestSuiteArg() . '&'<cr>
+nnoremap <leader>dh :exec "!urxvt -e cgdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " same but with custom arguments (applies to any app)
-nnoremap <leader>dr :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " " . '&'<left><left>
+nnoremap <leader>dr :exec "!urxvt -e cgdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . " " . '&'<left><left>
 " run the test case under valgrind
 nnoremap <leader>dv :exec "!urxvt -hold -e valgrind --leak-check=full " . FindExeTarget() . TestCaseArg()<cr>
 " run the test suite under valgrind
 nnoremap <leader>ds :exec "!urxvt -hold -e valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " copy the execution line to clipboard
-nnoremap <leader>dd :call setreg('+', "gdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg())<cr>
+nnoremap <leader>dd :call setreg('+', "cgdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg())<cr>
 
