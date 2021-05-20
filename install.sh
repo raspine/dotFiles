@@ -21,7 +21,7 @@ clever_ln_s() {
 }
 
 # needed packages
-if ! is_package_installed "yaourt" ; then
+if ! is_package_installed "yay" ; then
   echo "plz install yaourt"
   return 1
 fi
@@ -40,24 +40,32 @@ clever_ln_s ~/homescripts/.profile ~/.profile
 clever_ln_s ~/homescripts/.inputrc ~/.inputrc
 clever_ln_s ~/homescripts/.gitconfig ~/.gitconfig
 
+#cgdb
+mkdir -p ~/cgdb
+clever_ln_s ~/homescripts/.cgdb/cgdbrc ~/.cgdb/cgdbrc
+
+#gdb-dashboard
+mkdir -p ~/.gdbinit.d
+clever_ln_s ~/homescripts/.gdbinit.d/init ~/.gdbinit.d/init
+
 # vim
 mkdir -p ~/.vim/ftplugin
 clever_ln_s ~/homescripts/.vimrc ~/.vim/vimrc
-clever_ln_s ~/homescripts/after/ftplugin/java.vim ~/.vim/ftplugin/java.vim
-clever_ln_s ~/homescripts/after/ftplugin/lua.vim ~/.vim/ftplugin/lua.vim
-clever_ln_s ~/homescripts/after/ftplugin/c.vim ~/.vim/ftplugin/c.vim
-clever_ln_s ~/homescripts/after/ftplugin/cpp.vim ~/.vim/ftplugin/cpp.vim
-clever_ln_s ~/homescripts/after/ftplugin/sh.vim ~/.vim/ftplugin/sh.vim
-clever_ln_s ~/homescripts/after/ftplugin/json.vim ~/.vim/ftplugin/json.vim
-clever_ln_s ~/homescripts/after/ftplugin/vim.vim ~/.vim/ftplugin/vim.vim
-clever_ln_s ~/homescripts/after/ftplugin/help.vim ~/.vim/ftplugin/help.vim
-clever_ln_s ~/homescripts/after/ftplugin/cmake.vim ~/.vim/ftplugin/cmake.vim
-clever_ln_s ~/homescripts/after/ftplugin/javascript.vim ~/.vim/ftplugin/javascript.vim
-clever_ln_s ~/homescripts/after/ftplugin/python.vim ~/.vim/ftplugin/python.vim
-clever_ln_s ~/homescripts/after/ftplugin/matlab.vim ~/.vim/ftplugin/matlab.vim
-clever_ln_s ~/homescripts/after/ftplugin/html.vim ~/.vim/ftplugin/html.vim
-clever_ln_s ~/homescripts/after/ftplugin/typescript.vim ~/.vim/ftplugin/typescript.vim
-clever_ln_s ~/homescripts/after/ftplugin/xc.vim ~/.vim/ftplugin/xc.vim
+clever_ln_s ~/homescripts/ftplugin/java.vim ~/.vim/after/ftplugin/java.vim
+clever_ln_s ~/homescripts/ftplugin/lua.vim ~/.vim/after/ftplugin/lua.vim
+clever_ln_s ~/homescripts/after/ftplugin/c.vim ~/.vim/after/ftplugin/c.vim
+clever_ln_s ~/homescripts/ftplugin/cpp.vim ~/.vim/after/ftplugin/cpp.vim
+clever_ln_s ~/homescripts/ftplugin/sh.vim ~/.vim/after/ftplugin/sh.vim
+clever_ln_s ~/homescripts/ftplugin/json.vim ~/.vim/after/ftplugin/json.vim
+clever_ln_s ~/homescripts/ftplugin/vim.vim ~/.vim/after/ftplugin/vim.vim
+clever_ln_s ~/homescripts/ftplugin/help.vim ~/.vim/after/ftplugin/help.vim
+clever_ln_s ~/homescripts/ftplugin/cmake.vim ~/.vim/after/ftplugin/cmake.vim
+clever_ln_s ~/homescripts/ftplugin/javascript.vim ~/.vim/after/ftplugin/javascript.vim
+clever_ln_s ~/homescripts/ftplugin/python.vim ~/.vim/after/ftplugin/python.vim
+clever_ln_s ~/homescripts/ftplugin/matlab.vim ~/.vim/after/ftplugin/matlab.vim
+clever_ln_s ~/homescripts/ftplugin/html.vim ~/.vim/after/ftplugin/html.vim
+clever_ln_s ~/homescripts/ftplugin/typescript.vim ~/.vim/after/ftplugin/typescript.vim
+clever_ln_s ~/homescripts/ftplugin/xc.vim ~/.vim/after/ftplugin/xc.vim
 
 # vifm
 mkdir -p ~/vifm/colors

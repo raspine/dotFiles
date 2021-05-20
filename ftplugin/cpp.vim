@@ -175,7 +175,7 @@ nnoremap <leader>da :exec "AsyncRun " . FindExeTarget() . TestSuiteArg() . '&'<c
 " run test case directly in vim
 nnoremap <leader>dc :exec "AsyncRun " . FindExeTarget() . TestCaseArg()<cr>
 " spawn a gdb session in a separate terminal
-nnoremap <leader>dg :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg() . '&'<cr>
+nnoremap <leader>dg :exec "!urxvt -e cgdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg() . '&'<cr>
 " spawn a gdb session in a separate terminal
 nnoremap <leader>dh :exec "!urxvt -e gdb" . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " same but with custom arguments (applies to any app)

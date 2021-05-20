@@ -1,0 +1,6 @@
+set autosourcereload
+set tabstop=4
+set winsplit=gdb_big
+set winminwidth=90
+set winsplitorientation=vertical
+
