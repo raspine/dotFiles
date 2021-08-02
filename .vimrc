@@ -346,7 +346,7 @@ nnoremap <leader>aa :Rg <c-r>=expand("<cword>")<cr>
 nnoremap <leader>x V`]
 
 " when using many tabs and tabnew..
-nnoremap <leader>t :tabn
+nnoremap <leader>t<space> :tabclose<cr>
 
 " Find symbol of current document
 nnoremap <leader>o  :<C-u>CocList outline<cr>
@@ -415,7 +415,8 @@ nnoremap <leader>b<space> :BreakpointClearAll<cr>
 " git
 nnoremap <leader>gg :Gstatus<cr>
 nnoremap <leader>gh :Gvdiff HEAD<cr>
-nnoremap <leader>gl :Gvdiff<cr>
+nnoremap <leader>gv :tab Gvdiffsplit<cr>
+nnoremap <leader>gs :tab Ghdiffsplit<cr>
 " nnoremap <leader>gi :!eval $(keychain --eval --agents ssh --quiet `find ~/.ssh -type f \( -iname "id_*" ! -iname "*.pub" \)`)<cr>
 nnoremap <leader>g<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 nnoremap <leader>gd :Git branch<cr>:call DeleteBranch('')<left><left>
