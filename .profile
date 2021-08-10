@@ -16,8 +16,8 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     # export CMAKE_CXX_COMPILER=$CXX
     # export CC=arm-linux-gnueabihf-gcc
     # export CXX=arm-linux-gnueabihf-g++
-    export PATH=/opt/cross-pi-gcc-8.3.0-1/bin:$PATH
-    export LD_LIBRARY_PATH=/opt/cross-pi-gcc-8.3.0-1/lib:$LD_LIBRARY_PATH
+    export PATH=/opt/cross-pi-gcc-10.2.0-2/bin:$PATH
+    export LD_LIBRARY_PATH=/opt/cross-pi-gcc-10.2.0-2/lib:$LD_LIBRARY_PATH
     PERU_CACHE_DIR="/home/jsc/work/thirdpart/peru"
     export PERU_CACHE_DIR
 
@@ -40,3 +40,4 @@ else
 fi
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
