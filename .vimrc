@@ -73,6 +73,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'yssl/QFEnter'
 Plug 'derekwyatt/vim-fswitch'
+Plug 'vim-test/vim-test'
 
 " my stuff
 Plug 'raspine/vim-target'
@@ -292,6 +293,9 @@ command! -bang -nargs=* Rg
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)
 "}}}
+"{{{ vim-test
+let test#strategy = "asyncrun"
+"}}}
 "}}}
 
 "{{{ key mappings
@@ -423,11 +427,14 @@ nnoremap <leader>gd :Git branch<cr>:call DeleteBranch('')<left><left>
 nnoremap <leader>gb :Git branch<cr>:Git checkout<space>
 nnoremap <leader>gB :Git branch -a<cr>:Git checkout<space>
 
+" formatting
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
 " local list
-nnoremap <leader>ff :lopen<cr>
-nnoremap <leader>f/ :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
-nnoremap <leader>f. :lvim // %<left><left><left>
-nnoremap <leader>f<space> :lclose<cr>
+nnoremap <leader>zz :lopen<cr>
+nnoremap <leader>z/ :lvim /<c-r>=expand("<cword>")<cr>/ %<cr>:lopen<cr>
+nnoremap <leader>z<space> :lclose<cr>
 
 " aid the search and replace command
 nnoremap <leader>ss :%s/\<<c-r>=expand("<cword>")<cr>\>/

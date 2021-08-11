@@ -1,19 +1,19 @@
 set ts=2 sts=0 et sw=2 sta
 
 nmap <f4> :call InsertDeuggerLines()<cr>:wa<cr>:AsyncRun npm start<cr>
-imap <f5> <esc>:wa<cr>:AsyncRun tsc<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f5> :wa<cr>:AsyncRun tsc<cr>:botright copen<cr>:wincmd p<cr>
+imap <f5> <esc>:wa<cr>:AsyncRun npm run build<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f5> :wa<cr>:AsyncRun npm run build<cr>:botright copen<cr>:wincmd p<cr>
 nmap <f6> :call ClearDebuggerLines()<cr>:AsyncStop<cr>
 
-if !exists("g:ycm_semantic_triggers")
-    let g:ycm_semantic_triggers = {}
-endif
-let g:ycm_semantic_triggers['typescript'] = ['.']
-let g:typescript_compiler_options="--experimentalDecorators"
+" run tests via vim-test
+nnoremap <leader>dc :TestNearest<cr>
+nnoremap <leader>da :TestSuite<cr>
 
-" let g:airline_section_a = airline#section#create(['branch'])
-" let g:airline_section_b = airline#section#create(['%{g:asyncrun_status}'])
-" substitute('running', '\(^[a-z,A-Z]\).*', '\U\1', '')
+" if !exists("g:ycm_semantic_triggers")
+"     let g:ycm_semantic_triggers = {}
+" endif
+" let g:ycm_semantic_triggers['typescript'] = ['.']
+" let g:typescript_compiler_options="--experimentalDecorators"
 
 function! InsertDeuggerLines()
     let l:breakpoints = FindBreakpoints()
