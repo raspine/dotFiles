@@ -8,6 +8,7 @@ nmap <f6> :call ClearDebuggerLines()<cr>:AsyncStop<cr>
 " run tests via vim-test
 nnoremap <leader>dc :TestNearest<cr>
 nnoremap <leader>da :TestSuite<cr>
+nnoremap <leader>dg :AsyncRun node --inspect-brk node_modules/.bin/jest --runInBand<cr>
 
 " if !exists("g:ycm_semantic_triggers")
 "     let g:ycm_semantic_triggers = {}
