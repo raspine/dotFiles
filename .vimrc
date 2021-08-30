@@ -554,7 +554,7 @@ function! InitWorkspace() "{{{
         " open the files that contains projName
         if appFile =~ 'test'
             exec 'e ' . appFile
-            call fugitive#detect(getcwd())
+            call FugitiveDetect(getcwd())
             filetype detect
         endif
     endfor
@@ -562,7 +562,7 @@ function! InitWorkspace() "{{{
     for appFile in l:appFiles
         if !(appFile =~ 'test')
             exec 'sp ' . appFile
-            call fugitive#detect(getcwd())
+            call FugitiveDetect(getcwd())
             filetype detect
         endif
     endfor
