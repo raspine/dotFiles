@@ -65,7 +65,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'nelstrom/vim-visual-star-search'
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'vim-scripts/cd-hook'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'bkad/CamelCaseMotion'
@@ -77,7 +77,8 @@ Plug 'vim-test/vim-test'
 
 " my stuff
 Plug 'raspine/vim-target'
-Plug 'raspine/vim-testdog'
+Plug 'raspine/vim-testdog', {'branch': 'all_tests'}
+" Plug 'raspine/vim-testdog'
 Plug 'raspine/vim-breakgutter'
 Plug 'raspine/vim-git-project'
 Plug 'raspine/vim-code-runner'
@@ -213,6 +214,7 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 "}}} coc
 "{{{ AirLine
 " Enable the list of buffers
@@ -244,24 +246,24 @@ let g:airline_section_b = airline#section#create([''])
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " let g:UltiSnipsExpandTrigger = '<c-x>'
 " let g:UltiSnipsListSnippets='<c-z>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-let g:UltiSnipsEditSplit='vertical'
-let g:UltiSnipsSnippetDir=$HOME.'/.vim/UltiSnips'
-" let g:UltiSnipsSnippetDirectories=['UltiSnips']
-let g:UltiSnipsEnableSnipMate=0
+" let g:UltiSnipsJumpForwardTrigger='<tab>'
+" let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+" let g:UltiSnipsEditSplit='vertical'
+" let g:UltiSnipsSnippetDir=$HOME.'/.vim/UltiSnips'
+" " let g:UltiSnipsSnippetDirectories=['UltiSnips']
+" let g:UltiSnipsEnableSnipMate=0
 
-let g:UltiSnipsExpandTrigger = "<nop>"
-let g:ulti_expand_or_jump_res = 0
-function! ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
+" let g:UltiSnipsExpandTrigger = "<nop>"
+" let g:ulti_expand_or_jump_res = 0
+" function! ExpandSnippetOrCarriageReturn()
+"     let snippet = UltiSnips#ExpandSnippetOrJump()
+"     if g:ulti_expand_or_jump_res > 0
+"         return snippet
+"     else
+"         return "\<CR>"
+"     endif
+" endfunction
+" inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 "}}}
 "{{{ AsyncRun
 nmap <F6> :AsyncStop<cr>

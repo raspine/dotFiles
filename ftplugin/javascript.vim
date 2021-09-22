@@ -4,9 +4,11 @@ set ts=4 sts=0 et sw=4 sta
 nmap <f4> :call InsertDeuggerLines()<cr>:wa<cr>:AsyncRun npm start<cr>
 imap <f5> <esc>:wa<cr>:AsyncRun npm test<cr>:botright copen<cr>:wincmd p<cr>
 nmap <f5> :wa<cr>:AsyncRun npm test<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f6> :call ClearDebuggerLines()<cr>:AsyncStop<cr>
+" nmap <f6> :call ClearDebuggerLines()<cr>:AsyncStop<cr>
 
-nnoremap <leader>dr :call DebugNodeApp() <cr>
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+" nnoremap <leader>dr :call DebugNodeApp() <cr>
 
 function! DebugNodeApp()
     let l:breakpoints = FindBreakpoints()
@@ -42,7 +44,7 @@ function! FindJestTestSuite()
   if forward_pos == new_pos
     exec "normal! f\""
     exec "normal! \"ayi\""
-    forward_pos = getpos(".")
+    let forward_pos = getpos(".")
     if forward_pos == new_pos
         let @a = l:savereg
         return ""
@@ -67,7 +69,7 @@ function! FindJestTestCase()
   if forward_pos == new_pos
     exec "normal! f\""
     exec "normal! \"ayi\""
-    forward_pos = getpos(".")
+    let forward_pos = getpos(".")
     if forward_pos == new_pos
         let @a = l:savereg
         return ""
@@ -82,6 +84,6 @@ endfunction
 " run tests via vim-test
 nnoremap <leader>dc :exec "AsyncRun node node_modules/.bin/jest --no-coverage -t " . "\"" . FindJestTestCase() . "\""<cr>
 nnoremap <leader>da :exec "AsyncRun node node_modules/.bin/jest --no-coverage -t " . "\"" . FindJestTestSuite() . "\""<cr>
-nnoremap <leader>dd :exec "AsyncRun node node_modules/.bin/jest --no-coverage " . expand('%:p')<cr>
+nnoremap <leader>df :exec "AsyncRun node node_modules/.bin/jest --no-coverage " . expand('%:p')<cr>
 nnoremap <leader>dg :exec "AsyncRun node --inspect-brk node_modules/.bin/jest --runInBand -t " . "\"" . FindJestTestCase() . "\""<cr>
 

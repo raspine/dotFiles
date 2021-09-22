@@ -1,4 +1,4 @@
-set ts=2 sts=0 et sw=2 sta
+set ts=4 sts=0 et sw=4 sta
 
 nmap <f4> :call InsertDeuggerLines()<cr>:wa<cr>:AsyncRun npm start<cr>
 imap <f5> <esc>:wa<cr>:AsyncRun npm run build<cr>:botright copen<cr>:wincmd p<cr>
@@ -22,7 +22,7 @@ function! FindJestTestSuite()
   if forward_pos == new_pos
     exec "normal! f\""
     exec "normal! \"ayi\""
-    forward_pos = getpos(".")
+    let forward_pos = getpos(".")
     if forward_pos == new_pos
         let @a = l:savereg
         return ""
@@ -47,7 +47,7 @@ function! FindJestTestCase()
   if forward_pos == new_pos
     exec "normal! f\""
     exec "normal! \"ayi\""
-    forward_pos = getpos(".")
+    let forward_pos = getpos(".")
     if forward_pos == new_pos
         let @a = l:savereg
         return ""

@@ -170,7 +170,9 @@ let g:airline_section_a = airline#section#create(['branch'])
 let g:airline_section_b = airline#section#create(['cmake'])
 
 " mappings for vim-target, vim-testdog, vim-breakgutter
-" run test case directly in vim
+" run test suite directly in vim
+nnoremap <leader>df :exec "AsyncRun " . FindExeTarget() . TestFileArg() . '&'<cr>
+" run test suite directly in vim
 nnoremap <leader>da :exec "AsyncRun " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " run test case directly in vim
 nnoremap <leader>dc :exec "AsyncRun " . FindExeTarget() . TestCaseArg()<cr>
