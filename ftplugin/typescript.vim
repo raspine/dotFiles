@@ -6,13 +6,9 @@ nmap <f5> :wa<cr>:AsyncRun npm run build<cr>:botright copen<cr>:wincmd p<cr>
 nmap <f6> :call ClearDebuggerLines()<cr>:AsyncStop<cr>
 
 function! FindJestTestSuite()
-  return expand('%:p')
-endfunction
-
-function! FindJestTestSuite()
   let l:curr_pos = getpos(".")
   if search("\\<describe\\>\\_s*(", 'b') == 0
-      return "*"
+      return expand('%:p')
   endif
   let l:new_pos = getpos(".")
   exec "normal! f'"
@@ -31,7 +27,7 @@ function! FindJestTestSuite()
   let test_suite = @a
   let @a = l:savereg
   :call setpos('.', curr_pos)
-  return test_suite
+  return ' -t ' . "\"" . test_suite . "\""
 endfunction
 
 function! FindJestTestCase()
@@ -56,14 +52,14 @@ function! FindJestTestCase()
   let test_case = @a
   let @a = l:savereg
   :call setpos('.', curr_pos)
-  return test_case
+  return ' -t ' . "\"" . test_case . "\""
 endfunction
 
 " run tests via vim-test
-nnoremap <leader>dc :exec "AsyncRun node node_modules/.bin/jest --no-coverage -t " . "\"" . FindJestTestCase() . "\""<cr>
-nnoremap <leader>da :exec "AsyncRun node node_modules/.bin/jest --no-coverage -t " . "\"" . FindJestTestSuite() . "\""<cr>
-nnoremap <leader>dd :exec "AsyncRun node node_modules/.bin/jest --no-coverage " . expand('%:p')<cr>
-nnoremap <leader>dg :exec "AsyncRun node --inspect-brk node_modules/.bin/jest --runInBand -t " . "\"" . FindJestTestCase() . "\""<cr>
+nnoremap <leader>dc :exec "AsyncRun node node_modules/.bin/jest --no-coverage" . FindJestTestCase()<cr>
+nnoremap <leader>da :exec "AsyncRun node node_modules/.bin/jest --no-coverage" . FindJestTestSuite()<cr>
+nnoremap <leader>df :exec "AsyncRun node node_modules/.bin/jest --no-coverage " . expand('%:p')<cr>
+nnoremap <leader>dg :exec "AsyncRun node --inspect-brk node_modules/.bin/jest --runInBand" . FindJestTestCase()<cr>
 
 
 " if !exists("g:ycm_semantic_triggers")
