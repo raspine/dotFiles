@@ -22,3 +22,4 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export BASH_ENV=~/.bashrc
 
+source /usr/share/nvm/init-nvm.sh

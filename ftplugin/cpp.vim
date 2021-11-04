@@ -187,5 +187,5 @@ nnoremap <leader>dv :exec "!urxvt -hold -e valgrind --leak-check=full " . FindEx
 " run the test suite under valgrind
 nnoremap <leader>ds :exec "!urxvt -hold -e valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " copy the execution line to clipboard
-nnoremap <leader>dd :call setreg('+', "cgdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg())<cr>
+nnoremap <leader>dd :call setreg('+', "cgdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget())<cr>
 
