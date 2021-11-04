@@ -45,7 +45,7 @@ clever_ln_s ~/dotFiles/.gitconfig ~/.gitconfig
 # plasma
 cp ~/dotFiles/ssh-add.desktop ~/.config/autostart
 cp ~/dotFiles/askpass.sh ~/.config/plasma-workspace/env
-cp ~/dotFiles/xmos_env ~/.config/plasma-workspace/env
+cp ~/dotFiles/xmos_env.sh ~/.config/plasma-workspace/env
 
 # systemd
 mkdir -p ~/.config/systemd/user && cp ~/dotFiles/ssh_agent.service ~/.config/systemd/user

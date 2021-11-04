@@ -383,9 +383,9 @@ nnoremap <leader>ww :call InitWorkspace()<cr>
 cnoremap <leader>w<space> visual<cr>
 
 " config files
-nnoremap <leader>ev <C-w><C-v><C-l>:e ~/homescripts/.vimrc<cr>
-nnoremap <leader>eb <C-w><C-v><C-l>:e ~/homescripts/.bashrc<cr>
-nnoremap <leader>es <C-w><C-v><C-l>:e ~/homescripts/.sshrc<cr>
+nnoremap <leader>ev <C-w><C-v><C-l>:e ~/dotFiles/.vimrc<cr>
+nnoremap <leader>eb <C-w><C-v><C-l>:e ~/dotFiles/.bashrc<cr>
+nnoremap <leader>es <C-w><C-v><C-l>:e ~/dotFiles/.sshrc<cr>
 nnoremap <leader>ea <C-w><C-v><C-l>:e ~/.config/awesome/rc.lua<cr>
 nnoremap <leader>eg <C-w><C-v><C-l>:e ~/.gitconfig<cr>
 nnoremap <leader>ec <C-w><C-v><C-l>:e ~/.vim/after/ftplugin/cpp.vim<cr>

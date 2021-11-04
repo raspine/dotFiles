@@ -11,7 +11,7 @@
 #xrandr --output HDMI1 --right-of DP1
 #fi
 
-source ~/homescripts/.sshrc
+source ~/dotFiles/.sshrc
 
 source /usr/share/fzf/completion.bash && source /usr/share/fzf/key-bindings.bash
 # Setting fd as the default source for fzf
