@@ -40,6 +40,17 @@ clever_ln_s ~/homescripts/.profile ~/.profile
 clever_ln_s ~/homescripts/.inputrc ~/.inputrc
 clever_ln_s ~/homescripts/.gitconfig ~/.gitconfig
 
+# plasma
+cp ssh-add.desktop ~/.config/autostart
+cp askpass.sh ~/.config/plasma-workspace/env
+cp xmos.sh ~/.config/plasma-workspace/env
+
+# systemd
+mkdir -p ~/.config/environment.d
+cp env.conf ~/.config/environment.d
+# reload with systemctl --user deamon-reload
+# show with systemctl --user show-environment
+
 #cgdb
 mkdir -p ~/cgdb
 clever_ln_s ~/homescripts/.cgdb/cgdbrc ~/.cgdb/cgdbrc

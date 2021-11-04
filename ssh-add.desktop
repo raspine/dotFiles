@@ -1,0 +1,4 @@
+[Desktop Entry]
+Exec=ssh-add -q ~/.ssh/id_rsa_paneda ~/.ssh/id_rsa_gmail
+Name=ssh-add
+Type=Application
