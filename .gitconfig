@@ -8,8 +8,11 @@
 	lg = !git lg1
 	st = status
 	co = checkout
-	ci = commit
 	br = branch
+	cm = commit -m
+	acm = !git add -A && git commit -m
+	dv = difftool -t gvimdiff -y
+	last = log -1 HEAD --stat
 [user]
 	name = jsc
 	email = jorgen.scott@paneda.se
