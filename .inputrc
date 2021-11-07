@@ -1,1 +1,10 @@
 set show-mode-in-prompt on
+set vi-ins-mode-string \1\e[6 q\2
+set vi-cmd-mode-string \1\e[2 q\2
+# vi settings
+$if mode=vi
+    # normal mode
+    set keymap vi-command
+    "\\h": beginning-of-line
+    "\\l": end-of-line
+$endif

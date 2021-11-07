@@ -27,6 +27,10 @@ map <c-z> <nop>
 nnoremap Q <nop>
 set nojoinspaces
 set tags +=.tags
+" cursor shape in terminal
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
 "}}}
 
 "{{{ wild mode
@@ -492,20 +496,18 @@ augroup END
 "}}}
 
 "{{{ colors & font
-if has("gui_running")
-    if system('hostname')=~'home'
-        colorscheme hybrid_material
-        set background=dark
-    else
-        colorscheme solarized
-        set background=light
-    endif
-    if has("gui_gtk3") || has("gui_gtk2")
-        set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
-    elseif has("gui_win32")
-        set guifont=DejaVu_Sans_Mono:h9
-        " set guifont=Consolas:h10:cANSI
-    endif
+if system('hostname')=~'home'
+    colorscheme hybrid_material
+    set background=dark
+else
+    colorscheme solarized
+    set background=light
+endif
+if has("gui_gtk3") || has("gui_gtk2")
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+elseif has("gui_win32")
+    set guifont=DejaVu_Sans_Mono:h9
+    " set guifont=Consolas:h10:cANSI
 endif
 "}}}
 

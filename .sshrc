@@ -53,15 +53,13 @@ extract() {
     done
     return "$e"
 }
-
-hidden() { ls -a "$@" | grep '^\.'; }
 #}}}
 
 #{{{ Alias
 ## ls
 alias ls='ls --color=auto'
-alias ll="ls -lhF"
-alias la="hidden"
+alias ll="ls -lhp"
+alias la='ls -lAp | grep -E "\.[^ \t]*$"'
 
 ## cd
 alias cd..='cd ..'

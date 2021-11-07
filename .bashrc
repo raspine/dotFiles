@@ -20,6 +20,7 @@ export FZF_DEFAULT_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || \
     cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+source /usr/share/nvm/init-nvm.sh
+
 export BASH_ENV=~/.bashrc
 
-source /usr/share/nvm/init-nvm.sh
