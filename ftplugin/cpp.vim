@@ -125,10 +125,10 @@ endfunction"}}}
 "}}}
 nnoremap <f7> :Launch<space>
 
-imap <f4> <esc>:wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f4> :wa<cr>:AsyncRun make -j8<cr>:botright copen<cr>:wincmd p<cr>
-imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' -j8<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' -j8<cr>:botright copen<cr>:wincmd p<cr>
+imap <f4> <esc>:wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f4> :wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
+imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' -j16<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' -j16<cr>:botright copen<cr>:wincmd p<cr>
 
 setlocal ts=4 sw=4 noet
 

@@ -107,7 +107,10 @@ URxvt*color14: #ffffff
 !URxvt*color15: #cfd8dc
 URxvt*color15: #ffffff
 
-URxvt.perl-ext-common: default,matcher
+URxvt.perl-ext-common: default,matcher,resize-font
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 1
+URxvt.keysym.C-Down:  resize-font:smaller
+URxvt.keysym.C-Up:    resize-font:bigger
+
 
