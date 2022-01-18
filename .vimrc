@@ -423,7 +423,7 @@ nnoremap <leader>bc :BreakpointClear<cr>
 nnoremap <leader>b<space> :BreakpointClearAll<cr>
 
 " git
-nnoremap <leader>gg :Gstatus<cr>
+nnoremap <leader>gg :G<cr>
 nnoremap <leader>gh :Gvdiff HEAD<cr>
 nnoremap <leader>gv :tab Gvdiffsplit<cr>
 nnoremap <leader>gs :tab Ghdiffsplit<cr>
@@ -496,13 +496,8 @@ augroup END
 "}}}
 
 "{{{ colors & font
-if system('hostname')=~'home'
-    colorscheme hybrid_material
-    set background=dark
-else
-    colorscheme solarized
-    set background=light
-endif
+colorscheme hybrid_material
+set background=dark
 if has("gui_gtk3") || has("gui_gtk2")
     set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
 elseif has("gui_win32")
