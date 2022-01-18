@@ -155,7 +155,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
@@ -298,6 +298,12 @@ command! -bang -nargs=* Rg
             \   <bang>0 ? fzf#vim#with_preview('up:60%')
             \           : fzf#vim#with_preview('right:50%:hidden', '?'),
             \   <bang>0)
+command! -bang -nargs=* Ra
+            \ call fzf#vim#grep(
+            \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+            \   <bang>0 ? fzf#vim#with_preview('up:60%')
+            \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+            \   <bang>0)
 "}}}
 "{{{ vim-test
 let test#strategy = "asyncrun"
@@ -423,7 +429,7 @@ nnoremap <leader>bc :BreakpointClear<cr>
 nnoremap <leader>b<space> :BreakpointClearAll<cr>
 
 " git
-nnoremap <leader>gg :Gstatus<cr>
+nnoremap <leader>gg :G<cr>
 nnoremap <leader>gh :Gvdiff HEAD<cr>
 nnoremap <leader>gv :tab Gvdiffsplit<cr>
 nnoremap <leader>gs :tab Ghdiffsplit<cr>
@@ -432,6 +438,7 @@ nnoremap <leader>g<space> :windo diffoff<cr>:q<cr>:Gedit<cr>
 nnoremap <leader>gd :Git branch<cr>:call DeleteBranch('')<left><left>
 nnoremap <leader>gb :Git branch<cr>:Git checkout<space>
 nnoremap <leader>gB :Git branch -a<cr>:Git checkout<space>
+nnoremap <leader>gy :exec "!urxvt -e /bin/bash /home/jsc/work/monorepo/tools/workflow/scripts/wf-start.sh&"<cr>
 
 " formatting
 vmap <leader>f  <Plug>(coc-format-selected)
