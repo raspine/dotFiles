@@ -5,6 +5,14 @@ imap <f5> <esc>:wa<cr>:AsyncRun npm run build<cr>:botright copen<cr>:wincmd p<cr
 nmap <f5> :wa<cr>:AsyncRun npm run build<cr>:botright copen<cr>:wincmd p<cr>
 nmap <f6> :call ClearDebuggerLines()<cr>:AsyncStop<cr>
 
+function! s:jestTestConfig()
+    let l:test_config = findfile("jest.config.js", "**")
+    if len(l:test_config) != 0
+        let l:test_config = ' --config=' . l:test_config
+    endif
+    return l:test_config
+endfunction
+
 function! FindJestTestSuite()
   let l:curr_pos = getpos(".")
   if search("\\<describe\\>\\_s*(", 'b') == 0
@@ -27,7 +35,7 @@ function! FindJestTestSuite()
   let test_suite = @a
   let @a = l:savereg
   :call setpos('.', curr_pos)
-  return ' -t ' . "\"" . test_suite . "\""
+  return s:jestTestConfig() . ' -t ' . "\"" . test_suite . "\""
 endfunction
 
 function! FindJestTestCase()
@@ -52,7 +60,7 @@ function! FindJestTestCase()
   let test_case = @a
   let @a = l:savereg
   :call setpos('.', curr_pos)
-  return ' -t ' . "\"" . test_case . "\""
+  return s:jestTestConfig() . ' -t ' . "\"" . test_case . "\""
 endfunction
 
 " run tests via vim-test
