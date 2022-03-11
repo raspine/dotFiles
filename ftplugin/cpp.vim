@@ -84,7 +84,7 @@ function! s:cmake(...)"{{{
     let l:build_dir = 'build'
     if !isdirectory("build")
         " GP_get_root_path provides the root path without having to open a file
-        l:build_dir = GP_get_root_path() . '/build'
+        let l:build_dir = GP_get_root_path() . '/build'
     endif
 	exec 'cd' l:build_dir
 
