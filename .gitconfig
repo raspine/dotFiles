@@ -25,5 +25,6 @@
 	url = git@github.com:paneda/common.git
 [core]
 	autocrlf = input
+	editor = vim
 [pull]
 	rebase = false
