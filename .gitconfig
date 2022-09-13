@@ -1,5 +1,6 @@
 [push]
 	default = simple
+	autoSetupRemote = true
 [diff]
 	tool = gvimdiff
 [alias]
@@ -25,5 +26,8 @@
 	url = git@github.com:paneda/common.git
 [core]
 	autocrlf = input
+	editor = vim
 [pull]
 	rebase = false
+[url "https://"]
+	insteadOf = git://

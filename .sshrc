@@ -82,6 +82,10 @@ alias pacsyu='sudo pacman -Syu'
 
 ## arch wiki
 alias aw='wiki-search-html'
+
+## developement
+alias wfs='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-start.sh'
+alias wfs2='/bin/bash ~/work/monorepo2/tools/workflow/scripts/wf-start.sh'
 #}}}
 
 #{{{ Bash settings
