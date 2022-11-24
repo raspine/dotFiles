@@ -42,6 +42,7 @@ clever_ln_s ~/dotFiles/.sshrc ~/.sshrc
 clever_ln_s ~/dotFiles/.inputrc ~/.inputrc
 clever_ln_s ~/dotFiles/.gitconfig ~/.gitconfig
 clever_ln_s ~/dotFiles/.ripgreprc ~/.ripgreprc
+clever_ln_s ~/dotFiles/.tmux.conf ~/.tmux.conf
 
 # plasma
 cp ~/dotFiles/ssh-add.desktop ~/.config/autostart

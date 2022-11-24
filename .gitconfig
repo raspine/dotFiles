@@ -11,6 +11,7 @@
 	acm = !git add -A && git commit -m
 	dv = difftool -t gvimdiff -y
 	last = log -1 HEAD --stat
+	bd = branch -d
 [user]
 	name = jsc
 	email = jorgen.scott@paneda.se
