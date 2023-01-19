@@ -27,22 +27,20 @@ endfunction"}}}
 
 let s:cmake_changed = 0
 let s:last_stat_string = ""
+let s:cmake_build_dir = ""
+
 function! CMakeStat() "{{{
 	if s:cmake_changed == 0
 		return s:last_stat_string
 	endif
 
-	if !GP_is_repo()
-		echoerr "Not a git repo"
-		return
+	if s:cmake_build_dir == ""
+		let s:cmake_build_dir = finddir('build', '.;')
 	endif
 
-	" GP_get_root_path provides the root path without having to open a file
-	let l:build_dir = GP_get_root_path() . '/build'
-
 	let l:retstr = ""
-    if filereadable(l:build_dir . '/CMakeCache.txt')
-        let l:cmcache = readfile(l:build_dir . '/CMakeCache.txt')
+    if filereadable(s:cmake_build_dir . '/CMakeCache.txt')
+        let l:cmcache = readfile(s:cmake_build_dir . '/CMakeCache.txt')
         for line in l:cmcache
             " cmake variable
             if line =~ "CMAKE_BUILD_TYPE"
@@ -73,20 +71,20 @@ endfunction"}}}
 
 command! -nargs=? CMake call s:cmake(<f-args>)
 command! CMakeClean call s:cmakeclean()
+command! CMakeBuild call s:cmakebuild()
+
+function! s:cmakebuild()"{{{
+	if s:cmake_build_dir == ""
+		let s:cmake_build_dir = finddir('build', '.;')
+	endif
+	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' -j16'
+endfunction"}}}
 
 function! s:cmake(...)"{{{
-
-    if !GP_is_repo()
-        echoerr "Not a git repo"
-        return
-    endif
-
-    let l:build_dir = 'build'
-    if !isdirectory("build")
-        " GP_get_root_path provides the root path without having to open a file
-        let l:build_dir = GP_get_root_path() . '/build'
-    endif
-	exec 'cd' l:build_dir
+	if s:cmake_build_dir == ""
+		let s:cmake_build_dir = finddir('build', '.;')
+	endif
+	exec 'cd' s:cmake_build_dir
 
     " Add default arguments
     let l:argument = []
@@ -97,7 +95,7 @@ function! s:cmake(...)"{{{
         if has("win32")
             exec "mklink" "../compile_commands.json" "compile_commands.json"
         else
-            silent echo system("ln -s " . l:build_dir . "/compile_commands.json ../compile_commands.json")
+            silent echo system("ln -s " . s:cmake_build_dir . "/compile_commands.json ../compile_commands.json")
         endif
         echom "Created symlink to compilation database"
     endif
@@ -113,13 +111,10 @@ function! s:cmake(...)"{{{
 endfunction"}}}
 
 function! s:cmakeclean()"{{{
-    if !GP_is_repo()
-        echoerr "Not a git repo"
-        return
-    endif
-
-	let l:build_dir = GP_get_root_path() . '/build'
-    silent echo system("rm -r '" . l:build_dir. "'/*")
+	if s:cmake_build_dir == ""
+		let s:cmake_build_dir = finddir('build', '.;')
+	endif
+    silent echo system("rm -rf '" . s:cmake_build_dir. "'/*")
     echom "Build directory has been cleaned."
 endfunction"}}}
 "}}}
@@ -127,8 +122,8 @@ nnoremap <f7> :Launch<space>
 
 imap <f4> <esc>:wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
 nmap <f4> :wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
-imap <f5> <esc>:wa<cr>:AsyncRun cmake --build 'build' -j16<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f5> :wa<cr>:AsyncRun cmake --build 'build' -j16<cr>:botright copen<cr>:wincmd p<cr>
+imap <f5> <esc>:wa<cr>:CMakeBuild<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f5> :wa<cr>:CMakeBuild<cr>:botright copen<cr>:wincmd p<cr>
 
 setlocal ts=4 sw=4 noet
 
