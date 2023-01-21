@@ -81,8 +81,7 @@ Plug 'vim-test/vim-test'
 
 " my stuff
 Plug 'raspine/vim-target'
-Plug 'raspine/vim-testdog', {'branch': 'all_tests'}
-" Plug 'raspine/vim-testdog'
+Plug 'raspine/vim-testdog'
 Plug 'raspine/vim-breakgutter'
 Plug 'raspine/vim-git-project'
 Plug 'raspine/vim-code-runner'
