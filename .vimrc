@@ -78,6 +78,7 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'yssl/QFEnter'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'vim-test/vim-test'
+Plug 'rhysd/vim-clang-format'
 
 " my stuff
 Plug 'raspine/vim-target'
@@ -307,6 +308,10 @@ command! -bang -nargs=* Ra
 "{{{ vim-test
 let test#strategy = "asyncrun"
 "}}}
+"{{{ vim-clang-format
+autocmd FileType c,cpp ClangFormatAutoEnable
+nmap <Leader>C :ClangFormatAutoToggle<CR>
+"}}}
 "}}}
 
 "{{{ key mappings
@@ -346,6 +351,10 @@ vmap <C-x> "+c
 vmap <C-v> c<ESC>"+p=']
 imap <C-v> <C-o>"+P<C-o>=']
 cmap <C-v> <C-R>+
+
+"ctags vertical split
+nnoremap <c-w>[ <c-w>v<c-]>
+
 "}}}
 "{{{ mapleader
 let mapleader = "\\"
@@ -481,11 +490,10 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-    autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
+    " autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
     autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
     autocmd FileType fugitive nnoremap <buffer> q :q<cr>:wincmd p<cr>
-    " autocmd BufWritePre *.cpp :ruby CppAutoInclude::process
 augroup END
 "
 " for hex editing

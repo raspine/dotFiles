@@ -81,9 +81,7 @@ function! s:cmakebuild()"{{{
 endfunction"}}}
 
 function! s:cmake(...)"{{{
-	if s:cmake_build_dir == ""
-		let s:cmake_build_dir = finddir('build', '.;')
-	endif
+    let s:cmake_build_dir = finddir('build', '.;')
 	exec 'cd' s:cmake_build_dir
 
     " Add default arguments
