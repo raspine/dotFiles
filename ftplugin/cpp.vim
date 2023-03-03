@@ -15,7 +15,7 @@ function! s:launch(...) "{{{
         endif
     endif
 	" use vim-target to find the app
-	let l:app = FindExeTarget()
+	let l:app = silent FindExeTarget()
 	if l:app != ""
 		if l:termArgIndex >= 0
     		execute "!urxvt -hold -e " . l:app . " " . join(l:userArgList) . '&'
@@ -28,6 +28,7 @@ endfunction"}}}
 let s:cmake_changed = 0
 let s:last_stat_string = ""
 let s:cmake_build_dir = ""
+let s:last_target = ""
 
 function! CMakeStat() "{{{
 	if s:cmake_changed == 0
@@ -71,9 +72,21 @@ endfunction"}}}
 
 command! -nargs=? CMake call s:cmake(<f-args>)
 command! CMakeClean call s:cmakeclean()
-command! CMakeBuild call s:cmakebuild()
+command! CMakeBuildAll call s:cmake_build_all()
+command! CMakeBuildTarget call s:cmake_build_target()
 
-function! s:cmakebuild()"{{{
+function! s:cmake_build_target()"{{{
+	if s:cmake_build_dir == ""
+		let s:cmake_build_dir = finddir('build', '.;')
+	endif
+    let l:target = FindExeTarget()
+    if l:target != ""
+        let s:last_target = fnamemodify(l:target, ":t")
+    endif
+	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:last_target . ' -j16'
+endfunction"}}}
+
+function! s:cmake_build_all()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
 	endif
@@ -118,10 +131,12 @@ endfunction"}}}
 "}}}
 nnoremap <f7> :Launch<space>
 
-imap <f4> <esc>:wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f4> :wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
-imap <f5> <esc>:wa<cr>:CMakeBuild<cr>:botright copen<cr>:wincmd p<cr>
-nmap <f5> :wa<cr>:CMakeBuild<cr>:botright copen<cr>:wincmd p<cr>
+" imap <f4> <esc>:wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
+" nmap <f4> :wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
+imap <f4> <esc>:wa<cr>:CMakeBuildAll<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f4> :wa<cr>:CMakeBuildAll<cr>:botright copen<cr>:wincmd p<cr>
+imap <f5> <esc>:wa<cr>:CMakeBuildTarget<cr>:botright copen<cr>:wincmd p<cr>
+nmap <f5> :wa<cr>:CMakeBuildTarget<cr>:botright copen<cr>:wincmd p<cr>
 
 setlocal ts=4 sw=4 noet
 
