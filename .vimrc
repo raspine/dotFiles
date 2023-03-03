@@ -472,7 +472,7 @@ inoremap <C-s> <C-O>:call SmartSave()<CR>
 "}}}
 "{{{ windows handling
 nnoremap <space> <c-w>
-nnoremap <space>9 91<C-w>\|
+nnoremap <space>9 100<C-w>\|
 nnoremap <space>n :vnew<cr>
 "}}}
 "}}}
@@ -513,7 +513,7 @@ augroup END
 colorscheme hybrid_material
 set background=dark
 if has("gui_gtk3") || has("gui_gtk2")
-    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 elseif has("gui_win32")
     set guifont=DejaVu_Sans_Mono:h9
     " set guifont=Consolas:h10:cANSI
