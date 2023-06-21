@@ -19,6 +19,7 @@ set encoding=utf-8
 set formatoptions=qrn1
 set guioptions-=T
 set guioptions-=M
+set nofixendofline
 " no bells
 set noeb vb t_vb=
 " disable quick quit
@@ -27,6 +28,7 @@ map <c-z> <nop>
 nnoremap Q <nop>
 set nojoinspaces
 set tags +=.tags
+set mouse=a
 " cursor shape in terminal
 let &t_SI = "\<Esc>[6 q"
 let &t_SR = "\<Esc>[4 q"

@@ -28,7 +28,7 @@ endfunction"}}}
 let s:cmake_changed = 0
 let s:last_stat_string = ""
 let s:cmake_build_dir = ""
-let s:last_target = ""
+"let s:last_target = ""
 
 function! CMakeStat() "{{{
 	if s:cmake_changed == 0
@@ -79,11 +79,14 @@ function! s:cmake_build_target()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
 	endif
-    let l:target = FindExeTarget()
+    let l:target = fnamemodify(FindExeTarget(), ":t")
     if l:target != ""
-        let s:last_target = fnamemodify(l:target, ":t")
+        "let s:last_target = fnamemodify(l:target, ":t")
+        call setreg("t", l:target)
+    else
+        let l:target = getreg("t")
     endif
-	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:last_target . ' -j16'
+	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . l:target . ' -j16'
 endfunction"}}}
 
 function! s:cmake_build_all()"{{{
