@@ -32,3 +32,5 @@
 	rebase = false
 [url "https://"]
 	insteadOf = git://
+[safe]
+	directory = /opt/flutter
