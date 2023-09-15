@@ -132,6 +132,8 @@ function! s:cmakeclean()"{{{
     echom "Build directory has been cleaned."
 endfunction"}}}
 "}}}
+
+
 nnoremap <f7> :Launch<space>
 
 " imap <f4> <esc>:wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>
