@@ -28,7 +28,6 @@ endfunction"}}}
 let s:cmake_changed = 0
 let s:last_stat_string = ""
 let s:cmake_build_dir = ""
-let s:last_target = ""
 
 function! CMakeStat() "{{{
 	if s:cmake_changed == 0
@@ -79,11 +78,8 @@ function! s:cmake_build_target()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
 	endif
-    let l:target = FindExeTarget()
-    if l:target != ""
-        let s:last_target = fnamemodify(l:target, ":t")
-    endif
-	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:last_target . ' -j16'
+    let s:target = FindBuildTarget()
+	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:target . ' -j16'
 endfunction"}}}
 
 function! s:cmake_build_all()"{{{
@@ -129,6 +125,7 @@ function! s:cmakeclean()"{{{
     echom "Build directory has been cleaned."
 endfunction"}}}
 "}}}
+
 nnoremap <f7> :Launch<space>
 
 " imap <f4> <esc>:wa<cr>:AsyncRun make -j16<cr>:botright copen<cr>:wincmd p<cr>

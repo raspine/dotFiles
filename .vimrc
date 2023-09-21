@@ -126,10 +126,10 @@ set signcolumn=yes
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-"             \ pumvisible() ? "\<C-n>" :
-"             \ <SID>check_back_space() ? "\<TAB>" :
-"             \ coc#refresh()
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
@@ -490,7 +490,7 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
     autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-    " autocmd FileType c,cpp,java,php,py,js autocmd BufWritePre <buffer> %s/\s\+$//e
+    autocmd FileType cmake autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
     autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
     autocmd FileType fugitive nnoremap <buffer> q :q<cr>:wincmd p<cr>

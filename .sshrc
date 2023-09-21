@@ -85,9 +85,8 @@ alias aw='wiki-search-html'
 
 ## developement
 alias wfs='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-start.sh'
-alias wfs2='/bin/bash ~/work/monorepo2/tools/workflow/scripts/wf-start.sh'
 alias wfpr='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-pr.sh'
-alias wfpr2='/bin/bash ~/work/monorepo2/tools/workflow/scripts/wf-pr.sh'
+alias wflogin='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-login-to-docker.sh'
 #}}}
 
 #{{{ Bash settings
@@ -120,5 +119,5 @@ color_my_prompt
 
 export TEMPLATE_BOOST_ROOT="/home/jsc/work/thirdpart/boost/boost_1_68_0"
 export PERU_CACHE_DIR="/home/jsc/work/thirdpart/peru"
-export CC="ccache clang"
-export CXX="ccache clang++"
+export CC="ccache gcc"
+export CXX="ccache g++"
