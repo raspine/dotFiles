@@ -34,6 +34,7 @@ fi
 
 # home dir
 clever_ln_s ~/dotFiles/.bashrc ~/.bashrc
+clever_ln_s ~/dotFiles/.bash_profile ~/.bash_profile
 clever_ln_s ~/dotFiles/.xinitrc ~/.xinitrc
 clever_ln_s ~/dotFiles/.Xmodmap ~/.Xmodmap
 clever_ln_s ~/dotFiles/.Xresources ~/.Xresources
