@@ -6,11 +6,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-#if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-#xrandr --output HDMI3 --left-of DP1
-#xrandr --output HDMI1 --right-of DP1
-#fi
-
 source ~/dotFiles/.sshrc
 
 source /usr/share/fzf/completion.bash && source /usr/share/fzf/key-bindings.bash
@@ -19,8 +14,6 @@ export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_DEFAULT_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || \
     cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-source /usr/share/nvm/init-nvm.sh
 
 export BASH_ENV=~/.bashrc
 

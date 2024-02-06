@@ -86,7 +86,11 @@ function! s:cmake_build_all()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
 	endif
-	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' -j16'
+    if len(s:cmake_build_dir) == 0
+        echom "Can't find build dir"
+    else
+        execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' -j16'
+    endif
 endfunction"}}}
 
 function! s:cmake(...)"{{{
@@ -121,8 +125,13 @@ function! s:cmakeclean()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
 	endif
-    silent echo system("rm -rf '" . s:cmake_build_dir. "'/*")
-    echom "Build directory has been cleaned."
+
+    if len(s:cmake_build_dir) == 0
+        echom "Can't find build dir"
+    else
+        silent echo system("rm -rf '" . s:cmake_build_dir. "'/*")
+        echom "Build directory has been cleaned."
+    endif
 endfunction"}}}
 "}}}
 

@@ -1,0 +1,5 @@
+source /home/jsc/.nvm/nvm.sh
+
+cd /opt/XTC/15.2.1
+source SetEnv
+cd -

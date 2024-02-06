@@ -38,6 +38,7 @@ clever_ln_s ~/dotFiles/.xinitrc ~/.xinitrc
 clever_ln_s ~/dotFiles/.Xmodmap ~/.Xmodmap
 clever_ln_s ~/dotFiles/.Xresources ~/.Xresources
 clever_ln_s ~/dotFiles/.xprofile ~/.xprofile
+clever_ln_s ~/dotFiles/.xsessionrc ~/.xsessionrc
 clever_ln_s ~/dotFiles/.sshrc ~/.sshrc
 clever_ln_s ~/dotFiles/.inputrc ~/.inputrc
 clever_ln_s ~/dotFiles/.gitconfig ~/.gitconfig
@@ -47,7 +48,6 @@ clever_ln_s ~/dotFiles/.tmux.conf ~/.tmux.conf
 # plasma
 cp ~/dotFiles/ssh-add.desktop ~/.config/autostart
 cp ~/dotFiles/askpass.sh ~/.config/plasma-workspace/env
-cp ~/dotFiles/xmos_env.sh ~/.config/plasma-workspace/env
 
 # systemd
 mkdir -p ~/.config/systemd/user && cp ~/dotFiles/ssh_agent.service ~/.config/systemd/user
@@ -80,9 +80,4 @@ clever_ln_s ~/dotFiles/ftplugin/matlab.vim ~/.vim/after/ftplugin/matlab.vim
 clever_ln_s ~/dotFiles/ftplugin/html.vim ~/.vim/after/ftplugin/html.vim
 clever_ln_s ~/dotFiles/ftplugin/typescript.vim ~/.vim/after/ftplugin/typescript.vim
 clever_ln_s ~/dotFiles/ftplugin/xc.vim ~/.vim/after/ftplugin/xc.vim
-
-# vifm
-#mkdir -p ~/vifm/colors
-#clever_ln_s ~/dotFiles/vifm/vifmrc ~/vifm/vifmrc
-#clever_ln_s ~/dotFiles/vifm/colors/astrall.vifm ~/vifm/colors/astrall.vifm
 
