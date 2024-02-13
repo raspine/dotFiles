@@ -39,7 +39,6 @@ clever_ln_s ~/dotFiles/.xinitrc ~/.xinitrc
 clever_ln_s ~/dotFiles/.Xmodmap ~/.Xmodmap
 clever_ln_s ~/dotFiles/.Xresources ~/.Xresources
 clever_ln_s ~/dotFiles/.xprofile ~/.xprofile
-clever_ln_s ~/dotFiles/.xsessionrc ~/.xsessionrc
 clever_ln_s ~/dotFiles/.sshrc ~/.sshrc
 clever_ln_s ~/dotFiles/.inputrc ~/.inputrc
 clever_ln_s ~/dotFiles/.gitconfig ~/.gitconfig
