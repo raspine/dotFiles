@@ -9,6 +9,20 @@ is_package_installed() { #{{{
   return 1
 } #}}}
 
+install_packages() { #{{{
+  if is_package_installed "pamac" ; then
+    aurInstaller="sudo pamac install"
+  elif is_package_installed "yay" ; then
+    aurInstaller="yay -S"
+  else
+      echo "plz install yay"
+      return 1
+  fi
+
+  $aurInstaller sshrc ttf-dejavu-sans-mono-powerline-git
+  pacman -S powerline wget
+} #}}}
+
 clever_ln_s() {
   if [ -f $2 ] && [ ! -L $2 ]; then
     # regular file, make backup
@@ -20,17 +34,14 @@ clever_ln_s() {
   ln -s $1 $2
 }
 
-# needed packages
-if ! is_package_installed "yay" ; then
-  echo "plz install yay"
-  return 1
-fi
-if ! is_package_installed "sshrc" ; then
-  yay -S "sshrc"
-fi
-if ! is_package_installed "wget" ; then
-  pacman -S "wget"
-fi
+read -p "Install packages? (y/n) " yn
+case $yn in 
+  [yY] ) echo install_packages;
+    break;;
+  [nN] ) echo skipping package install;
+    exit;;
+  * ) echo invalid response;;
+esac
 
 # home dir
 clever_ln_s ~/dotFiles/.bashrc ~/.bashrc
