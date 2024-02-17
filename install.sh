@@ -19,7 +19,7 @@ install_packages() { #{{{
       return 1
   fi
 
-  $aurInstaller sshrc ttf-dejavu-sans-mono-powerline-git
+  $aurInstaller sshrc ttf-dejavu-sans-mono-powerline-git vim-plug
   pacman -S powerline wget
 } #}}}
 
@@ -34,6 +34,7 @@ clever_ln_s() {
   ln -s $1 $2
 }
 
+while true; do
 read -p "Install packages? (y/n) " yn
 case $yn in 
   [yY] ) echo install_packages;
@@ -42,6 +43,7 @@ case $yn in
     exit;;
   * ) echo invalid response;;
 esac
+done
 
 # home dir
 clever_ln_s ~/dotFiles/.bashrc ~/.bashrc
@@ -50,6 +52,7 @@ clever_ln_s ~/dotFiles/.xinitrc ~/.xinitrc
 clever_ln_s ~/dotFiles/.Xmodmap ~/.Xmodmap
 clever_ln_s ~/dotFiles/.Xresources ~/.Xresources
 clever_ln_s ~/dotFiles/.xprofile ~/.xprofile
+clever_ln_s ~/dotFiles/.xsessionrc ~/.xsessionrc
 clever_ln_s ~/dotFiles/.sshrc ~/.sshrc
 clever_ln_s ~/dotFiles/.inputrc ~/.inputrc
 clever_ln_s ~/dotFiles/.gitconfig ~/.gitconfig
@@ -67,14 +70,14 @@ systemctl --user enable ssh_agent.service
 mkdir -p ~/.config/environment.d && cp ~/dotFiles/envvars.conf ~/.config/environment.d
 
 #cgdb
-mkdir -p ~/cgdb && clever_ln_s ~/dotFiles/.cgdb/cgdbrc ~/.cgdb/cgdbrc
+mkdir -p ~/.cgdb && clever_ln_s ~/dotFiles/.cgdb/cgdbrc ~/.cgdb/cgdbrc
 
 #gdb-dashboard
 mkdir -p ~/.gdbinit.d && clever_ln_s ~/dotFiles/.gdbinit.d/init ~/.gdbinit.d/init
 [[ ! -f ~/.gdbinit ]] && wget -P ~ https://git.io/.gdbinit
 
 # vim
-mkdir -p ~/.vim/ftplugin
+mkdir -p ~/.vim/after/ftplugin/
 clever_ln_s ~/dotFiles/.vimrc ~/.vim/vimrc
 clever_ln_s ~/dotFiles/ftplugin/java.vim ~/.vim/after/ftplugin/java.vim
 clever_ln_s ~/dotFiles/ftplugin/lua.vim ~/.vim/after/ftplugin/lua.vim
