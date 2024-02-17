@@ -40,7 +40,7 @@ case $yn in
   [yY] ) echo install_packages;
     break;;
   [nN] ) echo skipping package install;
-    exit;;
+    break;;
   * ) echo invalid response;;
 esac
 done
