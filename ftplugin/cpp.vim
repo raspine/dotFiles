@@ -78,8 +78,14 @@ function! s:cmake_build_target()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
 	endif
-    let s:target = FindBuildTarget()
-	execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:target . ' -j16'
+    if len(s:cmake_build_dir) > 0
+		let s:target = FindBuildTarget()
+		execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:target . ' -j16'
+	elseif filereadable("./platformio.ini")
+		execute 'AsyncRun pio run --target=compiledb'
+	else
+		echo "Can't find build dir"
+	endif
 endfunction"}}}
 
 function! s:cmake_build_all()"{{{
@@ -143,6 +149,7 @@ imap <f4> <esc>:wa<cr>:CMakeBuildAll<cr>
 nmap <f4> :wa<cr>:CMakeBuildAll<cr>
 imap <f5> <esc>:wa<cr>:CMakeBuildTarget<cr>
 nmap <f5> :wa<cr>:CMakeBuildTarget<cr>
+nnoremap <f7> :AsyncRun pio run --target upload && pio device monitor --baud=115200<cr>
 
 setlocal ts=4 sw=4 noet
 
