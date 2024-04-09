@@ -10,6 +10,15 @@ web:*.{html,css,js,ts}*
 --glob
 !npm/*
 
+--glob
+!node_modules/*
+
+--glob
+!build/*
+
+--glob
+!Session.vim
+
 # Set the colors.
 --colors=line:style:bold
 --colors=line:fg:yellow
