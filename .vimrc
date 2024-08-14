@@ -56,7 +56,7 @@ set textwidth=79
 set colorcolumn=85
 "}}}
 
-"{{ plugins
+"{{{ plugins
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -80,7 +80,6 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'yssl/QFEnter'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'vim-test/vim-test'
-Plug 'rhysd/vim-clang-format'
 Plug 'jvirtanen/vim-hcl'
 
 " my stuff
@@ -311,10 +310,6 @@ command! -bang -nargs=* Ra
 "{{{ vim-test
 let test#strategy = "asyncrun"
 "}}}
-"{{{ vim-clang-format
-" autocmd FileType c,cpp ClangFormatAutoEnable
-nmap <Leader>C :ClangFormatAutoToggle<CR>
-"}}}
 "}}}
 
 "{{{ key mappings
@@ -492,8 +487,8 @@ augroup MyAutoCommands
     autocmd BufNewFile,BufRead *.tid   set ft=markdown
     autocmd BufNewFile,BufRead *.js.tid   set ft=javascript
     autocmd BufNewFile,BufRead *.ino   set ft=c
-    autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-    autocmd FileType cmake autocmd BufWritePre <buffer> %s/\s\+$//e
+    " autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+    " autocmd FileType cmake autocmd BufWritePre <buffer> %s/\s\+$//e
     autocmd User chdir :call InitWorkspace()
     autocmd QuickFixCmdPost * call asyncrun#quickfix_toggle(8, 1)
     autocmd FileType fugitive nnoremap <buffer> q :q<cr>:wincmd p<cr>

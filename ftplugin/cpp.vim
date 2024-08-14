@@ -73,6 +73,20 @@ command! -nargs=? CMake call s:cmake(<f-args>)
 command! CMakeClean call s:cmakeclean()
 command! CMakeBuildAll call s:cmake_build_all()
 command! CMakeBuildTarget call s:cmake_build_target()
+command! MyClangFormat call s:cpp_format()
+
+function! s:cpp_format()"{{{
+	let s:monorepo_root = system('source /home/jsc/work/monorepo_root.sh && echo -n $MONOREPO_ROOT') . '/cpp/'
+
+	let s:file_path = substitute(expand('%:p'), s:monorepo_root, '', '')
+	let s:file_name = expand('%:t')
+    if s:file_name == "CMakeLists.txt"
+		execute  '!cmake-format -i ' .  s:file_path
+    else
+        lt s:file_path = substitute(expand('%:p'), s:monorepo_root, '', '')
+		execute  '!clang-format -i ' .  s:file_path
+    endif
+endfunction"}}}
 
 function! s:cmake_build_target()"{{{
 	if s:cmake_build_dir == ""
@@ -211,5 +225,7 @@ nnoremap <leader>dv :exec "!urxvt -hold -e valgrind --leak-check=full " . FindEx
 " run the test suite under valgrind
 nnoremap <leader>ds :exec "!urxvt -hold -e valgrind --leak-check=full " . FindExeTarget() . TestSuiteArg() . '&'<cr>
 " copy the execution line to clipboard
-nnoremap <leader>dd :call setreg('+', "cgdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget())<cr>
+nnoremap <leader>dd :call setreg('+', "cgdb " . GetGdbBreakpointArgs() . " --args " . FindExeTarget() . TestCaseArg())<cr>
+
+nnoremap <leader>f :MyClangFormat<cr>:e<cr>
 
