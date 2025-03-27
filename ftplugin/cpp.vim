@@ -76,7 +76,7 @@ command! CMakeBuildTarget call s:cmake_build_target()
 command! MyClangFormat call s:cpp_format()
 
 function! s:cpp_format()"{{{
-	let s:monorepo_root = system('source /home/jsc/work/monorepo_root.sh && echo -n $MONOREPO_ROOT') . '/cpp/'
+	let s:monorepo_root = system('source /home/jsc/work/monorepo_root.sh && echo -n $MONOREPO_ROOT') . '/'
 
 	let s:file_path = substitute(expand('%:p'), s:monorepo_root, '', '')
 	let s:file_name = expand('%:t')
@@ -91,6 +91,7 @@ endfunction"}}}
 function! s:cmake_build_target()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
+		echom s:cmake_build_dir
 	endif
     if len(s:cmake_build_dir) > 0
 		let s:target = FindBuildTarget()
