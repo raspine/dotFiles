@@ -81,6 +81,8 @@ Plug 'yssl/QFEnter'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'vim-test/vim-test'
 Plug 'jvirtanen/vim-hcl'
+Plug 'github/copilot.vim'
+Plug 'DanBradbury/copilot-chat.vim'
 
 " my stuff
 Plug 'raspine/vim-target'

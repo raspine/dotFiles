@@ -117,7 +117,7 @@ stty -ixon
 color_my_prompt
 # }}}
 
-# export TEMPLATE_BOOST_ROOT="/home/jsc/work/thirdpart/boost/boost_1_68_0"
-# export PERU_CACHE_DIR="/home/jsc/work/thirdpart/peru"
-# export CC="ccache gcc"
-# export CXX="ccache g++"
+export TEMPLATE_BOOST_ROOT="/home/jsc/work/thirdpart/boost/boost_1_86_0"
+export PERU_CACHE_DIR="/home/jsc/work/thirdpart/peru"
+export CC="ccache clang"
+export CXX="ccache clang++"
