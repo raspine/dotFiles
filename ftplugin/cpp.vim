@@ -91,6 +91,7 @@ endfunction"}}}
 function! s:cmake_build_target()"{{{
 	if s:cmake_build_dir == ""
 		let s:cmake_build_dir = finddir('build', '.;')
+		echom s:cmake_build_dir
 	endif
 	if filereadable("./sdkconfig")
         execute 'AsyncRun idf.py build'
