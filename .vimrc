@@ -71,7 +71,6 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 Plug 'nelstrom/vim-visual-star-search'
-" Plug 'SirVer/ultisnips'
 Plug 'vim-scripts/cd-hook'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'bkad/CamelCaseMotion'
@@ -250,29 +249,6 @@ let g:airline_section_b = airline#section#create([''])
 " endfunction
 " autocmd User AirlineAfterInit call AirlineInit()
 "}}}
-"{{{ Ultisnips
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger = '<c-x>'
-" let g:UltiSnipsListSnippets='<c-z>'
-" let g:UltiSnipsJumpForwardTrigger='<tab>'
-" let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-" let g:UltiSnipsEditSplit='vertical'
-" let g:UltiSnipsSnippetDir=$HOME.'/.vim/UltiSnips'
-" " let g:UltiSnipsSnippetDirectories=['UltiSnips']
-" let g:UltiSnipsEnableSnipMate=0
-
-" let g:UltiSnipsExpandTrigger = "<nop>"
-" let g:ulti_expand_or_jump_res = 0
-" function! ExpandSnippetOrCarriageReturn()
-"     let snippet = UltiSnips#ExpandSnippetOrJump()
-"     if g:ulti_expand_or_jump_res > 0
-"         return snippet
-"     else
-"         return "\<CR>"
-"     endif
-" endfunction
-" inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
-"}}}
 "{{{ AsyncRun
 nmap <F6> :AsyncStop<cr>
 " let g:asyncrun_open = 300
@@ -311,6 +287,24 @@ command! -bang -nargs=* Ra
 "}}}
 "{{{ vim-test
 let test#strategy = "asyncrun"
+"}}}
+"{{{ copilot-chat
+" Make Copilot and CoC work together
+" Use different accept keys for Copilot vs CoC
+let g:copilot_no_maps = v:true  " Disable default Copilot mappings
+
+" Map tab for Copilot accept
+inoremap <silent><expr> <TAB> copilot#Accept("\<CR>")
+" imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")
+let g:copilot_chat_accept_filepaths = v:true
+nnoremap <leader>cp :CopilotChatOpen<CR>
+
+" For chat buffers, prioritize Copilot
+augroup copilot_specific
+  autocmd!
+  autocmd FileType markdown let b:coc_suggest_disable = 1
+  " Add other filetypes where you want to disable CoC suggestions but keep Copilot
+augroup END
 "}}}
 "}}}
 
@@ -363,13 +357,11 @@ map <leader>h ^
 map <leader>j %
 map <leader>l $
 
-" quickly run Rg command
-nnoremap <leader>aa :Rg <c-r>=expand("<cword>")<cr>
-
 " reselect pasted text
 nnoremap <leader>x V`]
 
 " when using many tabs and tabnew..
+nnoremap <leader>tl :tabnew<cr>
 nnoremap <leader>t<space> :tabclose<cr>
 
 " Find symbol of current document
@@ -377,12 +369,13 @@ nnoremap <leader>o  :<C-u>CocList outline<cr>
 " Find symbol of current workspace
 nnoremap <leader>O  :<C-u>CocList -I symbols<cr>
 
-" registers
+" <leader>r mappings
 " paste text from register in command mode
 nnoremap <leader>rr :reg<CR>:put<space>
 " clear registers except e
 command! WipeReg let regs='123456789abcdfghijklmnopqrstuvwxz/-"' | let i=0 | while (i<strlen(regs)) | exec 'let @'.regs[i].'=""' | let i=i+1 | endwhile | unlet regs
 nnoremap <leader>r<space> :WipeReg<cr>
+nnoremap <leader>rg :Rg <c-r>=expand("<cword>")<cr>
 
 " buffer convenience
 nnoremap <leader>vv :find<space>

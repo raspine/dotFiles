@@ -62,7 +62,6 @@ alias ll="ls -lhp"
 alias la='ls -lAp | grep -E "\.[^ \t]*$"'
 
 ## cd
-alias cd..='cd ..'
 alias ....='cd ../../../../'
 alias ...='cd ../../../'
 alias ..='cd ..'

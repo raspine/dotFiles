@@ -73,6 +73,7 @@ command! -nargs=? CMake call s:cmake(<f-args>)
 command! CMakeClean call s:cmakeclean()
 command! CMakeBuildAll call s:cmake_build_all()
 command! CMakeBuildTarget call s:cmake_build_target()
+command! CMakeLaunchTarget call s:cmake_launch_target()
 command! MyClangFormat call s:cpp_format()
 
 function! s:cpp_format()"{{{
@@ -88,21 +89,103 @@ function! s:cpp_format()"{{{
     endif
 endfunction"}}}
 
+" Helper function to find ESP-IDF projects
+function! s:find_idf_projects()
+    let l:sdkconfig_current = filereadable("./sdkconfig")
+    let l:sdkconfig_dirs = []
+    
+    " Find all sdkconfig files in subdirectories
+    let l:find_cmd = "find . -name sdkconfig -type f | sed 's#/sdkconfig##' | sort"
+    let l:dirs = systemlist(l:find_cmd)
+    
+    " Process found directories
+    for dir in l:dirs
+        " Skip current directory as we'll handle it separately
+        if dir != "."
+            call add(l:sdkconfig_dirs, dir)
+        endif
+    endfor
+    
+    return [l:sdkconfig_current, l:sdkconfig_dirs]
+endfunction
+
+" Helper function to select an ESP-IDF project when multiple are found
+function! s:select_idf_project(dirs)
+    let l:choice_list = ["Select ESP-IDF project directory:"]
+    let l:i = 1
+    for dir in a:dirs
+        call add(l:choice_list, l:i . ". " . dir)
+        let l:i += 1
+    endfor
+    
+    " Display menu and get selection
+    let l:selection = inputlist(l:choice_list)
+    
+    " Check if selection is valid
+    if l:selection > 0 && l:selection <= len(a:dirs)
+        return a:dirs[l:selection-1]
+    endif
+    
+    return ""
+endfunction
+
+" Build function
 function! s:cmake_build_target()"{{{
-	if s:cmake_build_dir == ""
-		let s:cmake_build_dir = finddir('build', '.;')
-		echom s:cmake_build_dir
-	endif
-	if filereadable("./sdkconfig")
+    if s:cmake_build_dir == ""
+        let s:cmake_build_dir = finddir('build', '.;')
+        echom s:cmake_build_dir
+    endif
+
+    " Check for ESP-IDF projects
+    let [l:sdkconfig_current, l:sdkconfig_dirs] = s:find_idf_projects()
+    
+    if l:sdkconfig_current
+        " Current directory has sdkconfig - build directly
         execute 'AsyncRun idf.py build'
-	elseif len(s:cmake_build_dir) > 0
-		let s:target = FindBuildTarget()
-		execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:target . ' -j16'
-	elseif filereadable("./platformio.ini")
-		execute 'AsyncRun pio run --target=compiledb && pio run'
-	else
-		echo "Can't find build dir"
-	endif
+    elseif len(l:sdkconfig_dirs) > 0
+        " Multiple sdkconfig files found, present selection menu
+        let l:selected_dir = s:select_idf_project(l:sdkconfig_dirs)
+        
+        if l:selected_dir != ""
+            " Run build in the selected directory
+            execute 'AsyncRun idf.py -C ' . l:selected_dir . ' build'
+        else
+            echo "Invalid selection or cancelled."
+        endif
+    elseif len(s:cmake_build_dir) > 0
+        let s:target = FindBuildTarget()
+        execute 'AsyncRun ' . 'cmake --build ' . s:cmake_build_dir . ' --target ' . s:target . ' -j16'
+    elseif filereadable("./platformio.ini")
+        execute 'AsyncRun pio run --target=compiledb && pio run'
+    else
+        echo "Can't find build dir or sdkconfig files"
+    endif
+endfunction"}}}
+
+" Launch function for flash and monitor
+function! s:cmake_launch_target()"{{{
+    " Check for ESP-IDF projects
+    let [l:sdkconfig_current, l:sdkconfig_dirs] = s:find_idf_projects()
+    
+    if l:sdkconfig_current
+        " Current directory has sdkconfig - launch directly
+        execute 'AsyncRun idf.py flash monitor'
+    elseif len(l:sdkconfig_dirs) > 0
+        " Multiple sdkconfig files found, present selection menu
+        let l:selected_dir = s:select_idf_project(l:sdkconfig_dirs)
+        
+        if l:selected_dir != ""
+            " Flash and monitor in the selected directory
+            " execute 'AsyncRun idf.py -C ' . l:selected_dir . ' flash monitor'
+			execute 'AsyncRun -mode=term -pos=bottom -rows=20 idf.py -C ' . l:selected_dir . ' -p /dev/ttyACM0 flash monitor'
+        else
+            echo "Invalid selection or cancelled."
+        endif
+    elseif filereadable("./platformio.ini")
+        execute 'AsyncRun pio run --target=upload && pio device monitor'
+    else
+        echo "No ESP-IDF projects or PlatformIO project found"
+    endif
 endfunction"}}}
 
 function! s:cmake_build_all()"{{{
@@ -166,7 +249,9 @@ imap <f4> <esc>:wa<cr>:CMakeBuildAll<cr>
 nmap <f4> :wa<cr>:CMakeBuildAll<cr>
 imap <f5> <esc>:wa<cr>:CMakeBuildTarget<cr>
 nmap <f5> :wa<cr>:CMakeBuildTarget<cr>
-nnoremap <f7> :wa<cr>:AsyncRun -mode=term -pos=bottom -rows=20 pio run --target upload && pio device monitor --baud=115200<cr>
+" nnoremap <f7> :wa<cr>:AsyncRun -mode=term -pos=bottom -rows=20 pio run --target upload && pio device monitor --baud=115200<cr>
+" nnoremap <f7> :wa<cr>:AsyncRun -mode=term -pos=bottom -rows=20 idf.py -p /dev/ttyACM0 flash monitor<cr>
+nnoremap <f7> :wa<cr>:CMakeLaunchTarget<cr>
 
 setlocal ts=4 sw=4 noet
 
