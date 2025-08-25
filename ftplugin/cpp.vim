@@ -74,6 +74,7 @@ command! CMakeClean call s:cmakeclean()
 command! CMakeBuildAll call s:cmake_build_all()
 command! CMakeBuildTarget call s:cmake_build_target()
 command! CMakeLaunchTarget call s:cmake_launch_target()
+command! StopMonitor call s:stop_monitor()
 command! MyClangFormat call s:cpp_format()
 
 function! s:cpp_format()"{{{
@@ -177,7 +178,7 @@ function! s:cmake_launch_target()"{{{
         if l:selected_dir != ""
             " Flash and monitor in the selected directory
             " execute 'AsyncRun idf.py -C ' . l:selected_dir . ' flash monitor'
-			execute 'AsyncRun -mode=term -pos=bottom -rows=20 idf.py -C ' . l:selected_dir . ' -p /dev/ttyACM0 flash monitor'
+			execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py -C ' . l:selected_dir . ' flash monitor'
         else
             echo "Invalid selection or cancelled."
         endif
@@ -185,6 +186,40 @@ function! s:cmake_launch_target()"{{{
         execute 'AsyncRun pio run --target=upload && pio device monitor'
     else
         echo "No ESP-IDF projects or PlatformIO project found"
+    endif
+endfunction"}}}
+
+" Stop monitor function
+function! s:stop_monitor()"{{{
+    " Find any terminal buffer that looks like it might be running monitor
+    let l:term_bufnr = -1
+    for bufnr in range(1, bufnr('$'))
+        if bufexists(bufnr) && getbufvar(bufnr, '&buftype') == 'terminal'
+            " Check if this buffer name contains monitor-related terms
+            let l:bufname = bufname(bufnr)
+            if l:bufname =~ 'monitor\|idf\.py\|AsyncRun' || getbufvar(bufnr, '&filetype') == 'terminal'
+                let l:term_bufnr = bufnr
+                break
+            endif
+        endif
+    endfor
+    
+    " If we didn't find a specific terminal, try to find any terminal buffer
+    if l:term_bufnr == -1
+        for bufnr in range(1, bufnr('$'))
+            if bufexists(bufnr) && getbufvar(bufnr, '&buftype') == 'terminal'
+                let l:term_bufnr = bufnr
+                break
+            endif
+        endfor
+    endif
+    
+    if l:term_bufnr != -1
+        " Send Ctrl+] to the terminal to stop monitoring
+        call term_sendkeys(l:term_bufnr, "\<C-]>")
+        echo "Sent stop signal to terminal (buffer " . l:term_bufnr . ")"
+    else
+        echo "No terminal buffer found"
     endif
 endfunction"}}}
 
@@ -249,6 +284,7 @@ imap <f4> <esc>:wa<cr>:CMakeBuildAll<cr>
 nmap <f4> :wa<cr>:CMakeBuildAll<cr>
 imap <f5> <esc>:wa<cr>:CMakeBuildTarget<cr>
 nmap <f5> :wa<cr>:CMakeBuildTarget<cr>
+nnoremap <f6> :StopMonitor<cr>
 " nnoremap <f7> :wa<cr>:AsyncRun -mode=term -pos=bottom -rows=20 pio run --target upload && pio device monitor --baud=115200<cr>
 " nnoremap <f7> :wa<cr>:AsyncRun -mode=term -pos=bottom -rows=20 idf.py -p /dev/ttyACM0 flash monitor<cr>
 nnoremap <f7> :wa<cr>:CMakeLaunchTarget<cr>
