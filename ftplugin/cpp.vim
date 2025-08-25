@@ -28,6 +28,7 @@ endfunction"}}}
 let s:cmake_changed = 0
 let s:last_stat_string = ""
 let s:cmake_build_dir = ""
+let s:pending_flash_project_dir = ""
 
 function! CMakeStat() "{{{
 	if s:cmake_changed == 0
@@ -170,6 +171,22 @@ function! s:needs_build(project_dir)
     return 0
 endfunction
 
+" Helper function to run flash and monitor after build completes
+function! s:post_build_flash_monitor()
+    " Remove the autocmd to avoid multiple triggers
+    autocmd! User AsyncRunStop
+    
+    " Run flash and monitor in terminal using the stored project directory
+    if s:pending_flash_project_dir == "."
+        execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py flash monitor'
+    else
+        execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py -C ' . s:pending_flash_project_dir . ' flash monitor'
+    endif
+    
+    " Clear the stored directory
+    let s:pending_flash_project_dir = ""
+endfunction
+
 " Build function
 function! s:cmake_build_target()"{{{
     if s:cmake_build_dir == ""
@@ -205,14 +222,22 @@ endfunction"}}}
 
 " Launch function for flash and monitor
 function! s:cmake_launch_target()"{{{
+    " Always stop any running monitor first
+    call s:stop_monitor()
+    
     " Check for ESP-IDF projects
     let [l:sdkconfig_current, l:sdkconfig_dirs] = s:find_idf_projects()
     
     if l:sdkconfig_current
         " Current directory has sdkconfig - check if build is needed
         if s:needs_build(".")
-            execute 'AsyncRun idf.py build && idf.py flash monitor'
+            " Build first in quickfix, then flash and monitor in terminal
+            let s:pending_flash_project_dir = "."
+            execute 'AsyncRun idf.py build'
+            " Set a callback to run flash+monitor after build completes
+            autocmd User AsyncRunStop call s:post_build_flash_monitor()
         else
+            " No build needed, just monitor in terminal
             execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py monitor'
         endif
     elseif len(l:sdkconfig_dirs) > 0
@@ -222,8 +247,13 @@ function! s:cmake_launch_target()"{{{
         if l:selected_dir != ""
             " Check if build is needed for the selected directory
             if s:needs_build(l:selected_dir)
-                execute 'AsyncRun idf.py -C ' . l:selected_dir . ' build && idf.py -C ' . l:selected_dir . ' flash monitor'
+                " Build first in quickfix, then flash and monitor in terminal
+                let s:pending_flash_project_dir = l:selected_dir
+                execute 'AsyncRun idf.py -C ' . l:selected_dir . ' build'
+                " Set a callback to run flash+monitor after build completes
+                autocmd User AsyncRunStop call s:post_build_flash_monitor()
             else
+                " No build needed, just monitor in terminal
                 execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py -C ' . l:selected_dir . ' monitor'
             endif
         else
