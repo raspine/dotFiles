@@ -130,6 +130,46 @@ function! s:select_idf_project(dirs)
     return ""
 endfunction
 
+" Helper function to check if build is needed
+function! s:needs_build(project_dir)
+    let l:build_dir = a:project_dir . "/build"
+    let l:binary_file = l:build_dir . "/*.bin"
+    
+    " Check if build directory exists and has binary files
+    if !isdirectory(l:build_dir)
+        return 1
+    endif
+    
+    " Find the most recent binary file
+    let l:bin_files = glob(l:binary_file, 0, 1)
+    if empty(l:bin_files)
+        return 1
+    endif
+    
+    " Get the newest binary file timestamp
+    let l:newest_bin = 0
+    for bin_file in l:bin_files
+        let l:bin_time = getftime(bin_file)
+        if l:bin_time > l:newest_bin
+            let l:newest_bin = l:bin_time
+        endif
+    endfor
+    
+    " Check if any source files are newer than the binary
+    let l:source_patterns = [a:project_dir . "/**/*.c", a:project_dir . "/**/*.cpp", a:project_dir . "/**/*.h", a:project_dir . "/**/*.hpp", a:project_dir . "/CMakeLists.txt", a:project_dir . "/sdkconfig"]
+    
+    for pattern in l:source_patterns
+        let l:files = glob(pattern, 0, 1)
+        for file in l:files
+            if getftime(file) > l:newest_bin
+                return 1
+            endif
+        endfor
+    endfor
+    
+    return 0
+endfunction
+
 " Build function
 function! s:cmake_build_target()"{{{
     if s:cmake_build_dir == ""
@@ -169,16 +209,23 @@ function! s:cmake_launch_target()"{{{
     let [l:sdkconfig_current, l:sdkconfig_dirs] = s:find_idf_projects()
     
     if l:sdkconfig_current
-        " Current directory has sdkconfig - launch directly
-        execute 'AsyncRun idf.py flash monitor'
+        " Current directory has sdkconfig - check if build is needed
+        if s:needs_build(".")
+            execute 'AsyncRun idf.py build && idf.py flash monitor'
+        else
+            execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py monitor'
+        endif
     elseif len(l:sdkconfig_dirs) > 0
         " Multiple sdkconfig files found, present selection menu
         let l:selected_dir = s:select_idf_project(l:sdkconfig_dirs)
         
         if l:selected_dir != ""
-            " Flash and monitor in the selected directory
-            " execute 'AsyncRun idf.py -C ' . l:selected_dir . ' flash monitor'
-			execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py -C ' . l:selected_dir . ' flash monitor'
+            " Check if build is needed for the selected directory
+            if s:needs_build(l:selected_dir)
+                execute 'AsyncRun idf.py -C ' . l:selected_dir . ' build && idf.py -C ' . l:selected_dir . ' flash monitor'
+            else
+                execute 'AsyncRun -mode=term -pos=bottom -rows=20 -focus=0 idf.py -C ' . l:selected_dir . ' monitor'
+            endif
         else
             echo "Invalid selection or cancelled."
         endif
