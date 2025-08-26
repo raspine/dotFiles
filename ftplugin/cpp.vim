@@ -90,8 +90,6 @@ function! s:cpp_format()"{{{
     endif
 endfunction"}}}
 
-endfunction"}}}
-
 " Build function
 function! s:cmake_build_target()"{{{
     if s:cmake_build_dir == ""

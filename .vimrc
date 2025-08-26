@@ -90,6 +90,7 @@ Plug 'raspine/vim-breakgutter'
 Plug 'raspine/vim-git-project'
 Plug 'raspine/vim-code-runner'
 Plug 'raspine/vim-xc'
+Plug 'raspine/vim-smart-idf-button', {'branch': 'testing_first_commit'}
 
 " improved syntax highlightning
 Plug 'Matt-Deacalion/vim-systemd-syntax'
