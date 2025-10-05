@@ -193,7 +193,7 @@ nnoremap <f6> :StopMonitor<cr>
 " nnoremap <f7> :wa<cr>:AsyncRun -mode=term -pos=bottom -rows=20 idf.py -p /dev/ttyACM0 flash monitor<cr>
 nnoremap <f7> :wa<cr>:CMakeLaunchTarget<cr>
 
-setlocal ts=4 sw=4 noet
+setlocal ts=4 sw=4 et
 
 setlocal commentstring=//\ %s
 " C-style comment using vim-surround
@@ -219,8 +219,8 @@ setlocal foldlevel=1
 " cmake settings
 nnoremap <leader>cm :CMake<space>
 " for use with CMake command
-cabbrev ccg -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++
-cabbrev ccc -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++
+cabbrev ccg -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+cabbrev ccc -DCMAKE_C_COMPILER=/usr/bin/clang -DCMAKE_CXX_COMPILER=/usr/bin/clang++ -DCMAKE_C_COMPILER_LAUNCHER=ccache  -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
 cabbrev cca -DCMAKE_C_COMPILER=/opt/cross-pi-gcc-8.3.0-1/bin/arm-linux-gnueabihf-gcc -DCMAKE_CXX_COMPILER=/opt/cross-pi-gcc-8.3.0-1/bin/arm-linux-gnueabihf-g++
 cabbrev cbd -DCMAKE_BUILD_TYPE=Debug
 cabbrev cbr -DCMAKE_BUILD_TYPE=Release
