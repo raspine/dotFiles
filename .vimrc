@@ -77,7 +77,6 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'junegunn/fzf.vim'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'yssl/QFEnter'
-Plug 'derekwyatt/vim-fswitch'
 Plug 'vim-test/vim-test'
 Plug 'jvirtanen/vim-hcl'
 Plug 'github/copilot.vim'
@@ -91,6 +90,7 @@ Plug 'raspine/vim-git-project'
 Plug 'raspine/vim-code-runner'
 Plug 'raspine/vim-xc'
 Plug 'raspine/vim-smart-idf-button'
+Plug 'raspine/vim-fswitch', {'branch': 'add_smart_discovery'}
 
 " improved syntax highlightning
 Plug 'Matt-Deacalion/vim-systemd-syntax'
