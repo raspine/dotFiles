@@ -86,6 +86,7 @@ alias aw='wiki-search-html'
 alias wfs='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-start.sh'
 alias wfpr='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-pr.sh'
 alias wflogin='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-login-to-docker.sh'
+alias wfclean='/bin/bash ~/work/monorepo/tools/workflow/scripts/wf-clean-branches.sh'
 #}}}
 
 #{{{ Bash settings
