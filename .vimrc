@@ -90,7 +90,7 @@ Plug 'raspine/vim-git-project'
 Plug 'raspine/vim-code-runner'
 Plug 'raspine/vim-xc'
 Plug 'raspine/vim-smart-idf-button'
-Plug 'raspine/vim-fswitch', {'branch': 'add_smart_discovery'}
+Plug 'raspine/vim-fswitch'
 
 " improved syntax highlightning
 Plug 'Matt-Deacalion/vim-systemd-syntax'
