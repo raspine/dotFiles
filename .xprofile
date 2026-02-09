@@ -13,6 +13,3 @@ if test -f /opt/XTC/15.2.1/SetEnv; then
   cd -
 fi
 
-if test -f /opt/esp-idf/export.sh; then
-  source /opt/esp-idf/export.sh
-fi
