@@ -11,10 +11,10 @@ web:*.{html,css,js,ts}*
 !npm/*
 
 --glob
-!node_modules/*
+!**/node_modules/*
 
 --glob
-!build/*
+!**/build/*
 
 --glob
 !Session.vim
