@@ -13,3 +13,15 @@ if test -f /opt/XTC/15.2.1/SetEnv; then
   cd -
 fi
 
+
+# ssh-agent: Plasma imports these from ~/.config/environment.d, MATE does not,
+# so export them here too (same values, harmless under Plasma)
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+export SSH_ASKPASS="/usr/bin/ksshaskpass"
+export SSH_ASKPASS_REQUIRE=prefer
+
+# secrets (youtrack token etc.): one untracked KEY=value file, read by systemd via
+# environment.d and exported here for the MATE session
+if [ -r ~/.config/environment.d/secrets.conf ]; then
+  set -a; . ~/.config/environment.d/secrets.conf; set +a
+fi

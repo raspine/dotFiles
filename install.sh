@@ -59,15 +59,20 @@ clever_ln_s ~/dotFiles/.gitconfig ~/.gitconfig
 clever_ln_s ~/dotFiles/.ripgreprc ~/.ripgreprc
 clever_ln_s ~/dotFiles/.tmux.conf ~/.tmux.conf
 
-# plasma
-cp ~/dotFiles/ssh-add.desktop ~/.config/autostart
-cp ~/dotFiles/askpass.sh ~/.config/plasma-workspace/env
+# XDG autostart (works under both Plasma and MATE): load keys into the agent at login
+mkdir -p ~/.config/autostart && cp ~/dotFiles/ssh-add.desktop ~/.config/autostart
+
+# plasma only (MATE gets the same vars from .xprofile)
+mkdir -p ~/.config/plasma-workspace/env && cp ~/dotFiles/askpass.sh ~/.config/plasma-workspace/env
 
 # systemd
 mkdir -p ~/.config/systemd/user && cp ~/dotFiles/ssh_agent.service ~/.config/systemd/user
 systemctl --user enable ssh_agent.service
+# gcr-4 ships its own ssh-agent socket (enabled globally) that overrides SSH_AUTH_SOCK; keep ours
+systemctl --user mask gcr-ssh-agent.socket gcr-ssh-agent.service
 # use: systemctl --user daemon-reload and systemctl --user show-environment
 mkdir -p ~/.config/environment.d && cp ~/dotFiles/envvars.conf ~/.config/environment.d
+# secrets (tokens etc.) go in ~/.config/environment.d/secrets.conf, mode 600, never in the repo
 
 #cgdb
 mkdir -p ~/.cgdb && clever_ln_s ~/dotFiles/.cgdb/cgdbrc ~/.cgdb/cgdbrc
